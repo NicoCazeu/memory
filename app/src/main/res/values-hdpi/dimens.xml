@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Game mode -->
+    <dimen name="game_mode_title_margin">10dp</dimen>
+    <dimen name="game_mode_title_fontsize">30sp</dimen>
+
+    <dimen name="game_mode_btn_first_margin_top">0dp</dimen>
+    <dimen name="game_mode_btn_txt_fontsize">25sp</dimen>
+    <dimen name="game_mode_btn_padding">15dp</dimen>
+    <dimen name="game_mode_btn_margin_start_end">20dp</dimen>
+    <dimen name="game_mode_btn_margin_top">20dp</dimen>
+
+    <!-- Challenge -->
+    <dimen name="background_padding">5dp</dimen>
+    <dimen name="background_height">60dp</dimen>
+    <dimen name="img_trophy_margin_start">10dp</dimen>
+    <dimen name="img_trophy_margin_end">5dp</dimen>
+    <dimen name="img_trophy_size">35dp</dimen>
+    <dimen name="txt_challenge_size">16sp</dimen>
+    <dimen name="rel_award_left_padding">5dp</dimen>
+    <dimen name="rel_award_margin">5dp</dimen>
+    <dimen name="txt_count_size">15sp</dimen>
+    <dimen name="img_count_size">20dp</dimen>
+    <dimen name="img_medal_size">40dp</dimen>
+    <dimen name="img_medal_margin_right">10dp</dimen>
+    <dimen name="img_medal_margin_bottom">-10dp</dimen>
+
+    <!-- Common -->
+    <dimen name="common_title_fontsize">30sp</dimen>
+    <dimen name="common_title_margin">15dp</dimen>
+
+    <!-- Card -->
+    <dimen name="card_background_width">50dp</dimen>
+    <dimen name="card_background_height">70dp</dimen>
+    <dimen name="card_content_width">25dp</dimen>
+    <dimen name="card_content_height">25dp</dimen>
+</resources>

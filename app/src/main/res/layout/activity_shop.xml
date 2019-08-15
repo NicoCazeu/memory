@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ShopActivity">
+
+    <include
+        android:id="@+id/img_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/activity_background"/>
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/activity_header"/>
+
+    <include
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/activity_footer"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textColor="@color/whiteColor"
+        android:text="@string/title_shop_activity"
+        android:fontFamily="@font/roof_runners_active"
+        android:textSize="@dimen/common_title_fontsize"
+        android:layout_margin="@dimen/common_title_margin"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></RelativeLayout>
+</RelativeLayout>

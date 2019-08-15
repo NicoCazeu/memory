@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainMenuActivity">
+
+    <include
+        android:id="@+id/img_background"
+        layout="@layout/activity_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/activity_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/activity_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@id/header"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/memory_title"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_play" />
+
+    <ImageView
+        android:id="@+id/btn_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+        android:layout_centerHorizontal="true"
+        android:layout_toStartOf="@+id/btn_challenge"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shop_card" />
+
+    <ImageView
+        android:id="@+id/btn_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/challenge_card" />
+
+    <ImageView
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+        android:layout_toEndOf="@id/btn_challenge"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/setting_card" />
+
+    <TextView
+        android:id="@+id/txt_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150"
+        android:textColor="@color/yellowColor"
+        android:fontFamily="@font/roof_runners_active"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@id/img_background"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginEnd="25dp"/>
+
+    <ImageView
+        android:layout_alignEnd="@id/img_background"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/coin"/>
+
+</RelativeLayout>

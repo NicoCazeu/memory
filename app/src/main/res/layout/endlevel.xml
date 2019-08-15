@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blackColor"
+        android:alpha="0.9">
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_label_level"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:text="@string/label_level"
+                android:textSize="24sp"
+                android:textColor="@color/whiteColor"/>
+
+            <TextView
+                android:id="@+id/txt_num_level_game"
+                android:layout_toEndOf="@+id/txt_label_level"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textSize="24sp"
+                android:textColor="@color/whiteColor" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="5dp"
+                android:id="@+id/star1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/star_empty"/>
+
+            <ImageView
+                android:layout_margin="5dp"
+                android:id="@+id/star2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/star_empty"/>
+
+            <ImageView
+                android:layout_margin="5dp"
+                android:id="@+id/star3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/star_empty"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/label_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_score"
+                android:textSize="40sp"/>
+            <TextView
+                android:id="@+id/score"
+                android:layout_toEndOf="@id/label_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:textSize="40sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/label_bestscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_bestscore"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/bestscore"
+                android:layout_toEndOf="@id/label_bestscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/btn_revive"
+            android:layout_width="220dp"
+            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/revive_button">
+
+            <ImageView
+                android:id="@+id/ico_revive"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/application_ad"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_revive"
+                android:layout_centerVertical="true"
+                android:textSize="30sp"
+                android:layout_toRightOf="@id/ico_revive"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_again"
+            android:layout_width="220dp"
+            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/again_button">
+
+            <ImageView
+                android:id="@+id/ico_replay"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/replay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_again"
+                android:layout_centerVertical="true"
+                android:textSize="30sp"
+                android:layout_toRightOf="@id/ico_replay"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+
+            <RelativeLayout
+                android:id="@+id/btn_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_button"
+                android:padding="15dp">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ico_menu"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_next"
+                android:layout_width="140dp"
+                android:layout_height="70dp"
+                android:background="@drawable/next_button"
+                android:layout_marginLeft="10dp"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_btn_next"
+                    android:fontFamily="@font/roof_runners_active"
+                    android:textSize="22sp"
+                    android:textColor="@color/whiteColor"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

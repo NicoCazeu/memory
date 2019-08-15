@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="CardView">
+        <attr name="imgCard" format="color|reference" />
+    </declare-styleable>
+</resources>

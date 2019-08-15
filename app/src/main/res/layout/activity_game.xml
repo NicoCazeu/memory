@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_content_game"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.GameActivity">
+
+    <include
+        android:id="@+id/img_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/activity_background"/>
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/activity_header"/>
+
+    <include
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/activity_footer"/>
+
+    <TextView
+        android:id="@+id/txt_game_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textColor="@color/whiteColor"
+        android:fontFamily="@font/roof_runners_active"
+        android:textSize="@dimen/common_title_fontsize"
+        android:layout_margin="@dimen/common_title_margin"/>
+
+    <TextView
+        android:id="@+id/txt_level_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_level"
+        android:fontFamily="@font/roof_runners_active"
+        android:textSize="20sp"
+        android:textColor="@color/whiteColor"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_num_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roof_runners_active"
+        android:textSize="20sp"
+        android:textColor="@color/whiteColor"
+        android:layout_toRightOf="@id/txt_level_label"
+        android:layout_margin="5dp"
+        />
+
+    <RelativeLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/header">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:id="@+id/game_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

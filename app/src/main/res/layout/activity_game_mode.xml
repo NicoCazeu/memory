@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.GameModeActivity">
+
+    <include
+        android:id="@+id/img_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/activity_background"/>
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/activity_header"/>
+
+    <include
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/activity_footer"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roof_runners_active"
+        android:textColor="@color/whiteColor"
+        android:text="@string/choose_game_mode"
+        android:layout_margin="@dimen/game_mode_title_margin"
+        android:layout_below="@id/header"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/game_mode_title_fontsize" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_above="@id/footer"
+        android:layout_marginTop="@dimen/game_mode_btn_first_margin_top">
+
+        <TextView
+            android:id="@+id/btn_career"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/game_mode_btn_padding"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/game_mode_btn_margin_top"
+            android:layout_marginEnd="@dimen/game_mode_btn_margin_start_end"
+            android:layout_marginStart="@dimen/game_mode_btn_margin_start_end"
+            android:layout_centerHorizontal="true"
+            android:text="@string/career"
+            android:fontFamily="@font/roof_runners_active"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/game_mode_btn_txt_fontsize"
+            android:background="@drawable/primary_button"/>
+
+        <TextView
+            android:id="@+id/btn_against_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_career"
+            android:padding="@dimen/game_mode_btn_padding"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/game_mode_btn_margin_top"
+            android:layout_marginEnd="@dimen/game_mode_btn_margin_start_end"
+            android:layout_marginStart="@dimen/game_mode_btn_margin_start_end"
+            android:layout_centerHorizontal="true"
+            android:text="@string/race_against_time"
+            android:fontFamily="@font/roof_runners_active"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/game_mode_btn_txt_fontsize"
+            android:background="@drawable/primary_button"/>
+
+        <TextView
+            android:id="@+id/btn_sudden_death"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_against_time"
+            android:padding="@dimen/game_mode_btn_padding"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/game_mode_btn_margin_top"
+            android:layout_marginEnd="@dimen/game_mode_btn_margin_start_end"
+            android:layout_marginStart="@dimen/game_mode_btn_margin_start_end"
+            android:layout_centerHorizontal="true"
+            android:text="@string/sudden_death"
+            android:fontFamily="@font/roof_runners_active"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/game_mode_btn_txt_fontsize"
+            android:background="@drawable/primary_button"/>
+
+        <TextView
+            android:id="@+id/btn_survival"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_sudden_death"
+            android:padding="@dimen/game_mode_btn_padding"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/game_mode_btn_margin_top"
+            android:layout_marginEnd="@dimen/game_mode_btn_margin_start_end"
+            android:layout_marginStart="@dimen/game_mode_btn_margin_start_end"
+            android:layout_centerHorizontal="true"
+            android:text="@string/survival"
+            android:fontFamily="@font/roof_runners_active"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/game_mode_btn_txt_fontsize"
+            android:background="@drawable/primary_button"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

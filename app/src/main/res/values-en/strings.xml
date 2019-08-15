@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Memory</string>
+
+    <!-- Game mode Activity -->
+    <string name="choose_game_mode">Choose your game mode</string>
+    <string name="career">Career</string>
+    <string name="race_against_time">Again time</string>
+    <string name="sudden_death">Sudden death</string>
+    <string name="survival">Survival</string>
+
+    <!-- Shop Activity -->
+    <string name="title_shop_activity">Shop</string>
+
+    <!-- Challenge Activity -->
+    <string name="title_challenge_activity">Challenge</string>
+
+    <!-- Setting Activity -->
+    <string name="title_setting_activity">Parameter</string>
+
+    <!-- Game Activity -->
+    <string name="label_level">Level</string>
+
+    <!-- End Level View -->
+    <string name="label_bestscore">Best score : </string>
+    <string name="label_score">Score : </string>
+    <string name="label_btn_revive">Revive</string>
+    <string name="label_btn_again">Again</string>
+    <string name="label_btn_next">Next</string>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/glow_border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:background="@drawable/glow_border"
+        android:alpha=".0">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/glow_border2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/glow_border"
+        android:alpha=".0">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/card_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_recto"
+        android:layout_margin="6dp">
+
+        <ImageView
+            android:id="@+id/card_content"
+            android:layout_width="@dimen/card_content_width"
+            android:layout_height="@dimen/card_content_height"
+            android:background="@drawable/fruits_cherries"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+</RelativeLayout>

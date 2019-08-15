@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="EndLevelView">
+        <attr name="numLevel" format="string" />
+    </declare-styleable>
+</resources>

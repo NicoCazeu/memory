@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:id="@+id/relative_content">
+
+    <RelativeLayout
+        android:id="@+id/relative_challenge"
+        android:layout_width="match_parent"
+        android:layout_height="75dp">
+
+        <RelativeLayout
+            android:id="@+id/background_challenge"
+            android:padding="@dimen/background_padding"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/background_height"
+            android:background="@drawable/primary_button">
+
+            <ImageView
+                android:id="@+id/img_trophy"
+                android:background="@drawable/trophy"
+                android:layout_marginStart="@dimen/img_trophy_margin_start"
+                android:layout_marginEnd="@dimen/img_trophy_margin_end"
+                android:layout_width="@dimen/img_trophy_size"
+                android:layout_height="@dimen/img_trophy_size"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/label_challenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collectez 50 etoiles"
+                android:textColor="@color/whiteColor"
+                android:layout_toRightOf="@id/img_trophy"
+                android:layout_toLeftOf="@id/relative_award"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roof_runners_active"
+                android:textSize="@dimen/txt_challenge_size"/>
+
+            <RelativeLayout
+                android:id="@+id/relative_award"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingLeft="@dimen/rel_award_left_padding"
+                android:layout_marginEnd="@dimen/rel_award_margin"
+                android:alpha="0.3">
+
+                <TextView
+                    android:id="@+id/count_award"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roof_runners_active"
+                    android:textColor="@color/whiteColor"
+                    android:text="20"
+                    android:textSize="@dimen/txt_count_size"/>
+                <ImageView
+                    android:id="@+id/img_award"
+                    android:layout_width="@dimen/img_count_size"
+                    android:layout_height="@dimen/img_count_size"
+                    android:layout_toRightOf="@id/count_award"
+                    android:background="@drawable/coin"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_challenge_medal"
+            android:layout_width="@dimen/img_medal_size"
+            android:layout_height="@dimen/img_medal_size"
+            android:background="@drawable/medal"
+            android:layout_alignRight="@id/background_challenge"
+            android:layout_alignBottom="@id/background_challenge"
+            android:layout_marginRight="@dimen/img_medal_margin_right"
+            android:layout_marginBottom="@dimen/img_medal_margin_bottom"
+            android:alpha=".3"/>
+    </RelativeLayout>
+
+</RelativeLayout>
