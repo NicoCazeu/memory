@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.GameActivity;
+import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.LevelRow;
 import com.softcaze.memory.model.LevelState;
 import com.softcaze.memory.model.OnItemClickListener;
@@ -88,13 +89,13 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
             int nbrStar = 0;
 
             if((i+1)%3 == 1) {
-                nbrStar = levelRows.get(position).getLevel1().getStarNumber();
+                nbrStar = ((CareerLevel) levelRows.get(position).getLevel1()).getNumberStar();
             }
             else if((i+1)%3 ==2) {
-                nbrStar = levelRows.get(position).getLevel2().getStarNumber();
+                nbrStar = ((CareerLevel) levelRows.get(position).getLevel2()).getNumberStar();
             }
             else if((i+1)%3 == 0) {
-                nbrStar = levelRows.get(position).getLevel3().getStarNumber();
+                nbrStar = ((CareerLevel) levelRows.get(position).getLevel3()).getNumberStar();
             }
             else {
                 nbrStar = 0;

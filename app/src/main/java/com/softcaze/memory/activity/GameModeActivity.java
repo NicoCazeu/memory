@@ -17,11 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softcaze.memory.R;
+import com.softcaze.memory.model.AgainstTimeLevel;
 import com.softcaze.memory.model.CardTheme;
+import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
 import com.softcaze.memory.model.LevelState;
+import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
@@ -53,8 +56,17 @@ public class GameModeActivity extends AppCompatActivity {
         AnimationUtil.rotateCoin(imgCoin);
 
         /** Init text field **/
-        txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
-        txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        if(User.getInstance().getBonus() == null) {
+            txtBonus.setText(0 + "");
+        } else {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
+
+        if(User.getInstance().getCoin() == null) {
+            txtCoin.setText(0 + "");
+        } else {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
 
         btnCareer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,14 +75,15 @@ public class GameModeActivity extends AppCompatActivity {
                 GameInformation.getInstance().setCurrentMode(GameMode.CAREER);
 
                 List<LevelRow> levelRowList = new ArrayList<>();
-                LevelRow levelRow = new LevelRow(new Level(1, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT), new Level(2, 2, LevelState.UNLOCK, 6, CardTheme.FRUTT), new Level(3, 2, LevelState.UNLOCK, 8, CardTheme.FRUTT));
-                LevelRow levelRow2 = new LevelRow(new Level(4, 0, LevelState.UNLOCK, 10, CardTheme.FRUTT), new Level(5, 2, LevelState.UNLOCK, 16, CardTheme.FRUTT), new Level(6, 1, LevelState.UNLOCK, 14, CardTheme.FRUTT));
-                LevelRow levelRow3 = new LevelRow(new Level(7, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new Level(8, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new Level(9, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT));
-                LevelRow levelRow4 = new LevelRow(new Level(10, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new Level(11, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new Level(12, 0, LevelState.UNLOCK, 4, CardTheme.FLAG));
-                LevelRow levelRow5 = new LevelRow(new Level(13, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new Level(14, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new Level(15, 0, LevelState.UNLOCK, 4, CardTheme.FLAG));
-                LevelRow levelRow6 = new LevelRow(new Level(16, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new Level(17, 2, LevelState.LOCK, 20, CardTheme.FLAG), new Level(18, 0, LevelState.LOCK, 4, CardTheme.FLAG));
-                levelRow.getLevel3().setScoreLimit(Arrays.asList(new Integer[]{12, 10, 8}));
-                levelRow.getLevel1().setScoreLimit(Arrays.asList(new Integer[]{8,6,4}));
+                LevelRow levelRow = new LevelRow(new CareerLevel(1, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT), new CareerLevel(2, 2, LevelState.UNLOCK, 6, CardTheme.FRUTT), new CareerLevel(3, 2, LevelState.UNLOCK, 8, CardTheme.FRUTT));
+                LevelRow levelRow2 = new LevelRow(new CareerLevel(4, 0, LevelState.UNLOCK, 10, CardTheme.FRUTT), new CareerLevel(5, 2, LevelState.UNLOCK, 16, CardTheme.FRUTT), new CareerLevel(6, 1, LevelState.UNLOCK, 14, CardTheme.FRUTT));
+                LevelRow levelRow3 = new LevelRow(new CareerLevel(7, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(8, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(9, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT));
+                LevelRow levelRow4 = new LevelRow(new CareerLevel(10, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(11, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(12, 0, LevelState.UNLOCK, 4, CardTheme.FLAG));
+                LevelRow levelRow5 = new LevelRow(new CareerLevel(13, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(14, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(15, 0, LevelState.UNLOCK, 4, CardTheme.FLAG));
+                LevelRow levelRow6 = new LevelRow(new CareerLevel(16, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(17, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(18, 0, LevelState.LOCK, 4, CardTheme.FLAG));
+                ((CareerLevel) levelRow.getLevel3()).setScoreLimit(Arrays.asList(new Integer[]{12, 10, 8}));
+                ((CareerLevel) levelRow.getLevel1()).setScoreLimit(Arrays.asList(new Integer[]{8,6,4}));
+
                 levelRowList.add(levelRow);
                 levelRowList.add(levelRow2);
                 levelRowList.add(levelRow3);
@@ -99,8 +112,10 @@ public class GameModeActivity extends AppCompatActivity {
                 GameInformation.getInstance().setCurrentMode(GameMode.AGAINST_TIME);
 
                 List<LevelRow> levelRowList = new ArrayList<>();
-                LevelRow levelRow = new LevelRow(new Level(1, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT), new Level(2, 2, LevelState.UNLOCK, 6, CardTheme.FRUTT), new Level(3, 2, LevelState.UNLOCK, 8, CardTheme.FRUTT));
+                LevelRow levelRow = new LevelRow(new AgainstTimeLevel(1, LevelState.UNLOCK, 4, CardTheme.FRUTT, 30), new AgainstTimeLevel(2, LevelState.UNLOCK, 6, CardTheme.FRUTT, 9), new AgainstTimeLevel(3, LevelState.UNLOCK, 8, CardTheme.FRUTT, 12));
+                LevelRow levelRow1 = new LevelRow(new AgainstTimeLevel(4, LevelState.UNLOCK, 12, CardTheme.FRUTT, 12), new AgainstTimeLevel(5, LevelState.UNLOCK, 14, CardTheme.FRUTT, 14), new AgainstTimeLevel(6, LevelState.UNLOCK, 16, CardTheme.FRUTT, 20));
                 levelRowList.add(levelRow);
+                levelRowList.add(levelRow1);
 
                 List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
                 GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.AGAINST_TIME);
@@ -111,7 +126,10 @@ public class GameModeActivity extends AppCompatActivity {
                     return;
                 }
 
-                Intent intent = new Intent(GameModeActivity.this, LevelListActivity.class);
+                // TODO: Load current level from database
+                GameInformation.getInstance().setNumCurrentLevel(1);
+                Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
+                intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
             }
         });
@@ -121,7 +139,26 @@ public class GameModeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.SURVIVAL);
-                Intent intent = new Intent(GameModeActivity.this, LevelListActivity.class);
+
+                List<LevelRow> levelRowList = new ArrayList<>();
+                LevelRow levelRow = new LevelRow(new LifeLevel(1, LevelState.UNLOCK, 4, CardTheme.FRUTT, 3), new LifeLevel(2, LevelState.UNLOCK, 6, CardTheme.FRUTT, 3), new LifeLevel(3, LevelState.UNLOCK, 8, CardTheme.FRUTT, 3));
+                LevelRow levelRow1 = new LevelRow(new LifeLevel(4, LevelState.UNLOCK, 12, CardTheme.FRUTT, 3), new LifeLevel(5, LevelState.UNLOCK, 14, CardTheme.FRUTT, 3), new LifeLevel(6, LevelState.UNLOCK, 16, CardTheme.FRUTT, 3));
+                levelRowList.add(levelRow);
+                levelRowList.add(levelRow1);
+
+                List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
+                GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.SURVIVAL);
+
+                if(ApplicationConstants.needTutorialSurvival) {
+                    Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                    return;
+                }
+
+                // TODO: Load current level from database
+                GameInformation.getInstance().setNumCurrentLevel(1);
+                Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
+                intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
             }
         });
@@ -131,8 +168,26 @@ public class GameModeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.SUDDEN_DEATH);
+
+                List<LevelRow> levelRowList = new ArrayList<>();
+                LevelRow levelRow = new LevelRow(new LifeLevel(1, LevelState.UNLOCK, 4, CardTheme.FRUTT, 1), new LifeLevel(2, LevelState.UNLOCK, 6, CardTheme.FRUTT, 1), new LifeLevel(3, LevelState.UNLOCK, 8, CardTheme.FRUTT, 1));
+                LevelRow levelRow1 = new LevelRow(new LifeLevel(4, LevelState.UNLOCK, 12, CardTheme.FRUTT, 1), new LifeLevel(5, LevelState.UNLOCK, 14, CardTheme.FRUTT, 1), new LifeLevel(6, LevelState.UNLOCK, 16, CardTheme.FRUTT, 1));
+                levelRowList.add(levelRow);
+                levelRowList.add(levelRow1);
+
+                List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
+                GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.SUDDEN_DEATH);
+
+                if(ApplicationConstants.needTutorialSuddenDeath) {
+                    Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                    return;
+                }
+
+                // TODO: Load current level from database
+                GameInformation.getInstance().setNumCurrentLevel(1);
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
-                intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(1));
+                intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
             }
         });

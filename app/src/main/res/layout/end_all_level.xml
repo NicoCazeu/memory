@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blackColor"
+        android:alpha="0.9">
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+            <TextView
+                android:id="@+id/label_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_finish_all_level_title"
+                android:textSize="34sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:textSize="18sp"
+                android:text="@string/label_finiash_all_level_subtitle"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/trophy_end_level"/>
+
+        <RelativeLayout
+            android:id="@+id/btn_more_coin"
+            android:layout_width="220dp"
+            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/revive_button">
+
+            <ImageView
+                android:id="@+id/ico_revive"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/application_ad"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_finish_all_level_bonus_coin"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:layout_toRightOf="@id/ico_revive"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_again"
+            android:layout_width="220dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/again_button">
+
+            <ImageView
+                android:id="@+id/ico_replay"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/replay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_again"
+                android:layout_centerVertical="true"
+                android:textSize="30sp"
+                android:layout_toRightOf="@id/ico_replay"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_menu"
+            android:layout_width="220dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/menu_button">
+
+            <ImageView
+                android:id="@+id/ico_menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ico_menu"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_menu"
+                android:layout_centerVertical="true"
+                android:textSize="30sp"
+                android:layout_toRightOf="@id/ico_menu"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

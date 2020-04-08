@@ -52,8 +52,8 @@ public class GameInformation {
     }
 
     public Level getLevelByNumAndGameMode(int num, GameMode gameMode) {
-        if (num > 0) {
-            return listLevel.get(gameMode).get(num - 1);
+        if (num > 0 && num <= listLevel.get(gameMode).size()) {
+            return listLevel.get(gameMode).get(num-1);
         }
         return null;
     }
@@ -243,7 +243,7 @@ public class GameInformation {
     }
 
     public boolean hasNextLevel() {
-        if(GameInformation.getInstance().getLevelByNumAndGameMode(currentLevel, GameInformation.getInstance().getCurrentMode()) != null) {
+        if(GameInformation.getInstance().getLevelByNumAndGameMode(getNumNextLevel(), GameInformation.getInstance().getCurrentMode()) != null) {
             return true;
         }
 

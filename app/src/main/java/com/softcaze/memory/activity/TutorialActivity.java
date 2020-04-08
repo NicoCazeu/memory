@@ -30,6 +30,7 @@ import com.softcaze.memory.model.Position;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.MathUtil;
 import com.softcaze.memory.view.CardView;
 
@@ -125,8 +126,15 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
             @Override
             public void onClick(View view) {
                 if(NUM_STEP == STEP_6) {
-                    Intent intent = new Intent(TutorialActivity.this, LevelListActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
+                    if(GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
+                        Intent intent = new Intent(TutorialActivity.this, LevelListActivity.class);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
+                    } else {
+                        GameInformation.getInstance().setNumCurrentLevel(1);
+                        Intent intent = new Intent(TutorialActivity.this, GameActivity.class);
+                        intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
+                    }
                 }
             }
         });

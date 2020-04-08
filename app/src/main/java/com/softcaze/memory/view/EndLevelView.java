@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.GameActivity;
 import com.softcaze.memory.activity.LevelListActivity;
+import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelState;
 import com.softcaze.memory.model.User;
@@ -109,24 +110,15 @@ public class EndLevelView extends RelativeLayout {
         }
 
         Integer score = 0;
-        switch (GameInformation.getInstance().getCurrentMode()) {
-            case CAREER:
-            case SURVIVAL:
-                score = currentLevel.getScore().getTouchUsed();
-                break;
-            case AGAINST_TIME:
-                //score = currentLevel.getScore().getTimeUsed();
-                break;
-            case SUDDEN_DEATH:
-                break;
-        }
+
+        score = ((CareerLevel) currentLevel).getTouchUsed();
 
         txtScore.setText(String.valueOf(score));
         // TODO BEST SCORE
         txtBestScore.setText(String.valueOf(score));
         int earnCoin = 0;
 
-        switch (currentLevel.getScoreNumberStar(score)) {
+        switch (((CareerLevel) currentLevel).getScoreNumberStar(score)) {
             case 1:
                 starList.get(0).setBackground(getResources().getDrawable(R.drawable.star_score));
                 AnimationUtil.animateStarsEndLevel(starList, 1, this);
@@ -153,7 +145,6 @@ public class EndLevelView extends RelativeLayout {
                 break;
         }
 
-        /** TODO: change the value, is depending of the level and score **/
         final int earnCoinFixed = earnCoin;
 
         Runnable runnableEarnCoin = new Runnable () {
@@ -180,7 +171,7 @@ public class EndLevelView extends RelativeLayout {
         timer = new Timer(runnableEarnCoin, 50, true);
         User.getInstance().getCoin().setAmount(User.getInstance().getCoin().getAmount() + earnCoinFixed);
 
-        currentLevel.resetScore();
+        ((CareerLevel) currentLevel).resetScore();
 
         btnMoreCoin.setOnClickListener(new OnClickListener() {
             @Override

@@ -27,8 +27,18 @@
     <string name="label_score">Score : </string>
     <string name="label_btn_revive">Revive</string>
     <string name="label_btn_again">Again</string>
+    <string name="label_btn_menu">Menu</string>
     <string name="label_btn_next">Next</string>
     <string name="label_btn_more_coin">Double your reward</string>
+
+    <!-- Game over View -->
+    <string name="label_game_over_title">Game Over</string>
+    <string name="label_btn_more_life">Earn an extra life</string>
+
+    <!-- Finish all level View -->
+    <string name="label_finish_all_level_title">Congratulations</string>
+    <string name="label_finiash_all_level_subtitle">You won all levels</string>
+    <string name="label_finish_all_level_bonus_coin">Earn 200 coins</string>
 
     <!-- Tutorial View -->
     <string name="label_tutorial_title">Tutorial</string>

@@ -2,6 +2,7 @@ package com.softcaze.memory.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,19 +22,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softcaze.memory.R;
+import com.softcaze.memory.model.AgainstTimeLevel;
 import com.softcaze.memory.model.CardState;
 import com.softcaze.memory.model.CardType;
+import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelScore;
+import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.MathUtil;
 import com.softcaze.memory.view.CardView;
+import com.softcaze.memory.view.EndAllLevelsView;
 import com.softcaze.memory.view.EndLevelView;
+import com.softcaze.memory.view.GameOverView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
@@ -44,7 +51,10 @@ public class GameActivity extends AppCompatActivity {
     protected LinearLayout gameContent, linearBonus;
     protected RelativeLayout relativeContentGame, gameHelper;
     protected EndLevelView endLevelView;
+    protected GameOverView gameOverView;
+    protected EndAllLevelsView endAllLevelsView;
     protected ImageView imgCoin;
+    ObjectAnimator animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +75,6 @@ public class GameActivity extends AppCompatActivity {
 
         relativeContentGame = (RelativeLayout) findViewById(R.id.relative_content_game);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
-
-        initialisationTxtGameHelper(GameInformation.getInstance().getCurrentMode());
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
@@ -99,6 +107,8 @@ public class GameActivity extends AppCompatActivity {
                     card.flipCardOnVerso(3000);
                 }
             }
+
+            initialisationTxtGameHelper(GameInformation.getInstance().getCurrentMode());
         }
 
         // TODO
@@ -193,24 +203,40 @@ public class GameActivity extends AppCompatActivity {
                         if(GameInformation.getInstance().isCanPlay()) {
                             if (GameInformation.getInstance().getCardsFlip().size() <= 2) {
                                 if (card.getCardState().equals(CardState.VERSO)) {
-                                    card.flipCard(CardState.RECTO);
+                                    if(currentLevel instanceof LifeLevel) {
+                                        card.flipCard(CardState.RECTO, gameHelper);
+                                    } else {
+                                        card.flipCard(CardState.RECTO);
+                                    }
                                 } else {
+                                    if(currentLevel instanceof LifeLevel) {
+                                        int numberLife = gameHelper.getChildCount();
+                                        ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife-1);
+                                        gameHelper.removeView(imgGameHelper);
+
+                                        if(gameHelper.getChildCount() == 0) {
+                                            Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
+                                            getApplicationContext().sendBroadcast(gameOver);
+                                        }
+                                    }
                                     card.flipCard(CardState.VERSO);
+                                    GameInformation.getInstance().getCardsFlip().clear();
+
+                                    // TODO : DISPLAY LOSE (PLUS DE COEUR)
                                 }
 
-                                // TODO : add score;
-                                LevelScore levelScore = new LevelScore();
-                                levelScore.setTouchUsed(currentLevel.getScore().getTouchUsed() + 1);
-                                currentLevel.setScore(levelScore);
+                                if(GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER) && card.getCardState().equals(CardState.VERSO)) {
+                                    if(currentLevel instanceof CareerLevel) {
+                                        int touchUsed = ((CareerLevel) currentLevel).getTouchUsed() + 1;
+                                        ((CareerLevel) currentLevel).setTouchUsed(touchUsed);
 
-                                if(GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
-                                    if(gameHelper.getChildCount() > 0) {
-                                        TextView txtGameHelper = (TextView) gameHelper.getChildAt(0);
-                                        if (currentLevel.getScore().getTouchUsed() > 1) {
-
-                                            txtGameHelper.setText(currentLevel.getScore().getTouchUsed() + " " + getResources().getString(R.string.label_game_hits));
-                                        } else {
-                                            txtGameHelper.setText(currentLevel.getScore().getTouchUsed() + " " + getResources().getString(R.string.label_game_hit));
+                                        if(gameHelper.getChildCount() > 0) {
+                                            TextView txtGameHelper = (TextView) gameHelper.getChildAt(0);
+                                            if (touchUsed > 1) {
+                                                txtGameHelper.setText(touchUsed + " " + getResources().getString(R.string.label_game_hits));
+                                            } else {
+                                                txtGameHelper.setText(touchUsed + " " + getResources().getString(R.string.label_game_hit));
+                                            }
                                         }
                                     }
                                 }
@@ -240,17 +266,44 @@ public class GameActivity extends AppCompatActivity {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        if(ApplicationConstants.INTENT_END_LEVEL.equals(intent.getAction())) {
-            relativeContentGame.removeAllViews();
-            endLevelView = new EndLevelView(context);
-            relativeContentGame.addView(endLevelView);
-        }
+            if(ApplicationConstants.INTENT_END_LEVEL.equals(intent.getAction())) {
+                if(currentLevel instanceof CareerLevel && GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
+                    relativeContentGame.removeAllViews();
+                    endLevelView = new EndLevelView(context);
+                    relativeContentGame.addView(endLevelView);
+                } else {
+                    /*if(currentLevel instanceof AgainstTimeLevel) {
+                        if(gameHelper.getChildCount() > 0) {
+                            ProgressBar progressBarHelper = (ProgressBar) gameHelper.getChildAt(0);
+                            progressBarHelper.getAnimation().cancel();
+                        }
+                    }*/
+                    if(currentLevel instanceof AgainstTimeLevel) {
+                        animation.removeAllListeners();
+                    }
+
+                    GameInformation.getInstance().setNumCurrentLevel(GameInformation.getInstance().getNumCurrentLevel() + 1);
+                    Intent intentNextLevel = new Intent(GameActivity.this, GameActivity.class);
+                    intentNextLevel.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
+                    startActivity(intentNextLevel, ActivityOptions.makeSceneTransitionAnimation(GameActivity.this).toBundle());
+                }
+            } else if(ApplicationConstants.INTENT_END_ALL_LEVELS.equals(intent.getAction())) {
+                relativeContentGame.removeAllViews();
+                endAllLevelsView = new EndAllLevelsView(context);
+                relativeContentGame.addView(endAllLevelsView);
+            } else if(ApplicationConstants.INTENT_GAME_OVER_LEVEL.equals(intent.getAction())) {
+                relativeContentGame.removeAllViews();
+                gameOverView = new GameOverView(context);
+                relativeContentGame.addView(gameOverView);
+            }
         }
     };
 
     @Override
     protected void onResume() {
         registerReceiver(receiver, new IntentFilter(ApplicationConstants.INTENT_END_LEVEL));
+        registerReceiver(receiver, new IntentFilter(ApplicationConstants.INTENT_END_ALL_LEVELS));
+        registerReceiver(receiver, new IntentFilter(ApplicationConstants.INTENT_GAME_OVER_LEVEL));
         super.onResume();
     }
 
@@ -281,29 +334,40 @@ public class GameActivity extends AppCompatActivity {
                 gameHelper.addView(txtHit);
                 break;
             case AGAINST_TIME:
+                RelativeLayout.LayoutParams lpAgainstTimeHourglass = new RelativeLayout.LayoutParams(MathUtil.dpToPx(25), MathUtil.dpToPx(25));
+                RelativeLayout.LayoutParams lpAgainstTimeProgressBar = new RelativeLayout.LayoutParams(MathUtil.dpToPx(200), MathUtil.dpToPx(30));
+
+                ImageView imgHourglass = new ImageView(this);
+                imgHourglass.setId(View.generateViewId());
+                imgHourglass.setImageResource(R.drawable.hourglass);
+                imgHourglass.setLayoutParams(lpAgainstTimeHourglass);
+
+                lpAgainstTimeProgressBar.addRule(RelativeLayout.RIGHT_OF, imgHourglass.getId());
                 ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+                progressBar.setLayoutParams(lpAgainstTimeProgressBar);
+                progressBar.setProgress(0);
 
                 gameHelper.addView(progressBar);
-                progressBar.setProgress(0);
-                progressBar.getLayoutParams().width = MathUtil.dpToPx(200);
+                gameHelper.addView(imgHourglass);
 
-                ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 100, 0);
-                animation.setDuration(10000);
-                //animation.setInterpolator(new DecelerateInterpolator());
+                animation = ObjectAnimator.ofInt(progressBar, "progress", 100, 0);
+
+                if(currentLevel instanceof AgainstTimeLevel) {
+                    animation.setDuration(((AgainstTimeLevel) currentLevel).getTimeScore() * 1000);
+                }
                 animation.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) { }
 
                     @Override
                     public void onAnimationEnd(Animator animator) {
-                        //do something when the countdown is complete
-                        relativeContentGame.removeAllViews();
-                        EndLevelView endLevelView = new EndLevelView(relativeContentGame.getContext());
-                        relativeContentGame.addView(endLevelView);
+                        Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
+                        getApplicationContext().sendBroadcast(gameOver);
                     }
 
                     @Override
-                    public void onAnimationCancel(Animator animator) { }
+                    public void onAnimationCancel(Animator animator) {
+                    }
 
                     @Override
                     public void onAnimationRepeat(Animator animator) { }
@@ -312,8 +376,34 @@ public class GameActivity extends AppCompatActivity {
 
                 break;
             case SUDDEN_DEATH:
+                RelativeLayout.LayoutParams layoutParamsSuddenDeath = new RelativeLayout.LayoutParams(MathUtil.dpToPx(20), MathUtil.dpToPx(20));
+                ImageView imgSuddenDeathHeart = new ImageView(this);
+                imgSuddenDeathHeart.setImageResource(R.drawable.heart_pink);
+                imgSuddenDeathHeart.setLayoutParams(layoutParamsSuddenDeath);
+                gameHelper.addView(imgSuddenDeathHeart);
                 break;
             case SURVIVAL:
+                RelativeLayout.LayoutParams layoutParamsSurvival;
+                List<ImageView> imgHeartList = new ArrayList<>();
+                imgHeartList.add(new ImageView(this));
+                imgHeartList.add(new ImageView(this));
+                imgHeartList.add(new ImageView(this));
+
+                for(int i = 0; i < imgHeartList.size(); i++) {
+                    layoutParamsSurvival = new RelativeLayout.LayoutParams(MathUtil.dpToPx(20), MathUtil.dpToPx(20));
+                    layoutParamsSurvival.setMarginEnd(MathUtil.dpToPx(5));
+                    imgHeartList.get(i).setId(View.generateViewId());
+                    if(i == 1) {
+                        layoutParamsSurvival.addRule(RelativeLayout.RIGHT_OF, imgHeartList.get(0).getId());
+                    } else if(i == 2) {
+                        layoutParamsSurvival.addRule(RelativeLayout.RIGHT_OF, imgHeartList.get(1).getId());
+                    }
+
+                    imgHeartList.get(i).setLayoutParams(layoutParamsSurvival);
+                    imgHeartList.get(i).setImageResource(R.drawable.heart_pink);
+                    gameHelper.addView(imgHeartList.get(i));
+                }
+
                 break;
         }
     }

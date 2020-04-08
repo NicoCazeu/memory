@@ -13,7 +13,12 @@ public class CareerLevel extends Level {
         this.scoreLimit = new ArrayList<>();
     }
 
-    @Override
+    public CareerLevel(int id, int starNumber, LevelState state, int countCard, CardTheme theme) {
+        super(id, state, countCard, theme);
+        this.numberStar = starNumber;
+        scoreLimit = new ArrayList<>();
+    }
+
     public String toString() {
         return "CareerLevel{" +
                 "scoreLimit=" + scoreLimit +
@@ -22,12 +27,10 @@ public class CareerLevel extends Level {
                 '}';
     }
 
-    @Override
     public List<Integer> getScoreLimit() {
         return scoreLimit;
     }
 
-    @Override
     public void setScoreLimit(List<Integer> scoreLimit) {
         this.scoreLimit = scoreLimit;
     }
@@ -46,5 +49,25 @@ public class CareerLevel extends Level {
 
     public void setTouchUsed(int touchUsed) {
         this.touchUsed = touchUsed;
+    }
+
+    public Integer getScoreNumberStar(Integer score) {
+        if(score <= 0 ) {
+            return 0;
+        }
+
+        int numberStar = 0;
+
+        for(int i = scoreLimit.size()-1; i >= 0; i--) {
+            if(score <= scoreLimit.get(i)) {
+                numberStar = i+1;
+                break;
+            }
+        }
+        return numberStar;
+    }
+
+    public void resetScore() {
+        this.touchUsed = 0;
     }
 }

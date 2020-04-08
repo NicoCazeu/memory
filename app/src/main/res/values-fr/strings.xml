@@ -27,8 +27,18 @@
     <string name="label_score">Coup : </string>
     <string name="label_btn_revive">Revivre</string>
     <string name="label_btn_again">Rejouez</string>
+    <string name="label_btn_menu">Menu</string>
     <string name="label_btn_next">Suivant</string>
     <string name="label_btn_more_coin">Doubler votre recompense</string>
+
+    <!-- Game over View -->
+    <string name="label_game_over_title">Game Over</string>
+    <string name="label_btn_more_life">Gagner une vie supplementaire</string>
+
+    <!-- Finish all level View -->
+    <string name="label_finish_all_level_title">Felicitations</string>
+    <string name="label_finiash_all_level_subtitle">Vous avez termine tous les niveaux</string>
+    <string name="label_finish_all_level_bonus_coin">Gagner 200 pieces d\'or</string>
 
     <!-- Tutorial View -->
     <string name="label_tutorial_title">Tutoriel</string>

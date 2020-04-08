@@ -87,8 +87,13 @@ public class CardView extends RelativeLayout {
                 GameInformation.getInstance().getCardsFlip().clear();
 
                 if(GameInformation.getInstance().hasFindAllCards() && isSecondCard) {
-                    Intent endLevel = new Intent(ApplicationConstants.INTENT_END_LEVEL);
-                    getContext().sendBroadcast(endLevel);
+                    if(GameInformation.getInstance().hasNextLevel()) {
+                        Intent endLevel = new Intent(ApplicationConstants.INTENT_END_LEVEL);
+                        getContext().sendBroadcast(endLevel);
+                    } else {
+                        Intent endLevel = new Intent(ApplicationConstants.INTENT_END_ALL_LEVELS);
+                        getContext().sendBroadcast(endLevel);
+                    }
                 }
 
                 isSecondCard = true;
@@ -152,6 +157,9 @@ public class CardView extends RelativeLayout {
     }
 
     public void flipCard(final CardState state) {
+        flipCard(state, null);
+    }
+    public void flipCard(final CardState state, final RelativeLayout gameHelper) {
         if (GameInformation.getInstance().isCanPlay()) {
             this.animate().withLayer().rotationY(90).setDuration(300).withEndAction(new Runnable() {
                 @Override
@@ -185,6 +193,16 @@ public class CardView extends RelativeLayout {
                                             c.playAnimationGrewBorder();
                                         }
                                     } else {
+                                        if(gameHelper != null) {
+                                            int numberLife = gameHelper.getChildCount();
+                                            ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife-1);
+                                            gameHelper.removeView(imgGameHelper);
+
+                                            if(gameHelper.getChildCount() == 0) {
+                                                Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
+                                                getContext().sendBroadcast(gameOver);
+                                            }
+                                        }
                                         for (CardView c : GameInformation.getInstance().getCardsFlip()) {
                                             c.flipCardOnVerso(0);
                                         }
