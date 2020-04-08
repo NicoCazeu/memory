@@ -19,6 +19,8 @@
 
     <!-- Game Activity -->
     <string name="label_level">Level</string>
+    <string name="label_game_hit">hit</string>
+    <string name="label_game_hits">hits</string>
 
     <!-- End Level View -->
     <string name="label_bestscore">Best score : </string>
@@ -26,4 +28,14 @@
     <string name="label_btn_revive">Revive</string>
     <string name="label_btn_again">Again</string>
     <string name="label_btn_next">Next</string>
+    <string name="label_btn_more_coin">Double your reward</string>
+
+    <!-- Tutorial View -->
+    <string name="label_tutorial_title">Tutorial</string>
+    <string name="label_tutorial_step_1">Memorize\n the cards</string>
+    <string name="label_tutorial_step_2">Click on\nthe first card</string>
+    <string name="label_tutorial_step_3">Click on\nthe second card</string>
+    <string name="label_tutorial_step_4">You do not remember ?\n Use a bonus !</string>
+    <string name="label_tutorial_step_5">Finish the level</string>
+    <string name="label_tutorial_step_6">Congratulations\n Tap to start</string>
 </resources>

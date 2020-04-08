@@ -1,5 +1,7 @@
 package com.softcaze.memory.activity;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -9,7 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +24,9 @@ import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
 import com.softcaze.memory.model.LevelState;
 import com.softcaze.memory.model.OnItemClickListener;
+import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
+import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 
 import java.util.ArrayList;
@@ -28,9 +34,10 @@ import java.util.List;
 
 public class LevelListActivity extends AppCompatActivity {
 
-    private TextView txtGameMode;
+    private TextView txtGameMode, txtCoin, txtBonus;
     private LevelListAdapter levelListAdapter;
     private RecyclerView recyclerView;
+    private ImageView imgCoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +45,26 @@ public class LevelListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_level_list);
 
         txtGameMode = (TextView) findViewById(R.id.txt_game_mode);
+        txtCoin = (TextView) findViewById(R.id.txt_coin);
+        txtBonus = (TextView) findViewById(R.id.txt_bonus);
 
-        txtGameMode.setText(GameInformation.getInstance().getCurrentMode().toString(this));
+        if(GameInformation.getInstance().getCurrentMode() != null) {
+            txtGameMode.setText(GameInformation.getInstance().getCurrentMode().toString(this));
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        imgCoin = (ImageView) findViewById(R.id.img_coin);
+
+        /** Start animation coin **/
+        AnimationUtil.rotateCoin(imgCoin);
+
+        /** Init text field **/
+        if(User.getInstance().getCoin() != null) {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
+        if(User.getInstance().getBonus() != null) {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -25,7 +25,8 @@
         <activity android:name=".activity.FooterActivity" />
         <activity android:name=".activity.SplachScreenActivity" />
         <activity android:name=".activity.BackgroundActivity" />
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.TutorialActivity"></activity>
     </application>
 
 </manifest>

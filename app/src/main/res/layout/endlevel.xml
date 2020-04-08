@@ -72,7 +72,7 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
@@ -96,8 +96,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/label_bestscore"
@@ -117,9 +116,33 @@
                 android:textSize="20sp"/>
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/linear_earn_coin"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/txt_earn_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+0"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:textSize="42sp"/>
+
+            <ImageView
+                android:id="@+id/earn_coin"
+                android:layout_margin="5dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:baselineAlignBottom="true"
+                android:background="@drawable/coin"/>
+        </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/btn_revive"
+            android:id="@+id/btn_more_coin"
             android:layout_width="220dp"
             android:padding="15dp"
             android:layout_height="wrap_content"
@@ -137,9 +160,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roof_runners_active"
                 android:textColor="@color/whiteColor"
-                android:text="@string/label_btn_revive"
+                android:text="@string/label_btn_more_coin"
                 android:layout_centerVertical="true"
-                android:textSize="30sp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@id/ico_revive"
                 android:layout_marginLeft="20dp"
                 />
@@ -148,7 +171,7 @@
         <RelativeLayout
             android:id="@+id/btn_again"
             android:layout_width="220dp"
-            android:padding="15dp"
+            android:padding="10dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/again_button">
@@ -176,7 +199,7 @@
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_margin="5dp">
 
             <RelativeLayout
                 android:id="@+id/btn_menu"
@@ -195,7 +218,7 @@
                 android:layout_width="140dp"
                 android:layout_height="70dp"
                 android:background="@drawable/next_button"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:padding="20dp">
 
                 <TextView

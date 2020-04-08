@@ -14,11 +14,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softcaze.memory.R;
+import com.softcaze.memory.listener.TutorialAnimationListener;
 import com.softcaze.memory.model.CardState;
 import com.softcaze.memory.model.CardType;
 import com.softcaze.memory.model.Level;
+import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.ApplicationConstants;
 
@@ -200,7 +203,34 @@ public class CardView extends RelativeLayout {
         }
     }
 
+    /**
+     * This method is invoked when user used an eyes bonus
+     * @param delay
+     */
+    public void eyesBonusAction(final int delay, final TextView txtView) {
+        this.animate().withLayer().rotationY(90).setDuration(300).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                setRectoCard();
+                setCardState(CardState.RECTO);
+
+                setRotationY(-90);
+
+                animate().withLayer().rotationY(0).setDuration(300).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        flipCardOnVerso(delay);
+                    }
+                });
+            }
+        });
+    }
+
     public void flipCardOnVerso(int delay) {
+        flipCardOnVerso(delay, null);
+    }
+
+    public void flipCardOnVerso(int delay, final TutorialAnimationListener listener) {
 
         this.animate().withLayer().rotationY(90).setDuration(300).withEndAction(new Runnable() {
             @Override
@@ -209,7 +239,16 @@ public class CardView extends RelativeLayout {
                 setCardState(CardState.VERSO);
 
                 setRotationY(-90);
-                animate().withLayer().rotationY(0).setDuration(300).setStartDelay(0).start();
+                if(listener != null) {
+                    animate().withLayer().rotationY(0).setDuration(300).setStartDelay(0).withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.allCardsHaveRotate();
+                        }
+                    });
+                } else {
+                    animate().withLayer().rotationY(0).setDuration(300).setStartDelay(0).start();
+                }
 
                 GameInformation.getInstance().setCanPlay(true);
             }

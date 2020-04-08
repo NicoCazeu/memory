@@ -9,6 +9,7 @@ import com.softcaze.memory.model.CardType;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
+import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.view.CardView;
 
 import java.util.ArrayList;
@@ -127,6 +128,16 @@ public class GameInformation {
 
         for (int i = 0; i < numberCard / 2; i++) {
             int cardType = (int) (Math.random() * maxCardType);
+
+            if(numberCard == 4 && i > 0) {
+                if(listCardTemp.get(0).equals(cardType)) {
+                    if(cardType < maxCardType) {
+                        cardType += 1;
+                    } else {
+                        cardType -= 1;
+                    }
+                }
+            }
             listCardTemp.add(listCardType.get(cardType));
             listCardTemp.add(listCardType.get(cardType));
         }
@@ -249,5 +260,13 @@ public class GameInformation {
         }
 
         return currentLevel;
+    }
+
+    public boolean needTutorialByMode(GameMode mode) {
+        boolean needTutorial = ApplicationConstants.needTutorialCareer;
+
+        // TODO Check database in we need tutorial for the mode passing in params
+
+        return needTutorial;
     }
 }

@@ -12,4 +12,10 @@ public class ApplicationConstants {
     public static final String INTENT_SCORE_LEVEL = "INTENT_SCORE_LEVEL";
     public static final int VERSO_BACKGROUND_CARD = R.drawable.card_verso;
     public static final int RECTO_BACKGROUND_CARD = R.drawable.card_recto;
+    public static final int AMOUNT_COIN_START = 0;
+    public static final int AMOUNT_BONUS_START = 2;
+    public static final boolean needTutorialCareer = true;
+    public static final boolean needTutorialAgainsTime = false;
+    public static final boolean needTutorialSuddenDeath = true;
+    public static final boolean needTutorialSurvival = true;
 }

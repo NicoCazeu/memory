@@ -17,6 +17,7 @@ import com.softcaze.memory.model.LevelRow;
 import com.softcaze.memory.model.LevelState;
 import com.softcaze.memory.model.OnItemClickListener;
 import com.softcaze.memory.singleton.GameInformation;
+import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 
 import java.util.ArrayList;
@@ -129,6 +130,7 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
             holder.contentLevel.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    AnimationUtil.btnClickedAnimation(view, view.getContext());
                     GameInformation.getInstance().setGoNextLevel(false);
                     switch (index) {
                         case 0:

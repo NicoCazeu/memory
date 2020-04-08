@@ -11,6 +11,6 @@
         android:layout_height="match_parent"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
-        android:background="@drawable/background_app"/>
+        android:background="@drawable/background_app3"/>
 
 </android.support.constraint.ConstraintLayout>

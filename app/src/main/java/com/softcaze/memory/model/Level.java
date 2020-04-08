@@ -18,6 +18,10 @@ public class Level {
     private CardTheme theme;
     private List<Integer> scoreLimit;
 
+    public Level() {
+        ;
+    }
+
     public Level(int id, int starNumber, LevelState state, LevelScore score, int countCard, CardTheme theme) {
         this.id = id;
         this.starNumber = starNumber;

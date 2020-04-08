@@ -12,4 +12,5 @@
     <color name="orangeColor">#F3C766</color>
     <color name="darkGreyColor">#434343</color>
     <color name="lightGreyColor">#9AAABA</color>
+    <color name="transparency">#00000000</color>
 </resources>

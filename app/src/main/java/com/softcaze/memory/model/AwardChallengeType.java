@@ -11,8 +11,7 @@ import com.softcaze.memory.R;
 
 public enum AwardChallengeType {
     COIN(R.drawable.coin),
-    EYE_BONUS(R.drawable.coin),
-    LANE_BONUS(R.drawable.coin);
+    EYE_BONUS(R.drawable.eyes_bonus);
 
     private AwardChallengeType(int resId) {
         this.resId = resId;

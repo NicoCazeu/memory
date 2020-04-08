@@ -19,6 +19,8 @@
 
     <!-- Game Activity -->
     <string name="label_level">Niveau</string>
+    <string name="label_game_hit">coup</string>
+    <string name="label_game_hits">coups</string>
 
     <!-- End Level View -->
     <string name="label_bestscore">Meilleur score : </string>
@@ -26,4 +28,14 @@
     <string name="label_btn_revive">Revivre</string>
     <string name="label_btn_again">Rejouez</string>
     <string name="label_btn_next">Suivant</string>
+    <string name="label_btn_more_coin">Doubler votre recompense</string>
+
+    <!-- Tutorial View -->
+    <string name="label_tutorial_title">Tutoriel</string>
+    <string name="label_tutorial_step_1">Memorisez\nles cartes</string>
+    <string name="label_tutorial_step_2">Cliquez sur la\npremiere carte</string>
+    <string name="label_tutorial_step_3">Cliquez sur la\nseconde carte</string>
+    <string name="label_tutorial_step_4">Vous ne vous souvenez plus ?\n Utilisez un bonus !</string>
+    <string name="label_tutorial_step_5">Terminez le niveau</string>
+    <string name="label_tutorial_step_6">Felicitations\n Tapez pour commencer</string>
 </resources>

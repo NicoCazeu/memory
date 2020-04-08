@@ -59,8 +59,7 @@
                     android:id="@+id/img_award"
                     android:layout_width="@dimen/img_count_size"
                     android:layout_height="@dimen/img_count_size"
-                    android:layout_toRightOf="@id/count_award"
-                    android:background="@drawable/coin"/>
+                    android:layout_toRightOf="@id/count_award" />
             </RelativeLayout>
 
         </RelativeLayout>
