@@ -15,6 +15,10 @@ public enum GameMode {
     SUDDEN_DEATH(R.string.sudden_death),
     SURVIVAL(R.string.survival);
 
+    public static final int AGAINST_TIME_DATABASE = 1;
+    public static final int SURVIVAL_DATABASE = 2;
+    public static final int SUDDEN_DEATH_DATABASE = 3;
+
     private GameMode(int resId) {
         this.resId = resId;
     }

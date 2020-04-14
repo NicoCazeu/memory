@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.GameActivity;
 import com.softcaze.memory.activity.LevelListActivity;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelState;
@@ -36,6 +37,7 @@ public class EndLevelView extends RelativeLayout {
     ImageView earnCoin;
     int counter = 0;
     Timer timer, timerMoreCoin;
+    Dao dao;
 
     public EndLevelView(Context context) {
         super(context);
@@ -77,6 +79,8 @@ public class EndLevelView extends RelativeLayout {
         txtEarnCoin = (TextView) findViewById(R.id.txt_earn_coin);
 
         earnCoin = (ImageView) findViewById(R.id.earn_coin);
+
+        dao = new Dao(getContext());
 
         /** Rotate coin **/
         AnimationUtil.rotateCoin(earnCoin);
@@ -170,6 +174,13 @@ public class EndLevelView extends RelativeLayout {
 
         timer = new Timer(runnableEarnCoin, 50, true);
         User.getInstance().getCoin().setAmount(User.getInstance().getCoin().getAmount() + earnCoinFixed);
+
+        try {
+            dao.open();
+            dao.setCoinUser(User.getInstance().getCoin().getAmount());
+        } finally {
+            dao.close();
+        }
 
         ((CareerLevel) currentLevel).resetScore();
 

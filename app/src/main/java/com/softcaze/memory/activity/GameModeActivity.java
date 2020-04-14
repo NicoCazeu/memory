@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softcaze.memory.R;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.model.AgainstTimeLevel;
 import com.softcaze.memory.model.CardTheme;
 import com.softcaze.memory.model.CareerLevel;
@@ -38,6 +39,7 @@ public class GameModeActivity extends AppCompatActivity {
 
     private TextView btnCareer, btnAgainstTime, btnSuddenDeath, btnSurvival, txtCoin, txtBonus;
     private ImageView imgCoin;
+    protected Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class GameModeActivity extends AppCompatActivity {
         txtCoin = (TextView) findViewById(R.id.txt_coin);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
+
+        dao = new Dao(this);
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
@@ -74,29 +78,7 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.CAREER);
 
-                List<LevelRow> levelRowList = new ArrayList<>();
-                LevelRow levelRow = new LevelRow(new CareerLevel(1, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT), new CareerLevel(2, 2, LevelState.UNLOCK, 6, CardTheme.FRUTT), new CareerLevel(3, 2, LevelState.UNLOCK, 8, CardTheme.FRUTT));
-                LevelRow levelRow2 = new LevelRow(new CareerLevel(4, 0, LevelState.UNLOCK, 10, CardTheme.FRUTT), new CareerLevel(5, 2, LevelState.UNLOCK, 16, CardTheme.FRUTT), new CareerLevel(6, 1, LevelState.UNLOCK, 14, CardTheme.FRUTT));
-                LevelRow levelRow3 = new LevelRow(new CareerLevel(7, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(8, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(9, 0, LevelState.UNLOCK, 4, CardTheme.FRUTT));
-                LevelRow levelRow4 = new LevelRow(new CareerLevel(10, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(11, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(12, 0, LevelState.UNLOCK, 4, CardTheme.FLAG));
-                LevelRow levelRow5 = new LevelRow(new CareerLevel(13, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(14, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(15, 0, LevelState.UNLOCK, 4, CardTheme.FLAG));
-                LevelRow levelRow6 = new LevelRow(new CareerLevel(16, 0, LevelState.UNLOCK, 24, CardTheme.FRUTT), new CareerLevel(17, 2, LevelState.UNLOCK, 20, CardTheme.FLAG), new CareerLevel(18, 0, LevelState.LOCK, 4, CardTheme.FLAG));
-                ((CareerLevel) levelRow.getLevel3()).setScoreLimit(Arrays.asList(new Integer[]{12, 10, 8}));
-                ((CareerLevel) levelRow.getLevel1()).setScoreLimit(Arrays.asList(new Integer[]{8,6,4}));
-
-                levelRowList.add(levelRow);
-                levelRowList.add(levelRow2);
-                levelRowList.add(levelRow3);
-                levelRowList.add(levelRow4);
-                levelRowList.add(levelRow5);
-                levelRowList.add(levelRow6);
-
-                List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
-                GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.CAREER);
-
-                if(ApplicationConstants.needTutorialCareer) {
-                    Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                if(launchTutorial(dao, GameMode.CAREER)){
                     return;
                 }
 
@@ -111,23 +93,13 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.AGAINST_TIME);
 
-                List<LevelRow> levelRowList = new ArrayList<>();
-                LevelRow levelRow = new LevelRow(new AgainstTimeLevel(1, LevelState.UNLOCK, 4, CardTheme.FRUTT, 30), new AgainstTimeLevel(2, LevelState.UNLOCK, 6, CardTheme.FRUTT, 9), new AgainstTimeLevel(3, LevelState.UNLOCK, 8, CardTheme.FRUTT, 12));
-                LevelRow levelRow1 = new LevelRow(new AgainstTimeLevel(4, LevelState.UNLOCK, 12, CardTheme.FRUTT, 12), new AgainstTimeLevel(5, LevelState.UNLOCK, 14, CardTheme.FRUTT, 14), new AgainstTimeLevel(6, LevelState.UNLOCK, 16, CardTheme.FRUTT, 20));
-                levelRowList.add(levelRow);
-                levelRowList.add(levelRow1);
-
-                List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
-                GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.AGAINST_TIME);
-
-                if(ApplicationConstants.needTutorialAgainsTime) {
-                    Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                if(launchTutorial(dao, GameMode.AGAINST_TIME)) {
                     return;
                 }
 
-                // TODO: Load current level from database
-                GameInformation.getInstance().setNumCurrentLevel(1);
+                dao.open();
+                GameInformation.getInstance().setNumCurrentLevel(dao.getNumLevelByMode(GameMode.AGAINST_TIME_DATABASE));
+                dao.close();
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
@@ -140,23 +112,13 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.SURVIVAL);
 
-                List<LevelRow> levelRowList = new ArrayList<>();
-                LevelRow levelRow = new LevelRow(new LifeLevel(1, LevelState.UNLOCK, 4, CardTheme.FRUTT, 3), new LifeLevel(2, LevelState.UNLOCK, 6, CardTheme.FRUTT, 3), new LifeLevel(3, LevelState.UNLOCK, 8, CardTheme.FRUTT, 3));
-                LevelRow levelRow1 = new LevelRow(new LifeLevel(4, LevelState.UNLOCK, 12, CardTheme.FRUTT, 3), new LifeLevel(5, LevelState.UNLOCK, 14, CardTheme.FRUTT, 3), new LifeLevel(6, LevelState.UNLOCK, 16, CardTheme.FRUTT, 3));
-                levelRowList.add(levelRow);
-                levelRowList.add(levelRow1);
-
-                List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
-                GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.SURVIVAL);
-
-                if(ApplicationConstants.needTutorialSurvival) {
-                    Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                if(launchTutorial(dao, GameMode.SURVIVAL)) {
                     return;
                 }
 
-                // TODO: Load current level from database
-                GameInformation.getInstance().setNumCurrentLevel(1);
+                dao.open();
+                GameInformation.getInstance().setNumCurrentLevel(dao.getNumLevelByMode(GameMode.SURVIVAL_DATABASE));
+                dao.close();
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
@@ -169,28 +131,32 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.SUDDEN_DEATH);
 
-                List<LevelRow> levelRowList = new ArrayList<>();
-                LevelRow levelRow = new LevelRow(new LifeLevel(1, LevelState.UNLOCK, 4, CardTheme.FRUTT, 1), new LifeLevel(2, LevelState.UNLOCK, 6, CardTheme.FRUTT, 1), new LifeLevel(3, LevelState.UNLOCK, 8, CardTheme.FRUTT, 1));
-                LevelRow levelRow1 = new LevelRow(new LifeLevel(4, LevelState.UNLOCK, 12, CardTheme.FRUTT, 1), new LifeLevel(5, LevelState.UNLOCK, 14, CardTheme.FRUTT, 1), new LifeLevel(6, LevelState.UNLOCK, 16, CardTheme.FRUTT, 1));
-                levelRowList.add(levelRow);
-                levelRowList.add(levelRow1);
-
-                List<Level> listLevel = GameInformation.getInstance().convertToLevelList(levelRowList);
-                GameInformation.getInstance().setListLevelByGameMode(listLevel, GameMode.SUDDEN_DEATH);
-
-                if(ApplicationConstants.needTutorialSuddenDeath) {
-                    Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                if(launchTutorial(dao, GameMode.SUDDEN_DEATH)) {
                     return;
                 }
 
-                // TODO: Load current level from database
-                GameInformation.getInstance().setNumCurrentLevel(1);
+                dao.open();
+                GameInformation.getInstance().setNumCurrentLevel(dao.getNumLevelByMode(GameMode.SUDDEN_DEATH_DATABASE));
+                dao.close();
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
             }
         });
+    }
+
+    private boolean launchTutorial(Dao database, GameMode mode) {
+        try {
+            database.open();
+            if(database.needTutoByMode(mode)) {
+                Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                return true;
+            }
+        } finally {
+            database.close();
+        }
+        return false;
     }
 
     @Override

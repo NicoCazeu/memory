@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softcaze.memory.R;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.TutorialAnimationListener;
 import com.softcaze.memory.model.Bonus;
 import com.softcaze.memory.model.Card;
@@ -53,6 +54,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
     protected Card lastCard;
     protected Bonus bonus;
     protected RelativeLayout relativeLayoutHand;
+    protected Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
         imgCoin = (ImageView) findViewById(R.id.img_coin);
         imgBonus = (ImageView) findViewById(R.id.img_bonus);
 
+        dao = new Dao(this);
+
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
 
@@ -77,6 +81,8 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
         txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
 
         txtGameMode.setText(GameInformation.getInstance().getCurrentMode().toString(this));
+
+        GameInformation.getInstance().setCanPlay(true);
 
         buildContentGameByMode(GameInformation.getInstance().getCurrentMode());
 
@@ -126,6 +132,13 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
             @Override
             public void onClick(View view) {
                 if(NUM_STEP == STEP_6) {
+                    try {
+                        dao.open();
+                        dao.setNeedTutoByMode(GameInformation.getInstance().getCurrentMode(), false);
+                    } finally {
+                        dao.close();
+                    }
+
                     if(GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
                         Intent intent = new Intent(TutorialActivity.this, LevelListActivity.class);
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
@@ -177,8 +190,8 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
                     @Override
                     public void onClick(View view) {
                         if(NUM_STEP == STEP_2 && card.getId() == (int) 1) {
-                            GameInformation.getInstance().getCardViews().remove(card);
                             card.flipCard(CardState.RECTO);
+                            GameInformation.getInstance().getCardViews().remove(card);
 
                             relativeLayoutHand.animate().translationXBy(lastCard.getX() - firstCard.getX())
                                     .translationYBy(lastCard.getY() - firstCard.getY()).setDuration(700);

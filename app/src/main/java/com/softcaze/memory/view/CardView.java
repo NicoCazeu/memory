@@ -84,7 +84,12 @@ public class CardView extends RelativeLayout {
                 for (CardView c : GameInformation.getInstance().getCardsFlip()) {
                     c.setVisibility(View.INVISIBLE);
                 }
-                GameInformation.getInstance().getCardsFlip().clear();
+
+                if(isSecondCard) {
+                    GameInformation.getInstance().getCardsFlip().clear();
+
+                    GameInformation.getInstance().setCanPlay(true);
+                }
 
                 if(GameInformation.getInstance().hasFindAllCards() && isSecondCard) {
                     if(GameInformation.getInstance().hasNextLevel()) {
@@ -160,6 +165,11 @@ public class CardView extends RelativeLayout {
         flipCard(state, null);
     }
     public void flipCard(final CardState state, final RelativeLayout gameHelper) {
+        if(state == CardState.RECTO) {
+            if(GameInformation.getInstance().getCardsFlip().size() >= 2) {
+                GameInformation.getInstance().setCanPlay(false);
+            }
+        }
         if (GameInformation.getInstance().isCanPlay()) {
             this.animate().withLayer().rotationY(90).setDuration(300).withEndAction(new Runnable() {
                 @Override
@@ -177,7 +187,7 @@ public class CardView extends RelativeLayout {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(75);
+                                //Thread.sleep(75);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

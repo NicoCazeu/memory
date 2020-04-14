@@ -6,9 +6,11 @@ import android.view.View;
 import com.softcaze.memory.R;
 import com.softcaze.memory.model.CardTheme;
 import com.softcaze.memory.model.CardType;
+import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
+import com.softcaze.memory.model.LevelState;
 import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.view.CardView;
 
@@ -243,7 +245,7 @@ public class GameInformation {
     }
 
     public boolean hasNextLevel() {
-        if(GameInformation.getInstance().getLevelByNumAndGameMode(getNumNextLevel(), GameInformation.getInstance().getCurrentMode()) != null) {
+        if(getLevelByNumAndGameMode(getNumNextLevel(), getCurrentMode()) != null) {
             return true;
         }
 
@@ -255,8 +257,16 @@ public class GameInformation {
     }
 
     public int getNumNextLevel() {
-        if(GameInformation.getInstance().getLevelByNumAndGameMode(currentLevel, GameInformation.getInstance().getCurrentMode()) != null) {
+        if(getLevelByNumAndGameMode(currentLevel, getCurrentMode()) != null) {
             return currentLevel + 1;
+        }
+
+        return currentLevel;
+    }
+
+    public int getPreviousNumNextLevel() {
+        if(getLevelByNumAndGameMode(currentLevel, getCurrentMode()) != null) {
+            return currentLevel - 1;
         }
 
         return currentLevel;
@@ -268,5 +278,15 @@ public class GameInformation {
         // TODO Check database in we need tutorial for the mode passing in params
 
         return needTutorial;
+    }
+
+    public boolean isLockLevel() {
+        List<Level> levelList = getListLevelByGameMode(getCurrentMode());
+        CareerLevel previousLevel = (CareerLevel) getLevelByNumAndGameMode(getPreviousNumNextLevel(), getCurrentMode());
+
+        if(previousLevel != null && previousLevel.equals(LevelState.UNLOCK) && previousLevel.getNumberStar() > 0) {
+            return false;
+        }
+        return true;
     }
 }

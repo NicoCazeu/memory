@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.adapter.ChallengeListAdapater;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.ChallengeAnimationListener;
 import com.softcaze.memory.model.Award;
 import com.softcaze.memory.model.AwardChallengeType;
@@ -44,6 +45,7 @@ public class ChallengeActivity extends AppCompatActivity implements ChallengeAni
     protected TextView textCoin, textBonus;
     protected int counter;
     Timer timer;
+    Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class ChallengeActivity extends AppCompatActivity implements ChallengeAni
         challengeBackground = (RelativeLayout) findViewById(R.id.challenge_background);
         textCoin = (TextView) findViewById(R.id.txt_coin);
         textBonus = (TextView) findViewById(R.id.txt_bonus);
+
+        dao = new Dao(this);
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
@@ -208,6 +212,15 @@ public class ChallengeActivity extends AppCompatActivity implements ChallengeAni
         } else {
             timer = new Timer(runnableCoin, 50, true);
             User.getInstance().getCoin().setAmount(User.getInstance().getCoin().getAmount() + award.getAmount());
+        }
+
+        try {
+            dao.open();
+
+            dao.setCoinUser(User.getInstance().getCoin().getAmount());
+            dao.setBonusRevealUser(User.getInstance().getBonus().getAmount());
+        } finally {
+            dao.close();
         }
 
     }
