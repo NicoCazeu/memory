@@ -65,7 +65,7 @@
             android:background="@drawable/skull"/>
 
         <RelativeLayout
-            android:id="@+id/btn_more_coin"
+            android:id="@+id/btn_revive"
             android:layout_width="220dp"
             android:padding="15dp"
             android:layout_height="wrap_content"
@@ -74,9 +74,15 @@
 
             <ImageView
                 android:id="@+id/ico_revive"
+                android:visibility="invisible"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/application_ad"/>
+
+            <ProgressBar
+                android:id="@+id/loading_ad_progressbar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

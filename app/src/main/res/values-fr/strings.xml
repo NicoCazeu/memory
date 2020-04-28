@@ -10,12 +10,23 @@
 
     <!-- Shop Activity -->
     <string name="title_shop_activity">Magasin</string>
+    <string name="get_coin_shop_activity">Obtenir des pieces</string>
+    <string name="get_bonus_shop_activity">Obtenir des bonus</string>
 
     <!-- Challenge Activity -->
     <string name="title_challenge_activity">Defis</string>
 
     <!-- Setting Activity -->
     <string name="title_setting_activity">Parametre</string>
+    <string name="setting_son">Son</string>
+    <string name="setting_yes">Oui</string>
+    <string name="setting_report_bug">Reportez un bug</string>
+    <string name="setting_rate_us">Votez</string>
+    <string name="setting_languages">Langues</string>
+    <string name="setting_notifications">Notifications</string>
+    <string name="setting_no">Non</string>
+    <string name="setting_langue1">EN</string>
+    <string name="setting_langue2">FR</string>
 
     <!-- Game Activity -->
     <string name="label_level">Niveau</string>
@@ -48,4 +59,8 @@
     <string name="label_tutorial_step_4">Vous ne vous souvenez plus ?\n Utilisez un bonus !</string>
     <string name="label_tutorial_step_5">Terminez le niveau</string>
     <string name="label_tutorial_step_6">Felicitations\n Tapez pour commencer</string>
+
+    <!-- Unlock challenge View -->
+    <string name="unlock_new_challenge">Nouveau defis debloque</string>
+    <string name="get_award_new_challenge">Recuperer</string>
 </resources>

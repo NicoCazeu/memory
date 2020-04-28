@@ -6,5 +6,5 @@ package com.softcaze.memory.model;
 
 public enum LevelState {
     LOCK,
-    UNLOCK
+    UNLOCK;
 }

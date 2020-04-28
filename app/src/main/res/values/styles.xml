@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="LoadingProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorAccent">@color/yellowColor</item>
+    </style>
 </resources>

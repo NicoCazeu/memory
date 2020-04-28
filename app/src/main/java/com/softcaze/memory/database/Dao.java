@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.softcaze.memory.model.AwardChallengeType;
 import com.softcaze.memory.model.CareerLevel;
+import com.softcaze.memory.model.Challenge;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelState;
@@ -179,6 +181,80 @@ public class Dao {
         initOthersLevel();
     }
 
+    public void initChallenges() {
+        Cursor c = getDataByTable(TABLE_NAME_CHALLENGE);
+
+        if(c.getCount() == 0) {
+            List<Challenge> challenges = GameInformation.getInstance().getChallenges();
+            ContentValues values = null;
+
+            for(Challenge challenge: challenges) {
+                values = new ContentValues();
+                values.put(COL_NAME_CHALLENGE, challenge.getChallengeLabel());
+                if(challenge.getAwardChallengeType().equals(AwardChallengeType.COIN)) {
+                    values.put(COL_TYPE_AWARD, AwardChallengeType.COIN_DATABASE);
+                } else if(challenge.getAwardChallengeType().equals(AwardChallengeType.EYE_BONUS)) {
+                    values.put(COL_TYPE_AWARD, AwardChallengeType.EYE_BONUS_DATABASE);
+                }
+                values.put(COL_AMOUNT_AWARD, challenge.getCountAward());
+                values.put(COL_IS_UNLOCK_CHALLENGE, (challenge.isUnlockChallenge()) ? 1 : 0);
+                values.put(COL_GET_AWARD_CHALLENGE, (challenge.isGetAward()) ? 1 : 0);
+
+                insertUpdate(c, values, TABLE_NAME_CHALLENGE, null);
+            }
+        }
+
+        c.close();
+    }
+
+    public void setGetAwardChallenge(int idChallenge, boolean getAward) {
+        Cursor c = getDataByTable(TABLE_NAME_CHALLENGE);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_GET_AWARD_CHALLENGE, (getAward) ? 1 : 0);
+
+        insertUpdate(c, contentValues, TABLE_NAME_CHALLENGE, COL_ID_CHALLENGE + " = " + idChallenge);
+
+        c.close();
+    }
+
+    public boolean getGetAwardChallenge(int idChallenge) {
+        Cursor c = getDataByTable(TABLE_NAME_CHALLENGE, COL_ID_CHALLENGE + " = " + idChallenge);
+        boolean getAward = false;
+
+        if(c.getCount() != 0) {
+            c.moveToFirst();
+            getAward = (c.getInt(NUM_COL_GET_AWARD_CHALLENGE) == 1) ? true: false;
+        }
+
+        c.close();
+
+        return getAward;
+    }
+
+    public void setIsUnlockChallenge(int idChallenge, boolean isUnlock) {
+        Cursor c = getDataByTable(TABLE_NAME_CHALLENGE);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_IS_UNLOCK_CHALLENGE, (isUnlock) ? 1 : 0);
+
+        insertUpdate(c, contentValues, TABLE_NAME_CHALLENGE, COL_ID_CHALLENGE + " = " + idChallenge);
+
+        c.close();
+    }
+
+    public boolean isUnlockChallenge(int idChallenge) {
+        Cursor c = getDataByTable(TABLE_NAME_CHALLENGE, COL_ID_CHALLENGE + " = " + idChallenge);
+        boolean isUnlock = false;
+
+        if(c.getCount() != 0) {
+            c.moveToFirst();
+            isUnlock = (c.getInt(NUM_COL_IS_UNLOCK_CHALLENGE) == 1) ? true: false;
+        }
+
+        c.close();
+
+        return isUnlock;
+    }
+
     /**
      * Init all career levels
      */
@@ -193,7 +269,12 @@ public class Dao {
             for(Level level : levels) {
                 CareerLevel careerLevel = (CareerLevel) level;
                 values = new ContentValues();
-                values.put(COL_NUM_LEVEL_CAREER_LEVEL, careerLevel.getId() + 1);
+                values.put(COL_NUM_LEVEL_CAREER_LEVEL, careerLevel.getId());
+                if(level.getId() == 1) {
+                    values.put(COL_IS_UNLOCK_CAREER_LEVEL, 1);
+                } else {
+                    values.put(COL_IS_UNLOCK_CAREER_LEVEL, 0);
+                }
                 values.put(COL_STAR_NUMBER_CAREER_LEVEL, careerLevel.getNumberStar());
                 values.put(COL_BEST_SCORE_CAREER_LEVEL, careerLevel.getTouchUsed());
 
@@ -202,6 +283,21 @@ public class Dao {
         }
 
         c.close();
+    }
+
+    public int getOverallNumberStars() {
+        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL);
+        int numberStar = 0;
+
+        if(c.getCount() == 0) {
+            return numberStar;
+        }
+
+        while(c.moveToNext()) {
+            numberStar += c.getInt(NUM_COL_STAR_NUMBER_CAREER_LEVEL);
+        }
+
+        return numberStar;
     }
 
     /**
@@ -347,30 +443,6 @@ public class Dao {
         c.close();
     }
 
-    public void loadingCareerLevel() {
-        List<Level> listLevel = GameInformation.getInstance().getListLevelByGameMode(GameMode.CAREER);
-        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL);
-        c.moveToFirst();
-
-        if(c.getCount() != 0) {
-            try {
-                while(c.moveToNext()) {
-                    CareerLevel level = (CareerLevel) listLevel.get(c.getInt(NUM_COL_NUM_LEVEL_CAREER_LEVEL));
-                    level.setNumberStar(c.getInt(NUM_COL_STAR_NUMBER_CAREER_LEVEL));
-
-                    if(c.getInt(NUM_COL_IS_UNLOCK_CAREER_LEVEL) == 1) {
-                        level.setState(LevelState.UNLOCK);
-                    } else {
-                        level.setState(LevelState.LOCK);
-                    }
-                }
-            }
-            finally {
-                c.close();
-            }
-        }
-    }
-
     public void saveBestScoreCareerLevel(int numLevel, int bestScore) {
         Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL);
         ContentValues contentValues = new ContentValues();
@@ -382,10 +454,11 @@ public class Dao {
     }
 
     public int getBestScoreCareerLevel(int numLevel) {
-        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL);
+        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL, COL_NUM_LEVEL_CAREER_LEVEL + " = " + numLevel);
         int bestScore = 0;
 
         if(c.getCount() != 0) {
+            c.moveToFirst();
             bestScore = c.getInt(NUM_COL_BEST_SCORE_CAREER_LEVEL);
         }
 
@@ -394,10 +467,58 @@ public class Dao {
         return bestScore;
     }
 
+    public void saveStateCareerLevel(int numLevel, LevelState state) {
+        int isUnlock = (state.equals(LevelState.UNLOCK)) ? 1 : 0;
+        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL);
+        ContentValues values = new ContentValues();
+        values.put(COL_IS_UNLOCK_CAREER_LEVEL, isUnlock);
+
+        insertUpdate(c, values, TABLE_NAME_CAREER_LEVEL, COL_NUM_LEVEL_CAREER_LEVEL + " = " + numLevel);
+
+        c.close();
+    }
+
+    public LevelState getStateCareerLevel(int numLevel) {
+        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL, COL_NUM_LEVEL_CAREER_LEVEL + " = " + numLevel);
+        LevelState isUnlock = LevelState.LOCK;
+
+        if(c.getCount() != 0) {
+            c.moveToFirst();
+            isUnlock = (c.getInt(NUM_COL_IS_UNLOCK_CAREER_LEVEL) == 1) ? LevelState.UNLOCK : LevelState.LOCK;
+        }
+
+        return isUnlock;
+    }
+
+    public int getNumberStarCareerLevel(int numLevel) {
+        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL, COL_NUM_LEVEL_CAREER_LEVEL + " = " + numLevel);
+        int numberStar = 0;
+
+        if(c.getCount() != 0) {
+            c.moveToFirst();
+            numberStar = c.getInt(NUM_COL_STAR_NUMBER_CAREER_LEVEL);
+        }
+
+        c.close();
+
+        return numberStar;
+    }
+
+    public void saveNumberStarCareerLevel(int numLevel, int numberStar) {
+        Cursor c = getDataByTable(TABLE_NAME_CAREER_LEVEL);
+        ContentValues values = new ContentValues();
+        values.put(COL_STAR_NUMBER_CAREER_LEVEL, numberStar);
+
+        insertUpdate(c, values, TABLE_NAME_CAREER_LEVEL, COL_NUM_LEVEL_CAREER_LEVEL + " = " + numLevel);
+
+        c.close();
+    }
+
     public int getNumLevelByMode(int mode) {
         Cursor c = getDataByTable(TABLE_NAME_OTHERS_LEVEL, COL_MODE_OTHERS_LEVEL + " = " + mode);
 
         if(c.getCount() != 0) {
+            c.moveToFirst();
             try {
                 return c.getInt(NUM_COL_NUM_LEVEL_OTHERS_LEVEL);
             } finally {

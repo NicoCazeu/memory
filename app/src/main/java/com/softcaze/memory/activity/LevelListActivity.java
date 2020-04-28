@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.adapter.LevelListAdapter;
+import com.softcaze.memory.database.Dao;
+import com.softcaze.memory.model.CareerLevel;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
@@ -32,12 +34,13 @@ import com.softcaze.memory.util.ApplicationConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LevelListActivity extends AppCompatActivity {
+public class LevelListActivity extends Activity {
 
     private TextView txtGameMode, txtCoin, txtBonus;
     private LevelListAdapter levelListAdapter;
     private RecyclerView recyclerView;
     private ImageView imgCoin;
+    private Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class LevelListActivity extends AppCompatActivity {
         txtGameMode = (TextView) findViewById(R.id.txt_game_mode);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
+
+        dao = new Dao(this);
 
         if(GameInformation.getInstance().getCurrentMode() != null) {
             txtGameMode.setText(GameInformation.getInstance().getCurrentMode().toString(this));
@@ -71,6 +76,8 @@ public class LevelListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         List<Level> listLevel = GameInformation.getInstance().getListLevelByGameMode(GameInformation.getInstance().getCurrentMode());
+        loadLevelsDatabase(listLevel);
+
         if(listLevel != null) {
             List<LevelRow> levelRowList = GameInformation.getInstance().convertToLevelRowList(listLevel);
 
@@ -87,5 +94,22 @@ public class LevelListActivity extends AppCompatActivity {
         //super.onBackPressed();
         Intent intent = new Intent(LevelListActivity.this, GameModeActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) this).toBundle());
+    }
+
+    private void loadLevelsDatabase(List<Level> listLevel) {
+        try {
+            dao.open();
+            if(listLevel != null) {
+                for (Level level : listLevel) {
+                    CareerLevel careerLevel = (CareerLevel) level;
+
+                    careerLevel.setState(dao.getStateCareerLevel(level.getId()));
+                    careerLevel.setTouchUsed(dao.getBestScoreCareerLevel(level.getId()));
+                    careerLevel.setNumberStar(dao.getNumberStarCareerLevel(level.getId()));
+                }
+            }
+        } finally {
+            dao.close();
+        }
     }
 }

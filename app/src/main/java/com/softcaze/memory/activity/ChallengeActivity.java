@@ -26,16 +26,21 @@ import com.softcaze.memory.model.AwardChallengeType;
 import com.softcaze.memory.model.Bonus;
 import com.softcaze.memory.model.Challenge;
 import com.softcaze.memory.model.Coin;
+import com.softcaze.memory.model.GameMode;
+import com.softcaze.memory.model.HeaderItem;
+import com.softcaze.memory.model.ListItem;
 import com.softcaze.memory.model.Position;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.service.Timer;
+import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.MathUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class ChallengeActivity extends AppCompatActivity implements ChallengeAnimationListener {
+public class ChallengeActivity extends Activity implements ChallengeAnimationListener {
     public static boolean animGetAwardsFinished = true;
     protected ChallengeListAdapater challengeListAdapter;
     protected RecyclerView recyclerView;
@@ -74,27 +79,8 @@ public class ChallengeActivity extends AppCompatActivity implements ChallengeAni
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<Challenge> challengeList = new ArrayList<>();
-        challengeList.add(new Challenge("Collectez 80 etoiles", AwardChallengeType.COIN, true, false, 50));
-        challengeList.add(new Challenge("Terminez le niveau 150 en une seul tentative", AwardChallengeType.COIN, true, false, 1));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.EYE_BONUS, false, true, 1));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.EYE_BONUS, true, false, 2));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 35));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.EYE_BONUS, true, false, 15));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-        challengeList.add(new Challenge("Terminez le niveau 150 avec 3 etoiles", AwardChallengeType.COIN, true, false, 40));
-
-        challengeListAdapter = new ChallengeListAdapater(challengeList, this);
+        //challengeListAdapter = new ChallengeListAdapater(GameInformation.getInstance().getChallenges(), this);
+        challengeListAdapter = new ChallengeListAdapater(getList(), this);
 
         recyclerView.setAdapter(challengeListAdapter);
 
@@ -141,11 +127,8 @@ public class ChallengeActivity extends AppCompatActivity implements ChallengeAni
         final ImageView imgAward = new ImageView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(MathUtil.dpToPx(20), MathUtil.dpToPx(20));
 
-        Log.i("NICOLAS", "Y : " + award.getY());
         params.leftMargin = award.getX();
         params.topMargin = award.getY() - params.height - recyclerView.computeVerticalScrollOffset();
-
-        Log.i("NICOLAS", "OFFSET : " + recyclerView.computeVerticalScrollOffset());
 
         Position positionAward = new Position();
         int amountGeneric = 0;
@@ -231,5 +214,24 @@ public class ChallengeActivity extends AppCompatActivity implements ChallengeAni
 
     public static void setAnimGetAwardsFinished(boolean animGetAwardsFinished) {
         ChallengeActivity.animGetAwardsFinished = animGetAwardsFinished;
+    }
+
+    private List<ListItem> getList() {
+        List<ListItem> listChallenges = new ArrayList<>();
+        HashMap<GameMode, Boolean> alreadyAdded = new HashMap<>();
+
+        for(GameMode mode: GameMode.values()) {
+            alreadyAdded.put(mode, false);
+        }
+
+        for(Challenge challenge: GameInformation.getInstance().getChallenges()) {
+            if(!alreadyAdded.get(challenge.getMode())) {
+                alreadyAdded.put(challenge.getMode(), true);
+                listChallenges.add(new HeaderItem(challenge.getMode().getResId()));
+            }
+            listChallenges.add(challenge);
+        }
+
+        return listChallenges;
     }
 }

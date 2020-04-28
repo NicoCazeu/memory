@@ -1,21 +1,23 @@
 package com.softcaze.memory.singleton;
 
-import android.util.Log;
+import android.content.Context;
 import android.view.View;
+import android.widget.RelativeLayout;
 
-import com.softcaze.memory.R;
+import com.android.internal.util.Predicate;
+import com.softcaze.memory.model.ChallengeType;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.model.CardTheme;
 import com.softcaze.memory.model.CardType;
-import com.softcaze.memory.model.CareerLevel;
+import com.softcaze.memory.model.Challenge;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
-import com.softcaze.memory.model.LevelState;
-import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.CollectionUtil;
 import com.softcaze.memory.view.CardView;
+import com.softcaze.memory.view.UnlockChallengeView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class GameInformation {
     private List<CardView> cardsFlip = new ArrayList<>();
     private int currentLevel;
     private boolean nextLevel = false;
+    private List<Challenge> challenges = new ArrayList<>();
+    private int overallNumberStars;
 
     public static GameInformation getInstance() {
         return ourInstance;
@@ -62,15 +66,6 @@ public class GameInformation {
 
     public void setListLevelByGameMode(List<Level> listLevelByGameMode, GameMode gameMode) {
         listLevel.put(gameMode, listLevelByGameMode);
-    }
-
-    public void saveLevelByGameMode(Level currentLevel, GameMode gameMode) {
-        if (currentLevel.getId() > 0) {
-            listLevel.get(gameMode).set(currentLevel.getId() - 1, currentLevel);
-        }
-
-        // Update database
-        // TODO
     }
 
     public List<Level> convertToLevelList(List<LevelRow> levelRowList) {
@@ -264,29 +259,56 @@ public class GameInformation {
         return currentLevel;
     }
 
-    public int getPreviousNumNextLevel() {
-        if(getLevelByNumAndGameMode(currentLevel, getCurrentMode()) != null) {
-            return currentLevel - 1;
-        }
-
-        return currentLevel;
+    public List<Challenge> getChallenges() {
+        return challenges;
     }
 
-    public boolean needTutorialByMode(GameMode mode) {
-        boolean needTutorial = ApplicationConstants.needTutorialCareer;
-
-        // TODO Check database in we need tutorial for the mode passing in params
-
-        return needTutorial;
+    public void setChallenges(List<Challenge> challenges) {
+        this.challenges = challenges;
     }
 
-    public boolean isLockLevel() {
-        List<Level> levelList = getListLevelByGameMode(getCurrentMode());
-        CareerLevel previousLevel = (CareerLevel) getLevelByNumAndGameMode(getPreviousNumNextLevel(), getCurrentMode());
+    public List<Challenge> getChallengesByType(final ChallengeType type, final GameMode mode)  {
+        return (List<Challenge>) CollectionUtil.filter(getChallenges(), new Predicate<Challenge>() {
+            @Override
+            public boolean apply(Challenge challenge) {
+                return challenge.getChallengeType().equals(type) && challenge.getMode().equals(mode);
+            }
+        });
+    }
 
-        if(previousLevel != null && previousLevel.equals(LevelState.UNLOCK) && previousLevel.getNumberStar() > 0) {
-            return false;
+    public void checkChallengeDone(Dao dao, Context context, RelativeLayout parent, ChallengeType type, int value) {
+        List<Challenge> challenges = GameInformation.getInstance().getChallengesByType(type, GameInformation.getInstance().getCurrentMode());
+        for(Challenge challenge: challenges) {
+            if(type.equals(ChallengeType.END_LEVEL) || type.equals(ChallengeType.GLOBAL_STAR)) {
+                if(value >= challenge.getValueToReach()  && !challenge.isUnlockChallenge()) {
+                    displayUnlockChallenge(challenge, context, dao, parent);
+                }
+            } else {
+                if(value == challenge.getValueToReach()  && !challenge.isUnlockChallenge()) {
+                    displayUnlockChallenge(challenge, context, dao, parent);
+                }
+            }
         }
-        return true;
+    }
+
+    public Level getCurrentLevel() {
+        return this.getLevelByNumAndGameMode(this.getNumCurrentLevel(), this.getCurrentMode());
+    }
+
+    private void displayUnlockChallenge(Challenge challenge, Context context, Dao dao, RelativeLayout parent) {
+        challenge.setUnlockChallenge(true);
+
+        dao.setIsUnlockChallenge(challenge.getId(), challenge.isUnlockChallenge());
+        UnlockChallengeView unlockChallengeView = new UnlockChallengeView(context, challenge);
+        parent.addView(unlockChallengeView);
+        unlockChallengeView.display();
+    }
+
+    public int getOverallNumberStars() {
+        return overallNumberStars;
+    }
+
+    public void setOverallNumberStars(int overallNumberStars) {
+        this.overallNumberStars = overallNumberStars;
     }
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/parent">
 
     <RelativeLayout
+        android:id="@+id/relative_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/blackColor"
@@ -150,10 +152,16 @@
             android:background="@drawable/revive_button">
 
             <ImageView
-                android:id="@+id/ico_revive"
+                android:id="@+id/more_coin_img"
+                android:visibility="invisible"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/application_ad"/>
+
+            <ProgressBar
+                android:id="@+id/loading_ad_progressbar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -163,7 +171,7 @@
                 android:text="@string/label_btn_more_coin"
                 android:layout_centerVertical="true"
                 android:textSize="15sp"
-                android:layout_toRightOf="@id/ico_revive"
+                android:layout_toRightOf="@id/more_coin_img"
                 android:layout_marginLeft="20dp"
                 />
         </RelativeLayout>

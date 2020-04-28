@@ -1,11 +1,12 @@
 package com.softcaze.memory.activity;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.softcaze.memory.R;
 
-public class BackgroundActivity extends AppCompatActivity {
+public class BackgroundActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

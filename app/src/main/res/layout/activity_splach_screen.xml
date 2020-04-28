@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,4 +7,46 @@
     android:background="@color/blackColor"
     tools:context="com.softcaze.memory.activity.SplachScreenActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="91dp"
+        android:layout_above="@+id/rel_loading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/memory_title"
+        android:layout_gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/rel_loading"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/loading_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/roof_runners_active"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/progressbar"/>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="@style/LoadingProgressBar"
+            android:indeterminateOnly="true"
+            android:indeterminateTint="@color/yellowColor"
+            android:indeterminateBehavior="repeat"
+            android:layout_centerHorizontal="true"
+            android:scaleY="3"
+            android:layout_width="250dp"
+            android:layout_height="20dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

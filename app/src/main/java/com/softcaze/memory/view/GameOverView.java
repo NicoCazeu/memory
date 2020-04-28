@@ -6,23 +6,37 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.GameActivity;
 import com.softcaze.memory.activity.GameModeActivity;
+import com.softcaze.memory.listener.AdVideoRewardListener;
+import com.softcaze.memory.model.GameMode;
+import com.softcaze.memory.model.Level;
+import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 
 public class GameOverView extends RelativeLayout {
-    TextView txtNumLevel;
-    RelativeLayout btnMoreLife, btnAgain, btnMenu;
-    Timer timerMoreCoin;
+    protected TextView txtNumLevel;
+    protected RelativeLayout btnRevive, btnAgain, btnMenu;
+    protected ImageView icoRevive;
+    protected ProgressBar loadingAdProgressBar;
+    protected RewardedVideoAd rewardedVideoAd;
+    protected Timer timerLoadingAdReward;
+    protected Level currentLevel;
 
-    public GameOverView(Context context) {
+    public GameOverView(Context context, RewardedVideoAd videoAd, Level level) {
         super(context);
+        this.currentLevel = level;
+        this.rewardedVideoAd = videoAd;
         init(null, 0);
     }
 
@@ -39,34 +53,56 @@ public class GameOverView extends RelativeLayout {
     private void init(AttributeSet attrs, int defStyle) {
         inflate(getContext(), R.layout.gameover, this);
 
-        btnMoreLife = (RelativeLayout) findViewById(R.id.btn_more_coin);
+        btnRevive = (RelativeLayout) findViewById(R.id.btn_revive);
         btnAgain = (RelativeLayout) findViewById(R.id.btn_again);
         btnMenu = (RelativeLayout) findViewById(R.id.btn_menu);
 
+        loadingAdProgressBar = (ProgressBar) findViewById(R.id.loading_ad_progressbar);
+        icoRevive = (ImageView) findViewById(R.id.ico_revive);
+
         txtNumLevel = (TextView) findViewById(R.id.txt_num_level_game);
 
-        Runnable moreCoinRunnable = new Runnable() {
+        /**
+         * Loading Ad Video
+         */
+        Runnable runnableLoadingAdReward = new Runnable() {
             @Override
             public void run() {
-                btnMoreLife.animate().scaleX(.8F).scaleY(0.8F).setDuration(300).withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        btnMoreLife.animate().scaleX(1F).scaleY(1F).setDuration(300);
+                GameOverView self = GameOverView.this;
+                try {
+                    if(rewardedVideoAd.isLoaded()) {
+                        icoRevive.setVisibility(View.VISIBLE);
+                        loadingAdProgressBar.setVisibility(View.INVISIBLE);
+                        self.timerLoadingAdReward.stopTimer();
+                    } else {
+                        icoRevive.setVisibility(View.INVISIBLE);
+                        loadingAdProgressBar.setVisibility(View.VISIBLE);
                     }
-                });
+                } catch (Exception e) {
+                    ;
+                }
             }
         };
 
-        timerMoreCoin = new Timer(moreCoinRunnable, 800, true);
+        timerLoadingAdReward = new Timer(runnableLoadingAdReward, 1000, true);
 
-        int numLevel = GameInformation.getInstance().getNumCurrentLevel();
+        txtNumLevel.setText(String.valueOf(currentLevel.getId()));
 
-        txtNumLevel.setText(String.valueOf(numLevel));
+        if (GameInformation.getInstance().getCurrentMode().equals(GameMode.AGAINST_TIME) || (currentLevel instanceof LifeLevel && ((LifeLevel) currentLevel).isHasAdVideoReward())) {
+            btnRevive.setVisibility(View.INVISIBLE);
+            AnimationUtil.breathingAnimation(btnAgain);
+        } else {
+            AnimationUtil.breathingAnimation(btnRevive);
+        }
 
-        btnMoreLife.setOnClickListener(new OnClickListener() {
+        btnRevive.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getContext());
+
+                if (rewardedVideoAd.isLoaded()) {
+                    rewardedVideoAd.show();
+                }
             }
         });
 

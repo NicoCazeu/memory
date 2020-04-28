@@ -4,19 +4,27 @@ package com.softcaze.memory.model;
  * Created by Nicolas on 30/06/2019.
  */
 
-public class Challenge {
+public class Challenge extends ListItem {
+    private int id;
     private String challengeLabel;
     private AwardChallengeType awardChallengeType;
     private int countAward;
     private boolean unlockChallenge;
     private boolean getAward;
+    private GameMode mode;
+    private ChallengeType challengeType;
+    private int valueToReach;
 
-    public Challenge(String challengeLabel, AwardChallengeType awardChallengeType, boolean unlockChallenge, boolean getAward, int countAward) {
+    public Challenge(int id, String challengeLabel, AwardChallengeType awardChallengeType, boolean unlockChallenge, boolean getAward, int countAward, GameMode mode, ChallengeType type, int value) {
+        this.id = id;
         this.challengeLabel = challengeLabel;
         this.awardChallengeType = awardChallengeType;
         this.unlockChallenge = unlockChallenge;
         this.getAward = getAward;
         this.countAward = countAward;
+        this.mode = mode;
+        this.challengeType = type;
+        this.valueToReach = value;
     }
 
     public String getChallengeLabel() {
@@ -57,6 +65,38 @@ public class Challenge {
 
     public void setGetAward(boolean getAward) {
         this.getAward = getAward;
+    }
+
+    public GameMode getMode() {
+        return mode;
+    }
+
+    public void setMode(GameMode mode) {
+        this.mode = mode;
+    }
+
+    public ChallengeType getChallengeType() {
+        return challengeType;
+    }
+
+    public void setChallengeType(ChallengeType challengeType) {
+        this.challengeType = challengeType;
+    }
+
+    public int getValueToReach() {
+        return valueToReach;
+    }
+
+    public void setValueToReach(int valueToReach) {
+        this.valueToReach = valueToReach;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

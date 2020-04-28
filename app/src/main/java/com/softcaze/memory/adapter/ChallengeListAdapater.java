@@ -12,112 +12,169 @@ import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.ChallengeActivity;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.ChallengeAnimationListener;
 import com.softcaze.memory.model.AwardChallengeType;
 import com.softcaze.memory.model.Challenge;
 import com.softcaze.memory.model.Award;
+import com.softcaze.memory.model.GameMode;
+import com.softcaze.memory.model.HeaderItem;
+import com.softcaze.memory.model.ListItem;
 import com.softcaze.memory.util.AnimationUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Nicolas on 30/06/2019.
  */
 
-public class ChallengeListAdapater extends RecyclerView.Adapter<ChallengeListAdapater.ViewHolder> {
+public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_CONTENT = 1;
     private static final float TRANSPARENCY = 0.3F;
-
-    private List<Challenge> listChallenge;
-    private boolean isRun = false;
+    private List<ListItem> listChallenge;
     private ChallengeAnimationListener challengeAnimationListener;
+    private List<Boolean> hasFoundMode = new ArrayList<>();
 
-    public ChallengeListAdapater(List<Challenge> listChallenge, ChallengeAnimationListener listener) {
+    public ChallengeListAdapater(List<ListItem> listChallenge, ChallengeAnimationListener listener) {
         this.listChallenge = listChallenge;
         this.challengeAnimationListener = listener;
+
+        for(GameMode mode: GameMode.values()) {
+            hasFoundMode.add(false);
+        }
     }
 
     @Override
-    public ChallengeListAdapater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.challenge_row, null);
-
-        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        itemLayoutView.setLayoutParams(lp);
-
-        ChallengeListAdapater.ViewHolder viewHolder = new ChallengeListAdapater.ViewHolder(itemLayoutView);
-        return viewHolder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == TYPE_HEADER) {
+            View itemLayoutView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.challenge_title_row, null);
+            return new ViewHeaderHolder(itemLayoutView);
+        } else {
+            View itemLayoutView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.challenge_row, null);
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            itemLayoutView.setLayoutParams(lp);
+            ChallengeListAdapater.ViewHolder viewHolder = new ChallengeListAdapater.ViewHolder(itemLayoutView);
+            return viewHolder;
+        }
     }
 
     @Override
-    public void onBindViewHolder(final ChallengeListAdapater.ViewHolder holder, final int position) {
-        holder.labelChallenge.setText(listChallenge.get(position).getChallengeLabel());
-        holder.countAward.setText(String.valueOf(listChallenge.get(position).getCountAward()));
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if(holder instanceof ViewHeaderHolder) {
+            final HeaderItem currentItem = (HeaderItem) listChallenge.get(position);
+            final ViewHeaderHolder viewHeaderHolder = (ViewHeaderHolder) holder;
+            viewHeaderHolder.gameModeLabel.setText(currentItem.getResId());
+        } else {
+            final Challenge currentItem = (Challenge) listChallenge.get(position);
+            final ViewHolder viewHolder = (ViewHolder) holder;
 
-        holder.imgAward.setImageResource(listChallenge.get(position).getAwardChallengeType().getResId());
+            viewHolder.labelChallenge.setText(currentItem.getChallengeLabel());
+            viewHolder.countAward.setText(String.valueOf(currentItem.getCountAward()));
 
-        holder.imgAward.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                holder.imgAward.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                int[] locations = new int[2];
-                holder.imgAward.getLocationInWindow(locations);
-                int x = locations[0];
-                int y = locations[1];
-                holder.award = new Award(x, y);
-            }
-        });
+            viewHolder.imgAward.setImageResource(currentItem.getAwardChallengeType().getResId());
 
-        if(listChallenge.get(position).isUnlockChallenge()) {
-            holder.imgChallengeMedal.setAlpha(1F);
-            holder.relativeAward.setAlpha(1F);
+            viewHolder.imgAward.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    viewHolder.imgAward.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int[] locations = new int[2];
+                    viewHolder.imgAward.getLocationInWindow(locations);
+                    int x = locations[0];
+                    int y = locations[1];
+                    viewHolder.award = new Award(x, y);
+                }
+            });
 
-            if(listChallenge.get(position).isGetAward()) {
-                holder.relativeAward.setVisibility(View.INVISIBLE);
-            }
-            else {
+            if(currentItem.isUnlockChallenge()) {
+                viewHolder.imgChallengeMedal.setAlpha(1F);
+                viewHolder.relativeAward.setAlpha(1F);
+                viewHolder.relativeChallenge.setAlpha(1F);
 
-                holder.relativeAward.setVisibility(View.VISIBLE);
-            }
-        }
-        else {
-            holder.imgChallengeMedal.setAlpha(TRANSPARENCY);
-            holder.relativeAward.setAlpha(TRANSPARENCY);
-        }
+                if(currentItem.isGetAward()) {
+                    viewHolder.relativeAward.setVisibility(View.INVISIBLE);
+                }
+                else {
 
-        holder.relativeContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(ChallengeActivity.isAnimGetAwardsFinished()) {
-                    AnimationUtil.btnClickedAnimation(view, view.getContext());
-                    if(listChallenge.get(position).isUnlockChallenge() && !listChallenge.get(position).isGetAward()) {
-                        listChallenge.get(position).setGetAward(true);
-                        holder.award.setAmount(listChallenge.get(position).getCountAward());
-                        // TODO SAVE IN DATABASE + ADD AWARD ON USER
-
-                        // Calcul y = ax + b
-                    /*double[] resultLinearFunction = MathUtil.calculLinearFunction(User.getInstance().getCoin(), holder.coin);*/
-                        holder.relativeAward.animate().scaleX(1.3F).scaleY(1.3F).alpha(0.2F).setDuration(200).withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.relativeAward.setVisibility(View.INVISIBLE);
-
-                                if(listChallenge.get(position).getAwardChallengeType().equals(AwardChallengeType.EYE_BONUS)) {
-                                    holder.award.setAwardChallengeType(AwardChallengeType.EYE_BONUS);
-                                } else {
-                                    holder.award.setAwardChallengeType(AwardChallengeType.COIN);
-                                }
-                                challengeAnimationListener.startAnimation(holder.award);
-                            }
-                        });
-                    }
+                    viewHolder.relativeAward.setVisibility(View.VISIBLE);
                 }
             }
-        });
+            else {
+                viewHolder.imgChallengeMedal.setAlpha(TRANSPARENCY);
+                viewHolder.relativeAward.setAlpha(TRANSPARENCY);
+                viewHolder.relativeChallenge.setAlpha(TRANSPARENCY);
+            }
+
+            viewHolder.relativeChallenge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(ChallengeActivity.isAnimGetAwardsFinished()) {
+                        AnimationUtil.btnClickedAnimation(view, view.getContext());
+                        if(currentItem.isUnlockChallenge() && !currentItem.isGetAward()) {
+                            currentItem.setGetAward(true);
+                            viewHolder.award.setAmount(currentItem.getCountAward());
+                            try {
+                                viewHolder.dao.open();
+
+                                viewHolder.dao.setGetAwardChallenge(currentItem.getId(), currentItem.isGetAward());
+
+                                if(currentItem.getAwardChallengeType().equals(AwardChallengeType.COIN)) {
+                                    viewHolder.dao.setCoinUser(viewHolder.dao.getCoinUser() + currentItem.getCountAward());
+                                } else {
+                                    viewHolder.dao.setBonusRevealUser(viewHolder.dao.getBonusRevealUser() + currentItem.getCountAward());
+                                }
+                            } finally {
+                                viewHolder.dao.close();
+                            }
+
+                            viewHolder.relativeAward.animate().scaleX(1.3F).scaleY(1.3F).alpha(0.2F).setDuration(200).withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewHolder.relativeAward.setVisibility(View.INVISIBLE);
+
+                                    if(currentItem.getAwardChallengeType().equals(AwardChallengeType.EYE_BONUS)) {
+                                        viewHolder.award.setAwardChallengeType(AwardChallengeType.EYE_BONUS);
+                                    } else {
+                                        viewHolder.award.setAwardChallengeType(AwardChallengeType.COIN);
+                                    }
+                                    challengeAnimationListener.startAnimation(viewHolder.award);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
         return listChallenge.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isPositionHeader(position)) {
+            return TYPE_HEADER;
+        }
+        return TYPE_CONTENT;
+    }
+
+    private boolean isPositionHeader(int position) {
+        return listChallenge.get(position) instanceof HeaderItem;
+    }
+
+    public static class ViewHeaderHolder extends RecyclerView.ViewHolder {
+        TextView gameModeLabel;
+
+        public ViewHeaderHolder(View itemView) {
+            super(itemView);
+
+            gameModeLabel = (TextView) itemView.findViewById(R.id.game_mode_label);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -127,7 +184,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<ChallengeListAda
         ImageView imgAward;
         RelativeLayout relativeAward;
         RelativeLayout relativeChallenge;
-        RelativeLayout relativeContent;
+        Dao dao;
         Award award;
 
         public ViewHolder(View itemView) {
@@ -139,7 +196,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<ChallengeListAda
             imgAward = (ImageView) itemView.findViewById(R.id.img_award);
             relativeAward = (RelativeLayout) itemView.findViewById(R.id.relative_award);
             relativeChallenge = (RelativeLayout) itemView.findViewById(R.id.relative_challenge);
-            relativeContent = (RelativeLayout) itemView.findViewById(R.id.relative_content);
+            dao = new Dao(itemView.getContext());
             award = new Award();
         }
     }

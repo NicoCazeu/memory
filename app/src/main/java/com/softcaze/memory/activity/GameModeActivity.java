@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameModeActivity extends AppCompatActivity {
+public class GameModeActivity extends Activity {
 
     private TextView btnCareer, btnAgainstTime, btnSuddenDeath, btnSurvival, txtCoin, txtBonus;
     private ImageView imgCoin;
@@ -78,9 +78,9 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.CAREER);
 
-                if(launchTutorial(dao, GameMode.CAREER)){
+                /*if(launchTutorial(dao, GameMode.CAREER)){
                     return;
-                }
+                }*/
 
                 Intent intent = new Intent(GameModeActivity.this, LevelListActivity.class);
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
@@ -93,9 +93,9 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.AGAINST_TIME);
 
-                if(launchTutorial(dao, GameMode.AGAINST_TIME)) {
+                /*if(launchTutorial(dao, GameMode.AGAINST_TIME)) {
                     return;
-                }
+                }*/
 
                 dao.open();
                 GameInformation.getInstance().setNumCurrentLevel(dao.getNumLevelByMode(GameMode.AGAINST_TIME_DATABASE));
@@ -112,9 +112,9 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.SURVIVAL);
 
-                if(launchTutorial(dao, GameMode.SURVIVAL)) {
+                /*if(launchTutorial(dao, GameMode.SURVIVAL)) {
                     return;
-                }
+                }*/
 
                 dao.open();
                 GameInformation.getInstance().setNumCurrentLevel(dao.getNumLevelByMode(GameMode.SURVIVAL_DATABASE));
@@ -131,9 +131,9 @@ public class GameModeActivity extends AppCompatActivity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 GameInformation.getInstance().setCurrentMode(GameMode.SUDDEN_DEATH);
 
-                if(launchTutorial(dao, GameMode.SUDDEN_DEATH)) {
+                /*if(launchTutorial(dao, GameMode.SUDDEN_DEATH)) {
                     return;
-                }
+                }*/
 
                 dao.open();
                 GameInformation.getInstance().setNumCurrentLevel(dao.getNumLevelByMode(GameMode.SUDDEN_DEATH_DATABASE));
@@ -143,20 +143,6 @@ public class GameModeActivity extends AppCompatActivity {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
             }
         });
-    }
-
-    private boolean launchTutorial(Dao database, GameMode mode) {
-        try {
-            database.open();
-            if(database.needTutoByMode(mode)) {
-                Intent intent = new Intent(GameModeActivity.this, TutorialActivity.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
-                return true;
-            }
-        } finally {
-            database.close();
-        }
-        return false;
     }
 
     @Override

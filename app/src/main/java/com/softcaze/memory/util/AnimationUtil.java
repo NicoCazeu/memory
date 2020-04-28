@@ -30,18 +30,20 @@ public class AnimationUtil {
         }
     }
 
-    public static void  fingerAnimationTutorial(View view) {
-        final ObjectAnimator animationX = ObjectAnimator.ofFloat(view, "scaleX", .8f);
-        final ObjectAnimator animationY = ObjectAnimator.ofFloat(view, "scaleY", .8f);
-        animationY.setRepeatCount(ObjectAnimator.INFINITE);
-        animationY.setRepeatMode(ValueAnimator.REVERSE);
-        animationX.setRepeatCount(ObjectAnimator.INFINITE);
-        animationX.setRepeatMode(ValueAnimator.REVERSE);
-        AnimatorSet scaleDown = new AnimatorSet();
-        scaleDown.play(animationX).with(animationY);
-        scaleDown.setDuration(400);
-        scaleDown.setInterpolator(new AccelerateDecelerateInterpolator());
-        scaleDown.start();
+    public static void  breathingAnimation(View... views) {
+        for(View view : views) {
+            final ObjectAnimator animationX = ObjectAnimator.ofFloat(view, "scaleX", .8f);
+            final ObjectAnimator animationY = ObjectAnimator.ofFloat(view, "scaleY", .8f);
+            animationY.setRepeatCount(ObjectAnimator.INFINITE);
+            animationY.setRepeatMode(ValueAnimator.REVERSE);
+            animationX.setRepeatCount(ObjectAnimator.INFINITE);
+            animationX.setRepeatMode(ValueAnimator.REVERSE);
+            AnimatorSet scaleDown = new AnimatorSet();
+            scaleDown.play(animationX).with(animationY);
+            scaleDown.setDuration(400);
+            scaleDown.setInterpolator(new AccelerateDecelerateInterpolator());
+            scaleDown.start();
+        }
     }
 
     public static void rotateCoin(View view) {

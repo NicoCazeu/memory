@@ -203,6 +203,8 @@ public class CardView extends RelativeLayout {
                                             c.playAnimationGrewBorder();
                                         }
                                     } else {
+                                        // At least one mistake
+                                        GameInformation.getInstance().getCurrentLevel().setMadeMistake(true);
                                         if(gameHelper != null) {
                                             int numberLife = gameHelper.getChildCount();
                                             ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife-1);

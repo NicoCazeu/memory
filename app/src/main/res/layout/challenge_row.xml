@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/relative_challenge"
         android:layout_width="match_parent"
-        android:layout_height="75dp">
+        android:layout_height="75dp"
+        android:alpha=".3">
 
         <RelativeLayout
             android:id="@+id/background_challenge"
@@ -75,5 +76,4 @@
             android:layout_marginBottom="@dimen/img_medal_margin_bottom"
             android:alpha=".3"/>
     </RelativeLayout>
-
 </RelativeLayout>

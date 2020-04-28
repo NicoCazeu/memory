@@ -2,34 +2,41 @@ package com.softcaze.memory.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
+import com.softcaze.memory.listener.AdVideoRewardListener;
 import com.softcaze.memory.model.AgainstTimeLevel;
 import com.softcaze.memory.model.CardState;
 import com.softcaze.memory.model.CardType;
 import com.softcaze.memory.model.CareerLevel;
+import com.softcaze.memory.model.ChallengeType;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
-import com.softcaze.memory.model.LevelScore;
 import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
@@ -44,7 +51,7 @@ import com.softcaze.memory.view.GameOverView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends Activity implements RewardedVideoAdListener {
 
     protected TextView txtGameMode, txtNumLevel, txtBonus, txtCoin;
     protected Level currentLevel;
@@ -56,14 +63,16 @@ public class GameActivity extends AppCompatActivity {
     protected EndAllLevelsView endAllLevelsView;
     protected ImageView imgCoin;
     protected Dao dao;
-    ObjectAnimator animation;
+    protected ObjectAnimator animation;
+    protected RewardedVideoAd rewardedVideoAd;
+    protected AdVideoRewardListener adVideoRewardListener;
+    protected boolean canHaveAdVideoReward = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game);
-
         GameInformation.getInstance().setCanPlay(false);
 
         txtGameMode = (TextView) findViewById(R.id.txt_game_mode);
@@ -80,6 +89,10 @@ public class GameActivity extends AppCompatActivity {
 
         dao = new Dao(this);
 
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        rewardedVideoAd.setRewardedVideoAdListener(this);
+        loadRewardedVideoAd();
+
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
 
@@ -94,6 +107,22 @@ public class GameActivity extends AppCompatActivity {
 
         currentNumLevel = GameInformation.getInstance().getNumCurrentLevel();
 
+        if(!GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
+            if(currentNumLevel > 1) {
+                int previousNumLevel = currentNumLevel - 1;
+
+                try {
+                    dao.open();
+                    /**
+                     * check challenge END LEVEL
+                     */
+                    GameInformation.getInstance().checkChallengeDone(dao, this, relativeContentGame, ChallengeType.END_LEVEL, previousNumLevel);
+                } finally {
+                    dao.close();
+                }
+            }
+        }
+
         GameInformation.getInstance().resetCards();
 
         if(GameInformation.getInstance().getCurrentMode() != null) {
@@ -103,6 +132,12 @@ public class GameActivity extends AppCompatActivity {
 
         if (currentNumLevel != 0) {
             currentLevel = GameInformation.getInstance().getLevelByNumAndGameMode(currentNumLevel, GameInformation.getInstance().getCurrentMode());
+            currentLevel.setUsedBonus(false);
+            currentLevel.setMadeMistake(false);
+
+            if(currentLevel instanceof CareerLevel) {
+                ((CareerLevel) currentLevel).resetScore();
+            }
 
             buildContentGame(currentLevel);
 
@@ -129,6 +164,8 @@ public class GameActivity extends AppCompatActivity {
                             card.eyesBonusAction(3000, txtBonus);
                         }
                         User.getInstance().getBonus().setAmount(value - 1);
+
+                        currentLevel.setUsedBonus(true);
 
                         try {
                             dao.open();
@@ -280,7 +317,8 @@ public class GameActivity extends AppCompatActivity {
             if(ApplicationConstants.INTENT_END_LEVEL.equals(intent.getAction())) {
                 if(currentLevel instanceof CareerLevel && GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
                     relativeContentGame.removeAllViews();
-                    endLevelView = new EndLevelView(context);
+                    endLevelView = new EndLevelView(context, rewardedVideoAd);
+                    adVideoRewardListener = endLevelView.getAdVideoRewardListener();
                     relativeContentGame.addView(endLevelView);
                 } else {
                     /*if(currentLevel instanceof AgainstTimeLevel) {
@@ -324,8 +362,8 @@ public class GameActivity extends AppCompatActivity {
                         animation.removeAllListeners();
                     }
                 }
-                relativeContentGame.removeAllViews();
-                gameOverView = new GameOverView(context);
+                //relativeContentGame.removeAllViews();
+                gameOverView = new GameOverView(context, rewardedVideoAd, currentLevel);
                 relativeContentGame.addView(gameOverView);
             }
         }
@@ -367,7 +405,8 @@ public class GameActivity extends AppCompatActivity {
                 break;
             case AGAINST_TIME:
                 RelativeLayout.LayoutParams lpAgainstTimeHourglass = new RelativeLayout.LayoutParams(MathUtil.dpToPx(25), MathUtil.dpToPx(25));
-                RelativeLayout.LayoutParams lpAgainstTimeProgressBar = new RelativeLayout.LayoutParams(MathUtil.dpToPx(200), MathUtil.dpToPx(30));
+                RelativeLayout.LayoutParams lpAgainstTimeProgressBar = new RelativeLayout.LayoutParams(MathUtil.dpToPx(200), MathUtil.dpToPx(4));
+                lpAgainstTimeProgressBar.topMargin = lpAgainstTimeHourglass.width/2;
 
                 ImageView imgHourglass = new ImageView(this);
                 imgHourglass.setId(View.generateViewId());
@@ -376,6 +415,7 @@ public class GameActivity extends AppCompatActivity {
 
                 lpAgainstTimeProgressBar.addRule(RelativeLayout.RIGHT_OF, imgHourglass.getId());
                 ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+                progressBar.setId(View.generateViewId());
                 progressBar.setScaleY(2);
                 lpAgainstTimeProgressBar.setMarginStart(MathUtil.dpToPx(-25/2));
                 progressBar.setLayoutParams(lpAgainstTimeProgressBar);
@@ -440,5 +480,61 @@ public class GameActivity extends AppCompatActivity {
 
                 break;
         }
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+        canHaveAdVideoReward = false;
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        if(canHaveAdVideoReward) {
+            if(currentLevel instanceof LifeLevel) {
+                ((LifeLevel) currentLevel).setHasAdVideoReward(true);
+                relativeContentGame.removeView(gameOverView);
+
+                RelativeLayout.LayoutParams layoutParamsSuddenDeath = new RelativeLayout.LayoutParams(MathUtil.dpToPx(20), MathUtil.dpToPx(20));
+                ImageView imgSuddenDeathHeart = new ImageView(this);
+                imgSuddenDeathHeart.setImageResource(R.drawable.heart_pink);
+                imgSuddenDeathHeart.setLayoutParams(layoutParamsSuddenDeath);
+                gameHelper.addView(imgSuddenDeathHeart);
+            } else {
+                if(adVideoRewardListener != null) {
+                    adVideoRewardListener.adVideoReward();
+                }
+            }
+        }
+        loadRewardedVideoAd();
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+        canHaveAdVideoReward = true;
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    private void loadRewardedVideoAd(){
+        rewardedVideoAd.loadAd(ApplicationConstants.ID_AD_VIDEO_REWARD_TEST,
+                new AdRequest.Builder().build());
     }
 }

@@ -1,11 +1,12 @@
 package com.softcaze.memory.activity;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.softcaze.memory.R;
 
-public class HeaderActivity extends AppCompatActivity {
+public class HeaderActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

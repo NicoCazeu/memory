@@ -10,12 +10,23 @@
 
     <!-- Shop Activity -->
     <string name="title_shop_activity">Shop</string>
+    <string name="get_coin_shop_activity">Get Coins</string>
+    <string name="get_bonus_shop_activity">Get Bonus</string>
 
     <!-- Challenge Activity -->
     <string name="title_challenge_activity">Challenge</string>
 
     <!-- Setting Activity -->
     <string name="title_setting_activity">Parameter</string>
+    <string name="setting_son">Sound</string>
+    <string name="setting_yes">Yes</string>
+    <string name="setting_report_bug">Report a bug</string>
+    <string name="setting_rate_us">Rate us</string>
+    <string name="setting_languages">Languages</string>
+    <string name="setting_notifications">Notifications</string>
+    <string name="setting_no">No</string>
+    <string name="setting_langue1">EN</string>
+    <string name="setting_langue2">FR</string>
 
     <!-- Game Activity -->
     <string name="label_level">Level</string>
@@ -48,4 +59,8 @@
     <string name="label_tutorial_step_4">You do not remember ?\n Use a bonus !</string>
     <string name="label_tutorial_step_5">Finish the level</string>
     <string name="label_tutorial_step_6">Congratulations\n Tap to start</string>
+
+    <!-- Unlock challenge View -->
+    <string name="unlock_new_challenge">New challanges unlocked</string>
+    <string name="get_award_new_challenge">Get award</string>
 </resources>

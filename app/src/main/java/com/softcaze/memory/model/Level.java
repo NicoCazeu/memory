@@ -14,6 +14,8 @@ public abstract class Level {
     private LevelState state;
     private int countCard;
     private CardTheme theme;
+    private boolean usedBonus;
+    private boolean madeMistake;
 
     public Level() {
         ;
@@ -63,6 +65,22 @@ public abstract class Level {
 
     public void setCountCard(int countCard) {
         this.countCard = countCard;
+    }
+
+    public boolean isUsedBonus() {
+        return usedBonus;
+    }
+
+    public void setUsedBonus(boolean usedBonus) {
+        this.usedBonus = usedBonus;
+    }
+
+    public boolean isMadeMistake() {
+        return madeMistake;
+    }
+
+    public void setMadeMistake(boolean madeMistake) {
+        this.madeMistake = madeMistake;
     }
 
     @Override

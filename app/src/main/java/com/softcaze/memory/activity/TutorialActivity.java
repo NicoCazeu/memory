@@ -1,5 +1,6 @@
 package com.softcaze.memory.activity;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ import com.softcaze.memory.view.CardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorialActivity extends AppCompatActivity implements TutorialAnimationListener {
+public class TutorialActivity extends Activity implements TutorialAnimationListener {
     public static final int STEP_1 = 1;
     public static final int STEP_2 = 2;
     public static final int STEP_3 = 3;
@@ -140,7 +141,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
                     }
 
                     if(GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
-                        Intent intent = new Intent(TutorialActivity.this, LevelListActivity.class);
+                        Intent intent = new Intent(TutorialActivity.this, GameModeActivity.class);
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
                     } else {
                         GameInformation.getInstance().setNumCurrentLevel(1);
@@ -318,7 +319,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialAnima
        relativeLayoutHand.addView(finger);
        parentTutorial.addView(relativeLayoutHand);
 
-       AnimationUtil.fingerAnimationTutorial(finger);
+       AnimationUtil.breathingAnimation(finger);
 
        NUM_STEP = STEP_2;
    }

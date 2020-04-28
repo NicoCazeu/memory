@@ -13,6 +13,9 @@ public enum AwardChallengeType {
     COIN(R.drawable.coin),
     EYE_BONUS(R.drawable.eyes_bonus);
 
+    public static final int COIN_DATABASE = 1;
+    public static final int EYE_BONUS_DATABASE = 2;
+
     private AwardChallengeType(int resId) {
         this.resId = resId;
     }
