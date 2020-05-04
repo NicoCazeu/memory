@@ -18,7 +18,7 @@ import com.softcaze.memory.util.AnimationUtil;
 
 public class SettingActivity extends Activity {
     protected TextView settingSonTxt, versionApp, txtCoin, txtBonus;
-    protected RelativeLayout son, rateUs, reportABug;
+    protected RelativeLayout son, notification, rateUs, reportABug, credits;
     protected ImageView imgCoin;
 
     @Override
@@ -35,7 +35,9 @@ public class SettingActivity extends Activity {
 
         son = (RelativeLayout) findViewById(R.id.son);
         rateUs = (RelativeLayout) findViewById(R.id.rate_us);
+        notification = (RelativeLayout) findViewById(R.id.notification);
         reportABug = (RelativeLayout) findViewById(R.id.report_bug);
+        credits = (RelativeLayout) findViewById(R.id.credits);
 
         versionApp.setText(BuildConfig.VERSION_NAME);
 
@@ -50,6 +52,24 @@ public class SettingActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+            }
+        });
+
+        credits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                Intent intent = new Intent(SettingActivity.this, CreditsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -72,6 +92,7 @@ public class SettingActivity extends Activity {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 Intent intent = new Intent(SettingActivity.this, ContactFormActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }
@@ -79,6 +100,7 @@ public class SettingActivity extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(SettingActivity.this, MainMenuActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) this).toBundle());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

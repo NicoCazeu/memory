@@ -112,7 +112,8 @@ public class GameOverView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -122,7 +123,8 @@ public class GameOverView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameModeActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }

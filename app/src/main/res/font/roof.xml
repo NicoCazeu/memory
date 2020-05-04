@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<font-family xmlns:android="http://schemas.android.com/apk/res/android">
-    <font
-        android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/roof_runners_active" />
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/roof_runners_active"/>
 </font-family>
+

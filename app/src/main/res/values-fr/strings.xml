@@ -12,21 +12,30 @@
     <string name="title_shop_activity">Magasin</string>
     <string name="get_coin_shop_activity">Obtenir des pieces</string>
     <string name="get_bonus_shop_activity">Obtenir des bonus</string>
+    <string name="shop_dont_have_money">Vous n\'avez pas assez d\'argent</string>
 
     <!-- Challenge Activity -->
     <string name="title_challenge_activity">Defis</string>
+    <string name="collect_stars">Collectez {0} etoiles</string>
+    <string name="end_level">Terminez le niveau {0}</string>
+    <string name="end_level_without_bonus">Terminez le niveau {0} sans utiliser de bonus</string>
+    <string name="end_level_with_three_stars">Terminez le niveau {0} avec 3 etoiles</string>
+    <string name="end_level_without_fail">Terminez le niveau {0} sans erreur</string>
+
+    <!-- Credits -->
+    <string name="title_credits_activity">Credits</string>
 
     <!-- Setting Activity -->
     <string name="title_setting_activity">Parametre</string>
     <string name="setting_son">Son</string>
     <string name="setting_yes">Oui</string>
     <string name="setting_report_bug">Reportez un bug</string>
+    <string name="setting_credits">Credits</string>
     <string name="setting_rate_us">Votez</string>
     <string name="setting_languages">Langues</string>
     <string name="setting_notifications">Notifications</string>
     <string name="setting_no">Non</string>
-    <string name="setting_langue1">EN</string>
-    <string name="setting_langue2">FR</string>
+    <string name="setting_langue">FR</string>
 
     <!-- Game Activity -->
     <string name="label_level">Niveau</string>

@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.softcaze.memory.R;
 import com.softcaze.memory.listener.AdVideoRewardListener;
@@ -29,6 +30,7 @@ import com.softcaze.memory.model.User;
 import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.ApplicationConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +49,12 @@ public class EndLevelView extends RelativeLayout {
     protected RewardedVideoAd rewardedVideoAd;
     protected AdVideoRewardListener adVideoRewardListener;
     protected int earnCoinAmount = 0;
+    protected InterstitialAd interstitialAd;
 
-    public EndLevelView(Context context, RewardedVideoAd videoAd) {
+    public EndLevelView(Context context, RewardedVideoAd videoAd, InterstitialAd interAd) {
         super(context);
         this.rewardedVideoAd = videoAd;
+        this.interstitialAd = interAd;
         init(null, 0);
     }
 
@@ -126,6 +130,15 @@ public class EndLevelView extends RelativeLayout {
         try {
             dao.open();
             GameInformation.getInstance().checkChallengeDone(dao, getContext(), parent, ChallengeType.END_LEVEL, numLevel);
+
+            if(dao.getCountAd() >= ApplicationConstants.COUNT_INTERSTITIAL_AD) {
+                if(interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                    dao.setCountAd(0);
+                }
+            } else {
+                dao.setCountAd(dao.getCountAd() + 1);
+            }
         } finally {
             dao.close();
         }
@@ -298,7 +311,8 @@ public class EndLevelView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -308,7 +322,8 @@ public class EndLevelView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), LevelListActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -318,7 +333,8 @@ public class EndLevelView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(true);
                 Intent intent = new Intent(getContext(), GameActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 

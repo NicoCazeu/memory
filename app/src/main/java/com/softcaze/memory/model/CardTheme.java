@@ -5,7 +5,11 @@ package com.softcaze.memory.model;
  */
 
 public enum CardTheme {
-    FRUTT,
+    FRUIT,
     FLAG,
-    COLOR;
+    SPORT,
+    MUSIC,
+    INSECT,
+    DOMINO,
+    VEHICLE;
 }

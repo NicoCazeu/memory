@@ -1,5 +1,9 @@
 package com.softcaze.memory.model;
 
+import android.app.Activity;
+
+import com.softcaze.memory.R;
+
 /**
  * Created by Nicolas on 30/06/2019.
  */
@@ -15,9 +19,8 @@ public class Challenge extends ListItem {
     private ChallengeType challengeType;
     private int valueToReach;
 
-    public Challenge(int id, String challengeLabel, AwardChallengeType awardChallengeType, boolean unlockChallenge, boolean getAward, int countAward, GameMode mode, ChallengeType type, int value) {
+    public Challenge(int id, AwardChallengeType awardChallengeType, boolean unlockChallenge, boolean getAward, int countAward, GameMode mode, ChallengeType type, int value, Activity activity) {
         this.id = id;
-        this.challengeLabel = challengeLabel;
         this.awardChallengeType = awardChallengeType;
         this.unlockChallenge = unlockChallenge;
         this.getAward = getAward;
@@ -25,6 +28,25 @@ public class Challenge extends ListItem {
         this.mode = mode;
         this.challengeType = type;
         this.valueToReach = value;
+        this.challengeLabel = getStringByChallengeType(this.challengeType, this.valueToReach, activity);
+    }
+
+    private String getStringByChallengeType(ChallengeType type, Integer value, Activity activity) {
+        String label = "";
+
+        if(type.equals(ChallengeType.GLOBAL_STAR)) {
+            label = activity.getString(R.string.collect_stars).replace("{0}", value + "");
+        } else if(type.equals(ChallengeType.END_LEVEL)) {
+            label = activity.getString(R.string.end_level).replace("{0}", value + "");
+        } else if(type.equals(ChallengeType.END_LEVEL_ONE_LIFE)) {
+            label = activity.getString(R.string.end_level_without_fail).replace("{0}", value + "");
+        } else if(type.equals(ChallengeType.END_LEVEL_THREE_STARS)) {
+            label = activity.getString(R.string.end_level_with_three_stars).replace("{0}", value + "");
+        } else if(type.equals(ChallengeType.END_LEVEL_WITHOUT_BONUS)) {
+            label = activity.getString(R.string.end_level_without_bonus).replace("{0}", value + "");
+        }
+
+        return label;
     }
 
     public String getChallengeLabel() {

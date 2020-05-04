@@ -81,323 +81,323 @@
             android:background="@drawable/eyes_bonus"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_below="@id/header"
+        android:layout_above="@id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:orientation="vertical">
+        android:paddingLeft="10dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/get_bonus_shop_activity"
-            android:textColor="@color/whiteColor"
-            android:textSize="20sp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/roof_runners_active"/>
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/item1"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_bluedark"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="20dp">
-
-            <RelativeLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_centerVertical="true">
+                android:text="@string/get_bonus_shop_activity"
+                android:textColor="@color/whiteColor"
+                android:textSize="20sp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/roof_runners_active"/>
 
-                <TextView
-                    android:id="@+id/award1"
+            <RelativeLayout
+                android:id="@+id/item1"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_bluedark"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp">
+
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/award1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="30sp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/eyes_bonus"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="30sp"
-                    android:layout_marginRight="10dp"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@id/award1"
-                    android:background="@drawable/eyes_bonus"/>
+                    <TextView
+                        android:id="@+id/price1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="80"
+                        android:textSize="25sp"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"/>
 
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_toRightOf="@id/price1"
+                        android:background="@drawable/coin"/>
+                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/item2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp">
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_bluedark"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:id="@+id/price1"
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/award2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="30sp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/eyes_bonus"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="25"
-                    android:textSize="25sp"
-                    android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_toRightOf="@id/price1"
-                    android:background="@drawable/coin"/>
+                    <TextView
+                        android:id="@+id/price2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="750"
+                        android:textSize="25sp"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"/>
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_toRightOf="@id/price2"
+                        android:background="@drawable/coin"/>
+                </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/item2"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_bluedark"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/get_coin_shop_activity"
+                android:textColor="@color/whiteColor"
+                android:textSize="20sp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roof_runners_active"/>
 
             <RelativeLayout
+                android:id="@+id/item3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_centerVertical="true">
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_bluedark"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:id="@+id/award2"
+                <RelativeLayout
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/award3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="40"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="30sp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/coin"/>
+
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:id="@+id/loading_ad_progressbar"
+                    android:layout_toLeftOf="@+id/ad_img"
+                    android:layout_centerVertical="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/ad_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="30sp"
-                    android:layout_marginRight="10dp"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@id/award2"
-                    android:background="@drawable/eyes_bonus"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp">
-
-                <TextView
-                    android:id="@+id/price2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100"
-                    android:textSize="25sp"
-                    android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"/>
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_toRightOf="@id/price2"
-                    android:background="@drawable/coin"/>
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/get_coin_shop_activity"
-            android:textColor="@color/whiteColor"
-            android:textSize="20sp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/roof_runners_active"/>
-
-        <RelativeLayout
-            android:id="@+id/item3"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_bluedark"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="20dp">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_centerVertical="true">
-
-                <TextView
-                    android:id="@+id/award3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="30sp"
-                    android:layout_marginRight="10dp"
-                    />
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@id/award3"
-                    android:background="@drawable/coin"/>
-
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/application_ad"/>
+                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/item4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp">
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_bluedark"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/application_ad"/>
-            </RelativeLayout>
-        </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_centerVertical="true">
 
-        <RelativeLayout
-            android:id="@+id/item4"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_bluedark"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="20dp">
+                    <TextView
+                        android:id="@+id/award4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="250"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="30sp"
+                        android:layout_marginRight="10dp"
+                        />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_centerVertical="true">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/coin"/>
 
-                <TextView
-                    android:id="@+id/award4"
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="50"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="30sp"
-                    android:layout_marginRight="10dp"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@id/award4"
-                    android:background="@drawable/coin"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp">
-
-                <TextView
-                    android:id="@+id/price4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3,99"
-                    android:textSize="25sp"
-                    android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"/>
-                <TextView
-                    android:layout_toRightOf="@id/price4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="20sp"
-                    android:text="€"/>
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/item5"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_bluedark"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="20dp">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_centerVertical="true">
-
-                <TextView
-                    android:id="@+id/award5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="30sp"
-                    android:layout_marginRight="10dp"
-                    />
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@id/award5"
-                    android:background="@drawable/coin"/>
-
+                    <TextView
+                        android:id="@+id/price4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1,19"
+                        android:textSize="25sp"
+                        android:layout_marginEnd="5dp"
+                        android:textFontWeight="600"
+                        android:textColor="@color/whiteColor"/>
+                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/item5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp">
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_bluedark"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:id="@+id/price5"
+                <RelativeLayout
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/award5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="800"
+                        android:fontFamily="@font/roof_runners_active"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="30sp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/coin"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6,99"
-                    android:textSize="25sp"
-                    android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/roof_runners_active"
-                    android:textColor="@color/whiteColor"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp">
 
-                <TextView
-                    android:layout_toRightOf="@id/price5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="20sp"
-                    android:text="€"/>
+                    <TextView
+                        android:id="@+id/price5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6,99"
+                        android:textSize="25sp"
+                        android:layout_marginEnd="5dp"
+                        android:textFontWeight="600"
+                        android:textColor="@color/whiteColor"/>
+                </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:layout_width="match_parent"

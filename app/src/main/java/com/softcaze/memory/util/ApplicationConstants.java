@@ -22,13 +22,25 @@ public class ApplicationConstants {
     public static final boolean needTutorialAgainsTime = false;
     public static final boolean needTutorialSuddenDeath = true;
     public static final boolean needTutorialSurvival = false;
+    public static final int FLIP_CARD_DURATION_1 = 3000; // 4 6 8
+    public static final int FLIP_CARD_DURATION_2 = 4000; // 10 12 14
+    public static final int FLIP_CARD_DURATION_3 = 6000; // 16 18 20
+    public static final int FLIP_CARD_DURATION_4 = 8000; // 22 24
+    public static final int COUNT_INTERSTITIAL_AD = 4;
 
     /** ADs **/
     public static final String ID_AD_MOBILE = "ca-app-pub-9468199307439621~4757497614";
     public static final String ID_AD_INTERSTITIAL = "ca-app-pub-9468199307439621/4621959766";
     public static final String ID_AD_VIDEO_REWARD_ONE_LIFE = "ca-app-pub-9468199307439621/5907121279";
     public static final String ID_AD_VIDEO_REWARD_MORE_COIN = "ca-app-pub-9468199307439621/9463222906";
+    public static final String ID_AD_VIDEO_REWARD_SHOP_COINS = "ca-app-pub-9468199307439621/7792732791";
 
     public static final String ID_AD_INTERSTITIAL_TEST = "ca-app-pub-3940256099942544/1033173712";
     public static final String ID_AD_VIDEO_REWARD_TEST = "ca-app-pub-3940256099942544/5224354917";
+
+    public static final String IN_APP_BILLING_ITEM_1 = "android.item.coin.1";
+    public static final String IN_APP_BILLING_ITEM_2 = "android.item.coin.2";
+    public static final String IN_APP_BILLING_PURCHASED_TEST = "android.test.purchased";
+    public static final int IN_APP_BILLING_ITEM_1_AMOUNT = 250;
+    public static final int IN_APP_BILLING_ITEM_2_AMOUNT = 800;
 }

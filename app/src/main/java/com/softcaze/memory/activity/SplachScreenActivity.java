@@ -3,9 +3,11 @@ package com.softcaze.memory.activity;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -16,11 +18,14 @@ import com.softcaze.memory.util.ApplicationConstants;
 
 public class SplachScreenActivity extends Activity {
     protected InterstitialAd interstitialAd;
+    protected TextView loadingTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splach_screen);
+
+        loadingTxt = (TextView) findViewById(R.id.loading_txt);
 
         try {
             MobileAds.initialize(this, ApplicationConstants.ID_AD_MOBILE);
@@ -29,7 +34,7 @@ public class SplachScreenActivity extends Activity {
         }
 
         interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(ApplicationConstants.ID_AD_INTERSTITIAL_TEST);
+        interstitialAd.setAdUnitId(ApplicationConstants.ID_AD_INTERSTITIAL);
 
         AdRequest adRequest = new AdRequest.Builder().build();
         interstitialAd.loadAd(adRequest);
@@ -44,7 +49,8 @@ public class SplachScreenActivity extends Activity {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SplachScreenActivity.this).toBundle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 finish();
             }
@@ -53,6 +59,7 @@ public class SplachScreenActivity extends Activity {
             public void onAdClosed() {
                 Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 finish();
             }

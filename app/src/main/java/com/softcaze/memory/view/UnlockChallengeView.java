@@ -61,7 +61,8 @@ public class UnlockChallengeView extends RelativeLayout {
                     public void onAnimationEnd(Animation animation) {
                         view.setVisibility(View.GONE);
                         Intent intent = new Intent(getContext(), ChallengeActivity.class);
-                        getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                        getContext().startActivity(intent);
+                        ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
 
                     @Override

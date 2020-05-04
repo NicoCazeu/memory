@@ -138,21 +138,24 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
                             if(levelRows.get(position).getLevel1().getState().equals(LevelState.UNLOCK)) {
                                 Intent intent = new Intent(view.getContext(), GameActivity.class);
                                 GameInformation.getInstance().setNumCurrentLevel((position*3) + index + 1);
-                                view.getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) view.getContext()).toBundle());
+                                view.getContext().startActivity(intent);
+                                ((Activity) view.getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             }
                             break;
                         case 1:
                             if(levelRows.get(position).getLevel2().getState().equals(LevelState.UNLOCK)) {
                                 Intent intent = new Intent(view.getContext(), GameActivity.class);
                                 GameInformation.getInstance().setNumCurrentLevel((position*3) + index + 1);
-                                view.getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) view.getContext()).toBundle());
+                                view.getContext().startActivity(intent);
+                                ((Activity) view.getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             }
                             break;
                         case 2:
                             if(levelRows.get(position).getLevel3().getState().equals(LevelState.UNLOCK)) {
                                 Intent intent = new Intent(view.getContext(), GameActivity.class);
                                 GameInformation.getInstance().setNumCurrentLevel((position*3) + index + 1);
-                                view.getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) view.getContext()).toBundle());
+                                view.getContext().startActivity(intent);
+                                ((Activity) view.getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             }
                             break;
                     }

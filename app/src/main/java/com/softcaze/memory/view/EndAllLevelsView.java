@@ -48,6 +48,8 @@ public class EndAllLevelsView extends RelativeLayout {
         int numLevel = GameInformation.getInstance().getNumCurrentLevel();
         currentLevel = GameInformation.getInstance().getLevelByNumAndGameMode(numLevel, GameInformation.getInstance().getCurrentMode());
 
+        btnMoreCoin.setVisibility(View.INVISIBLE);
+
         Runnable moreCoinRunnable = new Runnable() {
             @Override
             public void run() {
@@ -79,7 +81,8 @@ public class EndAllLevelsView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -89,7 +92,8 @@ public class EndAllLevelsView extends RelativeLayout {
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameModeActivity.class);
-                getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) getContext()).toBundle());
+                getContext().startActivity(intent);
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }

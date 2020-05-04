@@ -142,12 +142,14 @@ public class TutorialActivity extends Activity implements TutorialAnimationListe
 
                     if(GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
                         Intent intent = new Intent(TutorialActivity.this, GameModeActivity.class);
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     } else {
                         GameInformation.getInstance().setNumCurrentLevel(1);
                         Intent intent = new Intent(TutorialActivity.this, GameActivity.class);
                         intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TutorialActivity.this).toBundle());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                 }
             }

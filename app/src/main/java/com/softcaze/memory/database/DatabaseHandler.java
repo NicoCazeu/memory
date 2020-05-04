@@ -60,6 +60,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COL_MODE_OTHERS_LEVEL = "mode_others_level";
 
     /**
+     * Count Ad
+     */
+    public static final String TABLE_NAME_COUNT_AD = "table_count_ad";
+    public static final String COL_COUNT_AD = "count_ad";
+
+    /**
      * Create TABLE user
      */
     public static final String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_USER + " (" +
@@ -109,6 +115,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             COL_NUM_LEVEL_OTHERS_LEVEL + " INTEGER, " +
             COL_MODE_OTHERS_LEVEL + " INTEGER);";
 
+    /**
+     * CreateTAble Count AD
+     */
+    public static final String CREATE_TABLE_COUNT_AD = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_COUNT_AD + " (" +
+            COL_COUNT_AD + " INTEGER PRIMARY KEY);";
+
     public DatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
     {
         super(context, name, factory, version);
@@ -120,6 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_CHALLENGE);
         sqLiteDatabase.execSQL(CREATE_TABLE_CAREER_LEVEL);
         sqLiteDatabase.execSQL(CREATE_TABLE_OTHERS_LEVEL);
+        sqLiteDatabase.execSQL(CREATE_TABLE_COUNT_AD);
     }
 
     @Override

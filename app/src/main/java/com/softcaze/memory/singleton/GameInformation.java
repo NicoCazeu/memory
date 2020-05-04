@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.android.internal.util.Predicate;
 import com.softcaze.memory.model.ChallengeType;
 import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.model.CardTheme;
@@ -268,12 +267,15 @@ public class GameInformation {
     }
 
     public List<Challenge> getChallengesByType(final ChallengeType type, final GameMode mode)  {
-        return (List<Challenge>) CollectionUtil.filter(getChallenges(), new Predicate<Challenge>() {
-            @Override
-            public boolean apply(Challenge challenge) {
-                return challenge.getChallengeType().equals(type) && challenge.getMode().equals(mode);
+        List<Challenge> listChallenge = new ArrayList<>();
+
+        for(Challenge challenge: getChallenges()) {
+            if(challenge.getChallengeType().equals(type) && challenge.getMode().equals(mode)) {
+                listChallenge.add(challenge);
             }
-        });
+        }
+
+        return listChallenge;
     }
 
     public void checkChallengeDone(Dao dao, Context context, RelativeLayout parent, ChallengeType type, int value) {

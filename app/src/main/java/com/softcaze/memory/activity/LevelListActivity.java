@@ -93,7 +93,8 @@ public class LevelListActivity extends Activity {
     public void onBackPressed() {
         //super.onBackPressed();
         Intent intent = new Intent(LevelListActivity.this, GameModeActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) this).toBundle());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     private void loadLevelsDatabase(List<Level> listLevel) {

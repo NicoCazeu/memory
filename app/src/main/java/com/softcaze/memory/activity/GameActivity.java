@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
@@ -65,6 +66,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
     protected Dao dao;
     protected ObjectAnimator animation;
     protected RewardedVideoAd rewardedVideoAd;
+    protected InterstitialAd interstitialAd;
     protected AdVideoRewardListener adVideoRewardListener;
     protected boolean canHaveAdVideoReward = false;
 
@@ -92,6 +94,12 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         rewardedVideoAd.setRewardedVideoAdListener(this);
         loadRewardedVideoAd();
+
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(ApplicationConstants.ID_AD_INTERSTITIAL);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
@@ -143,7 +151,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
             if (GameInformation.getInstance().getCardViews() != null && !GameInformation.getInstance().getCardViews().isEmpty()) {
                 for (CardView card : GameInformation.getInstance().getCardViews()) {
-                    card.flipCardOnVerso(3000);
+                    card.flipCardOnVerso(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()));
                 }
             }
 
@@ -161,7 +169,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     if (value > 0) {
                         GameInformation.getInstance().setCanPlay(false);
                         for (CardView card : GameInformation.getInstance().getCardViews()) {
-                            card.eyesBonusAction(3000, txtBonus);
+                            card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus);
                         }
                         User.getInstance().getBonus().setAmount(value - 1);
 
@@ -182,6 +190,20 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
         });
     }
 
+    private int getDurationFlipCard(int countCard) {
+        int duration = ApplicationConstants.FLIP_CARD_DURATION_1;
+
+        if(countCard >= 22) {
+            duration = ApplicationConstants.FLIP_CARD_DURATION_4;
+        } else if(countCard >= 16) {
+            duration = ApplicationConstants.FLIP_CARD_DURATION_3;
+        } else if(countCard >= 10) {
+            duration = ApplicationConstants.FLIP_CARD_DURATION_2;
+        }
+
+        return duration;
+    }
+
     private void buildContentGame(Level level) {
         int numberCard = level.getCountCard();
         int numberLane = 0;
@@ -199,7 +221,11 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
             numberLane = 3;
             elementByLane = numberCard / 3;
         } else if (numberCard / 2 > 5 && numberCard / 2 <= 10) {
-            numberLane = 4;
+            if(numberCard / 2 == 9) {
+                numberLane = 5;
+            } else {
+                numberLane = 4;
+            }
 
             if (numberCard / 2 == 10) {
                 elementByLane = 5;
@@ -258,13 +284,15 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                                     }
                                 } else {
                                     if(currentLevel instanceof LifeLevel) {
-                                        int numberLife = gameHelper.getChildCount();
-                                        ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife-1);
-                                        gameHelper.removeView(imgGameHelper);
+                                        if(GameInformation.getInstance().isCanPlay()) {
+                                            int numberLife = gameHelper.getChildCount();
+                                            ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife - 1);
+                                            gameHelper.removeView(imgGameHelper);
 
-                                        if(gameHelper.getChildCount() == 0) {
-                                            Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
-                                            getApplicationContext().sendBroadcast(gameOver);
+                                            if (gameHelper.getChildCount() == 0) {
+                                                Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
+                                                getApplicationContext().sendBroadcast(gameOver);
+                                            }
                                         }
                                     }
                                     card.flipCard(CardState.VERSO);
@@ -317,7 +345,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
             if(ApplicationConstants.INTENT_END_LEVEL.equals(intent.getAction())) {
                 if(currentLevel instanceof CareerLevel && GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER)) {
                     relativeContentGame.removeAllViews();
-                    endLevelView = new EndLevelView(context, rewardedVideoAd);
+                    endLevelView = new EndLevelView(context, rewardedVideoAd, interstitialAd);
                     adVideoRewardListener = endLevelView.getAdVideoRewardListener();
                     relativeContentGame.addView(endLevelView);
                 } else {
@@ -348,11 +376,18 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     }
 
                     dao.close();
+
                     Intent intentNextLevel = new Intent(GameActivity.this, GameActivity.class);
                     intentNextLevel.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
-                    startActivity(intentNextLevel, ActivityOptions.makeSceneTransitionAnimation(GameActivity.this).toBundle());
+                    startActivity(intentNextLevel);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             } else if(ApplicationConstants.INTENT_END_ALL_LEVELS.equals(intent.getAction())) {
+                if(currentLevel instanceof AgainstTimeLevel) {
+                    if(animation != null) {
+                        animation.removeAllListeners();
+                    }
+                }
                 relativeContentGame.removeAllViews();
                 endAllLevelsView = new EndAllLevelsView(context);
                 relativeContentGame.addView(endAllLevelsView);
@@ -534,7 +569,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
     }
 
     private void loadRewardedVideoAd(){
-        rewardedVideoAd.loadAd(ApplicationConstants.ID_AD_VIDEO_REWARD_TEST,
+        rewardedVideoAd.loadAd(ApplicationConstants.ID_AD_VIDEO_REWARD_MORE_COIN,
                 new AdRequest.Builder().build());
     }
 }

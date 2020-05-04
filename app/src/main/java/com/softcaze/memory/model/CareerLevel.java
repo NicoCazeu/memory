@@ -19,6 +19,12 @@ public class CareerLevel extends Level {
         scoreLimit = new ArrayList<>();
     }
 
+    public CareerLevel(int id, int starNumber, LevelState state, int countCard, CardTheme theme, List<Integer> scoreLimit) {
+        super(id, state, countCard, theme);
+        this.numberStar = starNumber;
+        this.scoreLimit = scoreLimit;
+    }
+
     public String toString() {
         return "CareerLevel{" +
                 "scoreLimit=" + scoreLimit +

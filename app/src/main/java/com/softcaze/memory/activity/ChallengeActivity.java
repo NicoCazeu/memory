@@ -114,7 +114,8 @@ public class ChallengeActivity extends Activity implements ChallengeAnimationLis
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ChallengeActivity.this, MainMenuActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) this).toBundle());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     /**

@@ -2,31 +2,40 @@
     <string name="app_name">Memory</string>
 
     <!-- Game mode Activity-->
-    <string name="choose_game_mode">Choisissez votre mode de jeu</string>
-    <string name="career">Carriere</string>
-    <string name="race_against_time">Contre la montre</string>
-    <string name="sudden_death">Mort subite</string>
-    <string name="survival">Survie</string>
+    <string name="choose_game_mode">Choose your game mode</string>
+    <string name="career">Career</string>
+    <string name="race_against_time">Against time</string>
+    <string name="sudden_death">Sudden death</string>
+    <string name="survival">Survival</string>
 
     <!-- Shop Activity -->
-    <string name="title_shop_activity">Magasin</string>
+    <string name="title_shop_activity">Shop</string>
     <string name="get_coin_shop_activity">Get Coins</string>
     <string name="get_bonus_shop_activity">Get Bonus</string>
+    <string name="shop_dont_have_money">You do not have enough coins</string>
 
     <!-- Challenge Activity -->
-    <string name="title_challenge_activity">Defis</string>
+    <string name="title_challenge_activity">Challenge</string>
+    <string name="collect_stars">Collect {0} stars</string>
+    <string name="end_level">End level {0}</string>
+    <string name="end_level_without_bonus">End level {0} without using bonus</string>
+    <string name="end_level_with_three_stars">End level {0} with 3 stars</string>
+    <string name="end_level_without_fail">End level {0} without fail</string>
+
+    <!-- Credits -->
+    <string name="title_credits_activity">Credits</string>
 
     <!-- Setting Activity -->
-    <string name="title_setting_activity">Parametre</string>
+    <string name="title_setting_activity">Parameter</string>
     <string name="setting_son">Sound</string>
     <string name="setting_yes">Yes</string>
     <string name="setting_report_bug">Report a bug</string>
+    <string name="setting_credits">Credits</string>
     <string name="setting_rate_us">Rate us</string>
     <string name="setting_languages">Languages</string>
     <string name="setting_notifications">Notifications</string>
     <string name="setting_no">No</string>
-    <string name="setting_langue1">EN</string>
-    <string name="setting_langue2">FR</string>
+    <string name="setting_langue">EN</string>
 
     <!-- Game Activity -->
     <string name="label_level">Level</string>

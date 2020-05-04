@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.softcaze.memory">
-
     <!-- Include required permissions for Google Mobile Ads to run. -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,25 +9,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Black.NoTitleBar">
-        <activity android:name=".activity.MainMenuActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ShopActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.LevelListActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ChallengeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.GameModeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.GameActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.HeaderActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.FooterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SplachScreenActivity" android:screenOrientation="portrait">
+        <activity
+            android:name=".activity.CreditsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LevelListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChallengeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GameModeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HeaderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FooterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SplachScreenActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BackgroundActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SettingActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.TutorialActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ContactFormActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.BackgroundActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ContactFormActivity"
+            android:screenOrientation="portrait" />
     </application>
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

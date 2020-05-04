@@ -100,6 +100,13 @@ public class Dao {
     public static final String COL_MODE_OTHERS_LEVEL = "mode_others_level";
     public static final int NUM_COL_MODE_OTHERS_LEVEL = 2;
 
+    /**
+     * Count Ad
+     */
+    public static final String TABLE_NAME_COUNT_AD = "table_count_ad";
+    public static final String COL_COUNT_AD = "count_ad";
+    public static final int NUM_COL_COUNT_AD = 0;
+
     protected SQLiteDatabase database;
     protected DatabaseHandler handler;
 
@@ -542,5 +549,46 @@ public class Dao {
                 c.close();
             }
         }
+    }
+
+    public void setCountAd(int count) {
+        Cursor c = getDataByTable(TABLE_NAME_COUNT_AD);
+
+        if(c.getCount() != 0) {
+            try {
+                ContentValues values = new ContentValues();
+                values.put(COL_COUNT_AD, count);
+
+                insertUpdate(c, values, TABLE_NAME_COUNT_AD, null);
+            } finally {
+                c.close();
+            }
+        }
+    }
+
+    public int getCountAd() {
+        int result = 0;
+        Cursor c = getDataByTable(TABLE_NAME_COUNT_AD);
+
+        if(c.getCount() != 0) {
+            c.moveToFirst();
+            result = c.getInt(NUM_COL_COUNT_AD);
+        }
+
+        c.close();
+        return result;
+    }
+
+    public void initCountAd() {
+        Cursor c = getDataByTable(TABLE_NAME_COUNT_AD);
+
+        if(c.getCount() == 0) {
+            ContentValues values = new ContentValues();
+            values.put(COL_COUNT_AD, 0);
+
+            insertUpdate(c, values, TABLE_NAME_COUNT_AD, null);
+        }
+
+        c.close();
     }
 }

@@ -83,7 +83,8 @@ public class GameModeActivity extends Activity {
                 }*/
 
                 Intent intent = new Intent(GameModeActivity.this, LevelListActivity.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -102,7 +103,8 @@ public class GameModeActivity extends Activity {
                 dao.close();
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -121,7 +123,8 @@ public class GameModeActivity extends Activity {
                 dao.close();
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -140,7 +143,8 @@ public class GameModeActivity extends Activity {
                 dao.close();
                 Intent intent = new Intent(GameModeActivity.this, GameActivity.class);
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameModeActivity.this).toBundle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }
@@ -149,6 +153,7 @@ public class GameModeActivity extends Activity {
     public void onBackPressed() {
         //super.onBackPressed();
         Intent intent = new Intent(GameModeActivity.this, MainMenuActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) this).toBundle());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }
