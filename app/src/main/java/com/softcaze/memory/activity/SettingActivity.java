@@ -15,9 +15,11 @@ import com.softcaze.memory.BuildConfig;
 import com.softcaze.memory.R;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.UIUtil;
 
 public class SettingActivity extends Activity {
-    protected TextView settingSonTxt, versionApp, txtCoin, txtBonus;
+    protected TextView settingSonTxt, versionApp, txtCoin, txtBonus, labelFooter, settingNotifTxt, settingLanguageTxt;
+    protected TextView sonTitle, notifTitle, languageTitle, rateTitle, creditTitle, reportTitle, versionTitle;
     protected RelativeLayout son, notification, rateUs, reportABug, credits;
     protected ImageView imgCoin;
 
@@ -30,6 +32,16 @@ public class SettingActivity extends Activity {
         versionApp = (TextView) findViewById(R.id.version_app);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
+        labelFooter = (TextView) findViewById(R.id.label_footer);
+        sonTitle = (TextView) findViewById(R.id.setting_son_title);
+        notifTitle = (TextView) findViewById(R.id.setting_notif_title);
+        languageTitle = (TextView) findViewById(R.id.setting_language_title);
+        rateTitle = (TextView) findViewById(R.id.setting_rate_title);
+        creditTitle = (TextView) findViewById(R.id.setting_credit_title);
+        reportTitle = (TextView) findViewById(R.id.setting_report_bug_title);
+        versionTitle = (TextView) findViewById(R.id.setting_version_title);
+        settingNotifTxt = (TextView) findViewById(R.id.setting_notif_txt);
+        settingLanguageTxt  = (TextView) findViewById(R.id.setting_language_txt);
 
         imgCoin = (ImageView) findViewById(R.id.img_coin);
 
@@ -40,6 +52,9 @@ public class SettingActivity extends Activity {
         credits = (RelativeLayout) findViewById(R.id.credits);
 
         versionApp.setText(BuildConfig.VERSION_NAME);
+
+        UIUtil.setTypeFaceText(this, settingSonTxt, versionApp, txtCoin, txtBonus, labelFooter, sonTitle,
+                notifTitle, languageTitle, rateTitle, creditTitle, reportTitle, versionTitle, settingNotifTxt, settingLanguageTxt);
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);

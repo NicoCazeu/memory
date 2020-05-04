@@ -30,6 +30,7 @@ import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,8 @@ public class LevelListActivity extends Activity {
         txtGameMode = (TextView) findViewById(R.id.txt_game_mode);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
+
+        UIUtil.setTypeFaceText(this, txtGameMode, txtCoin, txtBonus);
 
         dao = new Dao(this);
 

@@ -14,6 +14,7 @@ import com.softcaze.memory.adapter.CreditsListAdapter;
 import com.softcaze.memory.model.Credit;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CreditsActivity extends Activity {
-    protected TextView txtCoin, txtBonus;
+    protected TextView txtCoin, txtBonus, labelFooter;
     protected ImageView imgCoin;
     protected CreditsListAdapter creditsListAdapter;
     protected RecyclerView recyclerView;
@@ -36,8 +37,11 @@ public class CreditsActivity extends Activity {
 
         txtCoin = (TextView) findViewById(R.id.txt_coin);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
+        labelFooter = (TextView) findViewById(R.id.label_footer);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        UIUtil.setTypeFaceText(this, txtBonus, txtCoin, labelFooter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

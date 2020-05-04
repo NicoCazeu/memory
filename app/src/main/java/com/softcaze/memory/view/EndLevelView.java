@@ -31,6 +31,7 @@ import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class EndLevelView extends RelativeLayout {
     protected RelativeLayout btnMoreCoin, btnAgain, btnMenu, btnNext, relativeContent, parent;
     protected LinearLayout linearEarnCoin;
     protected List<ImageView> starList;
-    protected TextView txtNumLevel, txtScore, txtBestScore, txtEarnCoin;
+    protected TextView txtNumLevel, txtScore, txtBestScore, txtEarnCoin, txtLabelLevel, moreCoinTxt, againTxt, nextTxt, labelBestScore, labelScore;
     protected ProgressBar loadingAdProgressBar;
     protected Level currentLevel;
     protected ImageView earnCoin, moreCoinImg;
@@ -96,9 +97,17 @@ public class EndLevelView extends RelativeLayout {
         txtScore = (TextView) findViewById(R.id.score);
         txtBestScore = (TextView) findViewById(R.id.bestscore);
         txtEarnCoin = (TextView) findViewById(R.id.txt_earn_coin);
+        txtLabelLevel = (TextView) findViewById(R.id.txt_label_level);
+        moreCoinTxt = (TextView) findViewById(R.id.more_coin_txt);
+        againTxt = (TextView) findViewById(R.id.again_txt);
+        nextTxt = (TextView) findViewById(R.id.next_txt);
+        labelBestScore = (TextView) findViewById(R.id.label_bestscore);
+        labelScore = (TextView) findViewById(R.id.label_score);
 
         earnCoin = (ImageView) findViewById(R.id.earn_coin);
         moreCoinImg = (ImageView) findViewById(R.id.more_coin_img);
+
+        UIUtil.setTypeFaceText(this.getContext(), txtScore, txtNumLevel, txtBestScore, txtEarnCoin, moreCoinTxt, againTxt, nextTxt, labelBestScore, labelScore, txtLabelLevel);
 
         this.setAdVideoRewardListener(new AdVideoRewardListener() {
             @Override

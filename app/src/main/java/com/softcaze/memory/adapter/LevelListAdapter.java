@@ -20,6 +20,7 @@ import com.softcaze.memory.model.OnItemClickListener;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,6 +195,10 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
             numLevel.add((TextView) itemLayoutView.findViewById(R.id.level1));
             numLevel.add((TextView) itemLayoutView.findViewById(R.id.level2));
             numLevel.add((TextView) itemLayoutView.findViewById(R.id.level3));
+
+            for(TextView txtView: numLevel) {
+                UIUtil.setTypeFaceText(itemLayoutView.getContext(), txtView);
+            }
 
             contentLock.add((RelativeLayout) itemLayoutView.findViewById(R.id.content_lock1));
             contentLock.add((RelativeLayout) itemLayoutView.findViewById(R.id.content_lock2));

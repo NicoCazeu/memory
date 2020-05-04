@@ -35,6 +35,7 @@ import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.MathUtil;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class ChallengeActivity extends Activity implements ChallengeAnimationLis
     protected ImageView imgCoin, imgBonus;
     protected LinearLayout linearCoin, linearBonus;
     protected RelativeLayout challengeBackground;
-    protected TextView textCoin, textBonus;
+    protected TextView textCoin, textBonus, labelFooter;
     protected int counter;
     Timer timer;
     Dao dao;
@@ -65,6 +66,9 @@ public class ChallengeActivity extends Activity implements ChallengeAnimationLis
         challengeBackground = (RelativeLayout) findViewById(R.id.challenge_background);
         textCoin = (TextView) findViewById(R.id.txt_coin);
         textBonus = (TextView) findViewById(R.id.txt_bonus);
+        labelFooter = (TextView) findViewById(R.id.label_footer);
+
+        UIUtil.setTypeFaceText(this, textBonus, textCoin, labelFooter);
 
         dao = new Dao(this);
 

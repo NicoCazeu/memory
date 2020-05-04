@@ -44,6 +44,7 @@ import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.MathUtil;
+import com.softcaze.memory.util.UIUtil;
 import com.softcaze.memory.view.CardView;
 import com.softcaze.memory.view.EndAllLevelsView;
 import com.softcaze.memory.view.EndLevelView;
@@ -54,7 +55,7 @@ import java.util.List;
 
 public class GameActivity extends Activity implements RewardedVideoAdListener {
 
-    protected TextView txtGameMode, txtNumLevel, txtBonus, txtCoin;
+    protected TextView txtGameMode, txtNumLevel, txtBonus, txtCoin, txtLevelLabel;
     protected Level currentLevel;
     protected int currentNumLevel = 0;
     protected LinearLayout gameContent, linearBonus;
@@ -81,6 +82,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
         txtNumLevel = (TextView) findViewById(R.id.txt_num_level);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
+        txtLevelLabel = (TextView) findViewById(R.id.txt_level_label);
         gameHelper = (RelativeLayout) findViewById(R.id.game_helper);
 
         gameContent = (LinearLayout) findViewById(R.id.game_content);
@@ -88,6 +90,8 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
         relativeContentGame = (RelativeLayout) findViewById(R.id.relative_content_game);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
+
+        UIUtil.setTypeFaceText(this, txtGameMode, txtNumLevel, txtBonus, txtCoin, txtLevelLabel);
 
         dao = new Dao(this);
 
@@ -435,7 +439,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                 txtHit.setTextColor(getResources().getColor(R.color.whiteColor));
                 txtHit.setText("0 " + getResources().getString(R.string.label_game_hit));
                 txtHit.setTextSize(20);
-                txtHit.setTypeface(ResourcesCompat.getFont(this,    R.font.roof_runners_active));
+                UIUtil.setTypeFaceText(this, txtHit);
                 gameHelper.addView(txtHit);
                 break;
             case AGAINST_TIME:

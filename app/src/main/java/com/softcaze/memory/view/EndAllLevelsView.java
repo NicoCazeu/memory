@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.GameActivity;
@@ -17,8 +18,10 @@ import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.UIUtil;
 
 public class EndAllLevelsView extends RelativeLayout {
+    TextView title, subtitle, againTxt, menuTxt;
     RelativeLayout btnMoreCoin, btnAgain, btnMenu;
     Level currentLevel;
     Timer timerMoreCoin;
@@ -44,6 +47,13 @@ public class EndAllLevelsView extends RelativeLayout {
         btnMoreCoin = (RelativeLayout) findViewById(R.id.btn_more_coin);
         btnAgain = (RelativeLayout) findViewById(R.id.btn_again);
         btnMenu = (RelativeLayout) findViewById(R.id.btn_menu);
+
+        title = (TextView) findViewById(R.id.title);
+        subtitle = (TextView) findViewById(R.id.subtitle);
+        againTxt = (TextView) findViewById(R.id.again_txt);
+        menuTxt = (TextView) findViewById(R.id.menu_txt);
+
+        UIUtil.setTypeFaceText(this.getContext(), title, subtitle, againTxt, menuTxt);
 
         int numLevel = GameInformation.getInstance().getNumCurrentLevel();
         currentLevel = GameInformation.getInstance().getLevelByNumAndGameMode(numLevel, GameInformation.getInstance().getCurrentMode());

@@ -96,6 +96,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/get_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/get_bonus_shop_activity"
@@ -224,6 +225,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/get_coins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/get_coin_shop_activity"
@@ -400,6 +402,7 @@
     </ScrollView>
 
     <TextView
+        android:id="@+id/label_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

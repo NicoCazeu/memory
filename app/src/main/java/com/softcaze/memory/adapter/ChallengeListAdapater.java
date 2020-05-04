@@ -21,6 +21,7 @@ import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.HeaderItem;
 import com.softcaze.memory.model.ListItem;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,6 +175,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
 
             gameModeLabel = (TextView) itemView.findViewById(R.id.game_mode_label);
+            UIUtil.setTypeFaceText(itemView.getContext(), gameModeLabel);
         }
     }
 
@@ -198,6 +200,8 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
             relativeChallenge = (RelativeLayout) itemView.findViewById(R.id.relative_challenge);
             dao = new Dao(itemView.getContext());
             award = new Award();
+
+            UIUtil.setTypeFaceText(itemView.getContext(), labelChallenge, countAward);
         }
     }
 }

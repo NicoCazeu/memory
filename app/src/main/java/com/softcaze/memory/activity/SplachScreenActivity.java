@@ -15,6 +15,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.softcaze.memory.R;
 import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.UIUtil;
 
 public class SplachScreenActivity extends Activity {
     protected InterstitialAd interstitialAd;
@@ -26,6 +27,7 @@ public class SplachScreenActivity extends Activity {
         setContentView(R.layout.activity_splach_screen);
 
         loadingTxt = (TextView) findViewById(R.id.loading_txt);
+        UIUtil.setTypeFaceText(this, loadingTxt);
 
         try {
             MobileAds.initialize(this, ApplicationConstants.ID_AD_MOBILE);

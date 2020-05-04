@@ -23,9 +23,10 @@ import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.UIUtil;
 
 public class GameOverView extends RelativeLayout {
-    protected TextView txtNumLevel;
+    protected TextView txtNumLevel, txtLabelLevel, labelGameOver, extraLifeTxt, againTxt, menuTxt;
     protected RelativeLayout btnRevive, btnAgain, btnMenu;
     protected ImageView icoRevive;
     protected ProgressBar loadingAdProgressBar;
@@ -61,6 +62,13 @@ public class GameOverView extends RelativeLayout {
         icoRevive = (ImageView) findViewById(R.id.ico_revive);
 
         txtNumLevel = (TextView) findViewById(R.id.txt_num_level_game);
+        txtLabelLevel = (TextView) findViewById(R.id.txt_label_level);
+        labelGameOver = (TextView) findViewById(R.id.label_game_over);
+        extraLifeTxt = (TextView) findViewById(R.id.extra_life_txt);
+        againTxt = (TextView) findViewById(R.id.again_txt);
+        menuTxt = (TextView) findViewById(R.id.menu_txt);
+
+        UIUtil.setTypeFaceText(this.getContext(), txtNumLevel, txtLabelLevel, labelGameOver, extraLifeTxt, againTxt, menuTxt);
 
         /**
          * Loading Ad Video

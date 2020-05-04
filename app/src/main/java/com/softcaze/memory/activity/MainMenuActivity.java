@@ -33,6 +33,7 @@ import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.FileUtils;
+import com.softcaze.memory.util.UIUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +67,8 @@ public class MainMenuActivity extends Activity {
         linearBonus = (LinearLayout) findViewById(R.id.linear_bonus);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
+
+        UIUtil.setTypeFaceText(this, txtBonus, txtCoin);
 
         dao = new Dao(this);
 

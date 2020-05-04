@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.CreditsActivity;
 import com.softcaze.memory.model.Credit;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class CreditsListAdapter extends RecyclerView.Adapter<CreditsListAdapter.
 
             creditTxt = (TextView) itemView.findViewById(R.id.credit_txt);
             creditImg = (ImageView) itemView.findViewById(R.id.credit_img);
+
+            UIUtil.setTypeFaceText(itemView.getContext(), creditTxt);
         }
     }
 }

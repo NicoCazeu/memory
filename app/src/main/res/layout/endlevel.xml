@@ -164,6 +164,7 @@
                 android:layout_height="40dp"/>
 
             <TextView
+                android:id="@+id/more_coin_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roof_runners_active"
@@ -191,13 +192,14 @@
                 android:background="@drawable/replay"/>
 
             <TextView
+                android:id="@+id/again_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roof_runners_active"
                 android:textColor="@color/whiteColor"
                 android:text="@string/label_btn_again"
                 android:layout_centerVertical="true"
-                android:textSize="30sp"
+                android:textSize="18sp"
                 android:layout_toRightOf="@id/ico_replay"
                 android:layout_marginLeft="20dp"
                 />
@@ -230,11 +232,12 @@
                 android:padding="20dp">
 
                 <TextView
+                    android:id="@+id/next_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_btn_next"
                     android:fontFamily="@font/roof_runners_active"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:textColor="@color/whiteColor"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"/>

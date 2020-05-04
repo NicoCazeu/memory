@@ -147,6 +147,8 @@ public class BillingManager {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else if(resultCode == Activity.RESULT_CANCELED) {
+                this.boughtItemListener.itemCanceled();
             }
         }
     }

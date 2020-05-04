@@ -28,13 +28,14 @@ import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.UIUtil;
 import com.softcaze.memory.view.EndLevelView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ShopActivity extends Activity implements RewardedVideoAdListener {
-    protected TextView txtCoin, txtBonus, pricePack1, pricePack2;
+    protected TextView txtCoin, txtBonus, getBonus, getCoins, award1, award2, award3, award4, award5, pricePack1, pricePack2, price1, price2, labelFooter;
     protected ImageView imgCoin;
     protected RelativeLayout item1, item2, item3, item4, item5;
     protected BoughtItemListener boughtItemListener;
@@ -59,6 +60,18 @@ public class ShopActivity extends Activity implements RewardedVideoAdListener {
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
         pricePack1 = (TextView) findViewById(R.id.price4);
         pricePack2 = (TextView) findViewById(R.id.price5);
+        price1 = (TextView) findViewById(R.id.price1);
+        price2 = (TextView) findViewById(R.id.price2);
+        getBonus = (TextView) findViewById(R.id.get_bonus);
+        getCoins = (TextView) findViewById(R.id.get_coins);
+        award1 = (TextView) findViewById(R.id.award1);
+        award2 = (TextView) findViewById(R.id.award2);
+        award3 = (TextView) findViewById(R.id.award3);
+        award4 = (TextView) findViewById(R.id.award4);
+        award5 = (TextView) findViewById(R.id.award5);
+        labelFooter = (TextView) findViewById(R.id.label_footer);
+
+        UIUtil.setTypeFaceText(this, txtBonus, txtCoin, getBonus, getCoins, award1, award2, award3, award4, award5, price1, price2, labelFooter);
 
         imgCoin = (ImageView) findViewById(R.id.img_coin);
 
@@ -124,6 +137,11 @@ public class ShopActivity extends Activity implements RewardedVideoAdListener {
                 } finally {
                     dao.close();
                 }
+            }
+
+            @Override
+            public void itemCanceled() {
+                canPruchase = true;
             }
         });
 

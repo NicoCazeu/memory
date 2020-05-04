@@ -30,6 +30,7 @@ import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
+import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class GameModeActivity extends Activity {
 
-    private TextView btnCareer, btnAgainstTime, btnSuddenDeath, btnSurvival, txtCoin, txtBonus;
+    private TextView btnCareer, btnAgainstTime, btnSuddenDeath, btnSurvival, txtCoin, txtBonus, title;
     private ImageView imgCoin;
     protected Dao dao;
 
@@ -52,7 +53,11 @@ public class GameModeActivity extends Activity {
         btnSurvival = (TextView) findViewById(R.id.btn_survival);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
+        title = (TextView) findViewById(R.id.title);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
+
+
+        UIUtil.setTypeFaceText(this, btnCareer, btnAgainstTime, btnSuddenDeath, btnSurvival, txtBonus, txtCoin, title);
 
         dao = new Dao(this);
 
