@@ -34,6 +34,7 @@ import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.MathUtil;
+import com.softcaze.memory.util.UIUtil;
 import com.softcaze.memory.view.CardView;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class TutorialActivity extends Activity implements TutorialAnimationListe
     public static final int STEP_5 = 5;
     public static final int STEP_6 = 6;
     public static int NUM_STEP = STEP_1;
-    protected TextView txtGameMode, txtTutorialHelper, txtBonus, txtCoin;
+    protected TextView txtGameMode, txtTutorialHelper, txtBonus, txtCoin, txtLevelLabel;
     protected LinearLayout gameContent, linearBonus;
     protected RelativeLayout parentTutorial;
     protected ImageView imgCoin, imgBonus;
@@ -66,11 +67,14 @@ public class TutorialActivity extends Activity implements TutorialAnimationListe
         txtTutorialHelper = (TextView) findViewById(R.id.txt_tutorial_helper);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
+        txtLevelLabel = (TextView) findViewById(R.id.txt_level_label);
         gameContent = (LinearLayout) findViewById(R.id.game_content);
         linearBonus = (LinearLayout) findViewById(R.id.linear_bonus);
         parentTutorial = (RelativeLayout) findViewById(R.id.parent_tutorial);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
         imgBonus = (ImageView) findViewById(R.id.img_bonus);
+
+        UIUtil.setTypeFaceText(this, txtGameMode, txtTutorialHelper, txtBonus, txtCoin, txtLevelLabel);
 
         dao = new Dao(this);
 

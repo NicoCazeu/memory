@@ -34,10 +34,10 @@
             android:fontFamily="@font/roof_runners_active"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/progressbar"/>
+            android:layout_below="@+id/progressbar_splash"/>
 
         <ProgressBar
-            android:id="@+id/progressbar"
+            android:id="@+id/progressbar_splash"
             style="@style/LoadingProgressBar"
             android:indeterminateOnly="true"
             android:indeterminateTint="@color/yellowColor"

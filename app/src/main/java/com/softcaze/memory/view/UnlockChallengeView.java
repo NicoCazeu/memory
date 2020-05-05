@@ -18,6 +18,7 @@ import com.softcaze.memory.activity.ChallengeActivity;
 import com.softcaze.memory.activity.GameActivity;
 import com.softcaze.memory.model.Challenge;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.UIUtil;
 
 public class UnlockChallengeView extends RelativeLayout {
     protected TextView labelTxtView, amountAwardTxtView, newUnlockChallenge, getAward;
@@ -43,6 +44,8 @@ public class UnlockChallengeView extends RelativeLayout {
         challengeMedalImgView = (ImageView) findViewById(R.id.img_challenge_medal);
         imgAward = (ImageView) findViewById(R.id.img_award);
         relativeAward = (RelativeLayout) findViewById(R.id.relative_award);
+
+        UIUtil.setTypeFaceText(this.getContext(), getAward, newUnlockChallenge, labelTxtView, amountAwardTxtView);
 
         labelTxtView.setText(challenge.getChallengeLabel());
         amountAwardTxtView.setText(challenge.getCountAward() + "");

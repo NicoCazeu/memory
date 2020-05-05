@@ -3,10 +3,12 @@ package com.softcaze.memory.activity;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -20,12 +22,14 @@ import com.softcaze.memory.util.UIUtil;
 public class SplachScreenActivity extends Activity {
     protected InterstitialAd interstitialAd;
     protected TextView loadingTxt;
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splach_screen);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressbar_splash);
         loadingTxt = (TextView) findViewById(R.id.loading_txt);
         UIUtil.setTypeFaceText(this, loadingTxt);
 
@@ -35,36 +39,24 @@ public class SplachScreenActivity extends Activity {
             Log.i("SlapchScreenActivity", "Erreur initalize mobile ad : " + e);
         }
 
-        interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(ApplicationConstants.ID_AD_INTERSTITIAL);
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-        interstitialAd.loadAd(adRequest);
-        interstitialAd.setAdListener(new AdListener() {
+        Runnable progressBarLoading = new Runnable() {
             @Override
-            public void onAdLoaded() {
-                if (interstitialAd.isLoaded()) {
-                    interstitialAd.show();
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+
+                    Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+        };
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                finish();
-            }
-
-            @Override
-            public void onAdClosed() {
-                Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                finish();
-            }
-        });
+        Thread thread = new Thread(progressBarLoading);
+        thread.start();
     }
 }
