@@ -7,7 +7,6 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -16,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.model.AgainstTimeLevel;
@@ -41,11 +41,14 @@ public class GameModeActivity extends Activity {
     private TextView btnCareer, btnAgainstTime, btnSuddenDeath, btnSurvival, txtCoin, txtBonus, title;
     private ImageView imgCoin;
     protected Dao dao;
+    protected FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_mode);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         btnCareer = (TextView) findViewById(R.id.btn_career);
         btnAgainstTime = (TextView) findViewById(R.id.btn_against_time);
@@ -81,6 +84,12 @@ public class GameModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "careerBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
                 GameInformation.getInstance().setCurrentMode(GameMode.CAREER);
 
                 /*if(launchTutorial(dao, GameMode.CAREER)){
@@ -97,6 +106,13 @@ public class GameModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "againstTimeBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
+
                 GameInformation.getInstance().setCurrentMode(GameMode.AGAINST_TIME);
 
                 /*if(launchTutorial(dao, GameMode.AGAINST_TIME)) {
@@ -117,6 +133,13 @@ public class GameModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "survivalBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
+
                 GameInformation.getInstance().setCurrentMode(GameMode.SURVIVAL);
 
                 /*if(launchTutorial(dao, GameMode.SURVIVAL)) {
@@ -137,6 +160,13 @@ public class GameModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "suddenDeathBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
+
                 GameInformation.getInstance().setCurrentMode(GameMode.SUDDEN_DEATH);
 
                 /*if(launchTutorial(dao, GameMode.SUDDEN_DEATH)) {

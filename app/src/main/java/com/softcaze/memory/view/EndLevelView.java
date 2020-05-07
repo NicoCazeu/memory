@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.R;
 import com.softcaze.memory.listener.AdVideoRewardListener;
 import com.softcaze.memory.listener.RatePopupListener;
@@ -53,6 +55,7 @@ public class EndLevelView extends RelativeLayout {
     protected AdVideoRewardListener adVideoRewardListener;
     protected int earnCoinAmount = 0;
     protected InterstitialAd interstitialAd;
+    protected FirebaseAnalytics firebaseAnalytics;
 
     public EndLevelView(Context context, RewardedVideoAd videoAd, InterstitialAd interAd) {
         super(context);
@@ -73,6 +76,8 @@ public class EndLevelView extends RelativeLayout {
 
     private void init(AttributeSet attrs, int defStyle) {
         inflate(getContext(), R.layout.endlevel, this);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
@@ -327,6 +332,15 @@ public class EndLevelView extends RelativeLayout {
             dao.close();
         }
 
+        if(firebaseAnalytics != null) {
+            Bundle bundle = new Bundle();
+            bundle.putLong(FirebaseAnalytics.Param.LEVEL, GameInformation.getInstance().getNumCurrentLevel());
+            bundle.putString(ApplicationConstants.TAG_GAME_MODE, GameInformation.getInstance().getCurrentMode().name());
+            bundle.putInt(ApplicationConstants.TAG_LEVEL_END_BESTSCORE, bestscore);
+            bundle.putInt(ApplicationConstants.TAG_LEVEL_END_NUMBER_STAR, numberStar);
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_END, bundle);
+        }
+
         ((CareerLevel) currentLevel).resetScore();
 
         btnMoreCoin.setOnClickListener(new OnClickListener() {
@@ -336,6 +350,12 @@ public class EndLevelView extends RelativeLayout {
                     return;
                 }
                 AnimationUtil.btnClickedAnimation(view, getContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "moreCoinBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
 
                 if (rewardedVideoAd.isLoaded()) {
                     rewardedVideoAd.show();
@@ -350,6 +370,13 @@ public class EndLevelView extends RelativeLayout {
                     return;
                 }
                 AnimationUtil.btnClickedAnimation(view, getContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "againBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
+
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameActivity.class);
                 getContext().startActivity(intent);
@@ -364,6 +391,13 @@ public class EndLevelView extends RelativeLayout {
                     return;
                 }
                 AnimationUtil.btnClickedAnimation(view, getContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "menuBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
+
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), LevelListActivity.class);
                 getContext().startActivity(intent);
@@ -378,6 +412,13 @@ public class EndLevelView extends RelativeLayout {
                     return;
                 }
                 AnimationUtil.btnClickedAnimation(view, getContext());
+
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "nextBtn");
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                }
+
                 GameInformation.getInstance().setGoNextLevel(true);
                 Intent intent = new Intent(getContext(), GameActivity.class);
                 getContext().startActivity(intent);

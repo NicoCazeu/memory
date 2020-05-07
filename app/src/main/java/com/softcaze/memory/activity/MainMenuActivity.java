@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.RatePopupListener;
@@ -49,11 +51,14 @@ public class MainMenuActivity extends Activity {
     protected TextView txtCoin, txtBonus;
     protected Dao dao;
     protected boolean playBtnAlreadyClicked = false;
+    protected FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         btnPlay = (ImageView) findViewById(R.id.btn_play);
         btnShop = (ImageView) findViewById(R.id.btn_shop);

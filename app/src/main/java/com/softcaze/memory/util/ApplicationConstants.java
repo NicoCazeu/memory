@@ -41,6 +41,7 @@ public class ApplicationConstants {
     public static final String ID_AD_VIDEO_REWARD_MORE_COIN = "ca-app-pub-9468199307439621/9463222906";
     public static final String ID_AD_VIDEO_REWARD_SHOP_COINS = "ca-app-pub-9468199307439621/7792732791";
 
+    public static final String ID_AD_BANER_TEST = "ca-app-pub-3940256099942544/6300978111";
     public static final String ID_AD_INTERSTITIAL_TEST = "ca-app-pub-3940256099942544/1033173712";
     public static final String ID_AD_VIDEO_REWARD_TEST = "ca-app-pub-3940256099942544/5224354917";
 
@@ -49,4 +50,14 @@ public class ApplicationConstants {
     public static final String IN_APP_BILLING_PURCHASED_TEST = "android.test.purchased";
     public static final int IN_APP_BILLING_ITEM_1_AMOUNT = 250;
     public static final int IN_APP_BILLING_ITEM_2_AMOUNT = 800;
+
+    /** Tag Manager Google **/
+    public static final String TAG_GAME_MODE = "gameMode";
+    public static final String TAG_LEVEL_END_BESTSCORE = "bestScoreLevelEnd";
+    public static final String TAG_LEVEL_END_NUMBER_STAR = "numberStarLevelEnd";
+    public static final String TAG_CHALLENGE_EVENT = "challengeEvent";
+    public static final String TAG_CHALLENGE_UNLOCK_NAME = "challengeUnlockName";
+    public static final String TAG_CLICK_BUTTON = "clickButton";
+    public static final String TAG_CLICK_BUTTON_NAME = "clickButtonName";
+    public static final String TAG_CLICK_GET_CHALLENGE_AWARD = "getChallengeAward";
 }

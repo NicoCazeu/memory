@@ -1,6 +1,5 @@
 package com.softcaze.memory.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import com.softcaze.memory.model.Credit;
 import com.softcaze.memory.util.UIUtil;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CreditsListAdapter extends RecyclerView.Adapter<CreditsListAdapter.ViewHolder> {
     protected List<Credit> listCredit;

@@ -92,7 +92,7 @@
         android:textSize="@dimen/common_title_fontsize"
         android:layout_margin="@dimen/common_title_margin"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
@@ -103,6 +103,6 @@
         android:layout_below="@id/header"
         android:layout_above="@id/footer">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,11 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.AdVideoRewardListener;
@@ -70,6 +72,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
     protected InterstitialAd interstitialAd;
     protected AdVideoRewardListener adVideoRewardListener;
     protected boolean canHaveAdVideoReward = false;
+    protected FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,8 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
         setContentView(R.layout.activity_game);
         GameInformation.getInstance().setCanPlay(false);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         txtGameMode = (TextView) findViewById(R.id.txt_game_mode);
         txtNumLevel = (TextView) findViewById(R.id.txt_num_level);
@@ -171,6 +176,12 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     int value = User.getInstance().getBonus().getAmount();
 
                     if (value > 0) {
+                        if(firebaseAnalytics != null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ApplicationConstants.TAG_CLICK_BUTTON_NAME, "usedBonus");
+                            firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_BUTTON, bundle);
+                        }
+
                         GameInformation.getInstance().setCanPlay(false);
                         for (CardView card : GameInformation.getInstance().getCardViews()) {
                             card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus);
@@ -402,7 +413,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     }
                 }
                 //relativeContentGame.removeAllViews();
-                gameOverView = new GameOverView(context, rewardedVideoAd, currentLevel);
+                gameOverView = new GameOverView(context, rewardedVideoAd, currentLevel, interstitialAd);
                 relativeContentGame.addView(gameOverView);
             }
         }
@@ -569,6 +580,11 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
 
     }
 

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -39,7 +37,39 @@ public class SplachScreenActivity extends Activity {
             Log.i("SlapchScreenActivity", "Erreur initalize mobile ad : " + e);
         }
 
-        Runnable progressBarLoading = new Runnable() {
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(ApplicationConstants.ID_AD_INTERSTITIAL);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                if (interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                finish();
+            }
+
+            @Override
+            public void onAdClosed() {
+                Intent intent = new Intent(SplachScreenActivity.this, MainMenuActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                finish();
+            }
+        });
+
+        /*Runnable progressBarLoading = new Runnable() {
             @Override
             public void run() {
                 try {
@@ -57,6 +87,6 @@ public class SplachScreenActivity extends Activity {
         };
 
         Thread thread = new Thread(progressBarLoading);
-        thread.start();
+        thread.start();*/
     }
 }

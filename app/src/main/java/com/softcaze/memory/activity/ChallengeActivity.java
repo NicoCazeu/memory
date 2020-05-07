@@ -6,9 +6,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -23,9 +20,7 @@ import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.ChallengeAnimationListener;
 import com.softcaze.memory.model.Award;
 import com.softcaze.memory.model.AwardChallengeType;
-import com.softcaze.memory.model.Bonus;
 import com.softcaze.memory.model.Challenge;
-import com.softcaze.memory.model.Coin;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.HeaderItem;
 import com.softcaze.memory.model.ListItem;
@@ -40,6 +35,9 @@ import com.softcaze.memory.util.UIUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ChallengeActivity extends Activity implements ChallengeAnimationListener {
     public static boolean animGetAwardsFinished = true;

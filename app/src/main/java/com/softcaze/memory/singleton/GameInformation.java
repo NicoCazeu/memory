@@ -1,9 +1,11 @@
 package com.softcaze.memory.singleton;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.model.ChallengeType;
 import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.model.CardTheme;
@@ -12,6 +14,7 @@ import com.softcaze.memory.model.Challenge;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
 import com.softcaze.memory.model.LevelRow;
+import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.CollectionUtil;
 import com.softcaze.memory.view.CardView;
 import com.softcaze.memory.view.UnlockChallengeView;
@@ -36,6 +39,7 @@ public class GameInformation {
     private boolean nextLevel = false;
     private List<Challenge> challenges = new ArrayList<>();
     private int overallNumberStars;
+    private FirebaseAnalytics firebaseAnalytics;
 
     public static GameInformation getInstance() {
         return ourInstance;
@@ -283,10 +287,24 @@ public class GameInformation {
         for(Challenge challenge: challenges) {
             if(type.equals(ChallengeType.END_LEVEL) || type.equals(ChallengeType.GLOBAL_STAR)) {
                 if(value >= challenge.getValueToReach()  && !challenge.isUnlockChallenge()) {
+                    firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+                    if(firebaseAnalytics != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ApplicationConstants.TAG_CHALLENGE_UNLOCK_NAME, challenge.getChallengeLabel());
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
+                    }
                     displayUnlockChallenge(challenge, context, dao, parent);
                 }
             } else {
                 if(value == challenge.getValueToReach()  && !challenge.isUnlockChallenge()) {
+                    firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+                    if(firebaseAnalytics != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ApplicationConstants.TAG_CHALLENGE_UNLOCK_NAME, challenge.getChallengeLabel());
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
+                    }
                     displayUnlockChallenge(challenge, context, dao, parent);
                 }
             }

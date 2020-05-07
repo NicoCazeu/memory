@@ -1,6 +1,6 @@
 package com.softcaze.memory.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.ChallengeActivity;
 import com.softcaze.memory.database.Dao;
@@ -21,10 +22,13 @@ import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.HeaderItem;
 import com.softcaze.memory.model.ListItem;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Nicolas on 30/06/2019.
@@ -37,6 +41,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
     private List<ListItem> listChallenge;
     private ChallengeAnimationListener challengeAnimationListener;
     private List<Boolean> hasFoundMode = new ArrayList<>();
+    protected FirebaseAnalytics firebaseAnalytics;
 
     public ChallengeListAdapater(List<ListItem> listChallenge, ChallengeAnimationListener listener) {
         this.listChallenge = listChallenge;
@@ -49,6 +54,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.firebaseAnalytics = FirebaseAnalytics.getInstance(parent.getContext());
         if(viewType == TYPE_HEADER) {
             View itemLayoutView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.challenge_title_row, null);
@@ -115,6 +121,9 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
                     if(ChallengeActivity.isAnimGetAwardsFinished()) {
                         AnimationUtil.btnClickedAnimation(view, view.getContext());
                         if(currentItem.isUnlockChallenge() && !currentItem.isGetAward()) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ApplicationConstants.TAG_CHALLENGE_UNLOCK_NAME, currentItem.getChallengeLabel());
+                            firebaseAnalytics.logEvent(ApplicationConstants.TAG_CLICK_GET_CHALLENGE_AWARD, bundle);
                             currentItem.setGetAward(true);
                             viewHolder.award.setAmount(currentItem.getCountAward());
                             try {

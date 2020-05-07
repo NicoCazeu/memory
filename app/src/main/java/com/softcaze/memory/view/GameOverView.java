@@ -11,11 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.softcaze.memory.R;
 import com.softcaze.memory.activity.GameActivity;
 import com.softcaze.memory.activity.GameModeActivity;
+import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.AdVideoRewardListener;
 import com.softcaze.memory.model.GameMode;
 import com.softcaze.memory.model.Level;
@@ -23,6 +25,7 @@ import com.softcaze.memory.model.LifeLevel;
 import com.softcaze.memory.service.Timer;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
+import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.UIUtil;
 
 public class GameOverView extends RelativeLayout {
@@ -31,13 +34,16 @@ public class GameOverView extends RelativeLayout {
     protected ImageView icoRevive;
     protected ProgressBar loadingAdProgressBar;
     protected RewardedVideoAd rewardedVideoAd;
+    protected InterstitialAd interstitialAd;
     protected Timer timerLoadingAdReward;
     protected Level currentLevel;
+    protected Dao dao;
 
-    public GameOverView(Context context, RewardedVideoAd videoAd, Level level) {
+    public GameOverView(Context context, RewardedVideoAd videoAd, Level level, InterstitialAd interstitialAd) {
         super(context);
         this.currentLevel = level;
         this.rewardedVideoAd = videoAd;
+        this.interstitialAd = interstitialAd;
         init(null, 0);
     }
 
@@ -54,6 +60,8 @@ public class GameOverView extends RelativeLayout {
     private void init(AttributeSet attrs, int defStyle) {
         inflate(getContext(), R.layout.gameover, this);
 
+        dao = new Dao(getContext());
+
         btnRevive = (RelativeLayout) findViewById(R.id.btn_revive);
         btnAgain = (RelativeLayout) findViewById(R.id.btn_again);
         btnMenu = (RelativeLayout) findViewById(R.id.btn_menu);
@@ -69,6 +77,21 @@ public class GameOverView extends RelativeLayout {
         menuTxt = (TextView) findViewById(R.id.menu_txt);
 
         UIUtil.setTypeFaceText(this.getContext(), txtNumLevel, txtLabelLevel, labelGameOver, extraLifeTxt, againTxt, menuTxt);
+
+        try {
+            dao.open();
+
+            if(dao.getCountAd() >= ApplicationConstants.COUNT_INTERSTITIAL_AD) {
+                if(interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                    dao.setCountAd(0);
+                }
+            } else {
+                dao.setCountAd(dao.getCountAd() + 1);
+            }
+        } finally {
+            dao.close();
+        }
 
         /**
          * Loading Ad Video
