@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blackColor"
+        android:alpha="0.9">
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/btn_menu"
+            android:layout_width="220dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/revive_button">
+
+            <ImageView
+                android:id="@+id/menu_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ico_menu"/>
+
+            <TextView
+                android:id="@+id/menu_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_menu"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:layout_toRightOf="@id/menu_img"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_again"
+            android:layout_width="220dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/again_button">
+
+            <ImageView
+                android:id="@+id/again_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/replay"/>
+
+            <TextView
+                android:id="@+id/again_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_again"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:layout_toRightOf="@id/again_img"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_continue"
+            android:layout_width="220dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/next_button">
+
+            <ImageView
+                android:id="@+id/ico_menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/img_play"/>
+
+            <TextView
+                android:id="@+id/continue_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/whiteColor"
+                android:text="@string/label_btn_continue"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:layout_toRightOf="@id/ico_menu"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

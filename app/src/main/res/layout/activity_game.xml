@@ -83,6 +83,15 @@
             android:background="@drawable/eyes_bonus"/>
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/pause_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
+        android:layout_below="@id/header"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/pause_btn"/>
+
     <TextView
         android:id="@+id/txt_game_mode"
         android:layout_width="match_parent"

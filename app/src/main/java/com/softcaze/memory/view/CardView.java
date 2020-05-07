@@ -10,18 +10,15 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softcaze.memory.R;
-import com.softcaze.memory.listener.TutorialAnimationListener;
+import com.softcaze.memory.listener.CardActionAnimationListener;
 import com.softcaze.memory.model.CardState;
 import com.softcaze.memory.model.CardType;
-import com.softcaze.memory.model.Level;
-import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.ApplicationConstants;
 
@@ -233,11 +230,15 @@ public class CardView extends RelativeLayout {
         }
     }
 
+    public void eyesBonusAction(final int delay, final TextView txtView) {
+        eyesBonusAction(delay, txtView, null);
+    }
+
     /**
      * This method is invoked when user used an eyes bonus
      * @param delay
      */
-    public void eyesBonusAction(final int delay, final TextView txtView) {
+    public void eyesBonusAction(final int delay, final TextView txtView, final CardActionAnimationListener cardActionAnimationListener) {
         this.animate().withLayer().rotationY(90).setDuration(300).withEndAction(new Runnable() {
             @Override
             public void run() {
@@ -249,7 +250,7 @@ public class CardView extends RelativeLayout {
                 animate().withLayer().rotationY(0).setDuration(300).withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        flipCardOnVerso(delay);
+                        flipCardOnVerso(delay, cardActionAnimationListener);
                     }
                 });
             }
@@ -260,7 +261,7 @@ public class CardView extends RelativeLayout {
         flipCardOnVerso(delay, null);
     }
 
-    public void flipCardOnVerso(int delay, final TutorialAnimationListener listener) {
+    public void flipCardOnVerso(int delay, final CardActionAnimationListener listener) {
 
         this.animate().withLayer().rotationY(90).setDuration(300).withEndAction(new Runnable() {
             @Override

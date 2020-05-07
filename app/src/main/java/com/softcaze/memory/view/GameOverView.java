@@ -30,7 +30,7 @@ import com.softcaze.memory.util.UIUtil;
 
 public class GameOverView extends RelativeLayout {
     protected TextView txtNumLevel, txtLabelLevel, labelGameOver, extraLifeTxt, againTxt, menuTxt;
-    protected RelativeLayout btnRevive, btnAgain, btnMenu;
+    protected RelativeLayout btnRevive, btnAgain, btnMenu, gameOverBackground;
     protected ImageView icoRevive;
     protected ProgressBar loadingAdProgressBar;
     protected RewardedVideoAd rewardedVideoAd;
@@ -41,6 +41,7 @@ public class GameOverView extends RelativeLayout {
 
     public GameOverView(Context context, RewardedVideoAd videoAd, Level level, InterstitialAd interstitialAd) {
         super(context);
+        setId(View.generateViewId());
         this.currentLevel = level;
         this.rewardedVideoAd = videoAd;
         this.interstitialAd = interstitialAd;
@@ -65,6 +66,7 @@ public class GameOverView extends RelativeLayout {
         btnRevive = (RelativeLayout) findViewById(R.id.btn_revive);
         btnAgain = (RelativeLayout) findViewById(R.id.btn_again);
         btnMenu = (RelativeLayout) findViewById(R.id.btn_menu);
+        gameOverBackground = (RelativeLayout) findViewById(R.id.game_over_background);
 
         loadingAdProgressBar = (ProgressBar) findViewById(R.id.loading_ad_progressbar);
         icoRevive = (ImageView) findViewById(R.id.ico_revive);
@@ -141,6 +143,8 @@ public class GameOverView extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getContext());
+
+                GameInformation.getInstance().setCanPlay(true);
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameActivity.class);
                 getContext().startActivity(intent);
@@ -156,6 +160,13 @@ public class GameOverView extends RelativeLayout {
                 Intent intent = new Intent(getContext(), GameModeActivity.class);
                 getContext().startActivity(intent);
                 ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+        gameOverBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ;
             }
         });
     }

@@ -3,18 +3,13 @@ package com.softcaze.memory.activity;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,8 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
@@ -33,6 +26,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
 import com.softcaze.memory.listener.AdVideoRewardListener;
+import com.softcaze.memory.listener.PauseActionListener;
+import com.softcaze.memory.listener.CardActionAnimationListener;
 import com.softcaze.memory.model.AgainstTimeLevel;
 import com.softcaze.memory.model.CardState;
 import com.softcaze.memory.model.CardType;
@@ -51,6 +46,7 @@ import com.softcaze.memory.view.CardView;
 import com.softcaze.memory.view.EndAllLevelsView;
 import com.softcaze.memory.view.EndLevelView;
 import com.softcaze.memory.view.GameOverView;
+import com.softcaze.memory.view.PauseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +61,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
     protected EndLevelView endLevelView;
     protected GameOverView gameOverView;
     protected EndAllLevelsView endAllLevelsView;
-    protected ImageView imgCoin;
+    protected ImageView imgCoin, pauseBtn;
     protected Dao dao;
     protected ObjectAnimator animation;
     protected RewardedVideoAd rewardedVideoAd;
@@ -73,6 +69,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
     protected AdVideoRewardListener adVideoRewardListener;
     protected boolean canHaveAdVideoReward = false;
     protected FirebaseAnalytics firebaseAnalytics;
+    protected PauseView pauseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +92,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
         relativeContentGame = (RelativeLayout) findViewById(R.id.relative_content_game);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
+        pauseBtn = (ImageView) findViewById(R.id.pause_btn);
 
         UIUtil.setTypeFaceText(this, txtGameMode, txtNumLevel, txtBonus, txtCoin, txtLevelLabel);
 
@@ -160,7 +158,14 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
             if (GameInformation.getInstance().getCardViews() != null && !GameInformation.getInstance().getCardViews().isEmpty()) {
                 for (CardView card : GameInformation.getInstance().getCardViews()) {
-                    card.flipCardOnVerso(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()));
+                    card.flipCardOnVerso(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), new CardActionAnimationListener() {
+                        @Override
+                        public void allCardsHaveRotate() {
+                            if(currentLevel instanceof AgainstTimeLevel && GameInformation.getInstance().getCurrentMode().equals(GameMode.AGAINST_TIME)) {
+                                animation.resume();
+                            }
+                        }
+                    });
                 }
             }
 
@@ -173,6 +178,11 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
             @Override
             public void onClick(View view) {
                 if(GameInformation.getInstance().isCanPlay()) {
+                    AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                    if(currentLevel instanceof AgainstTimeLevel) {
+                        animation.pause();
+                    }
                     int value = User.getInstance().getBonus().getAmount();
 
                     if (value > 0) {
@@ -183,8 +193,21 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                         }
 
                         GameInformation.getInstance().setCanPlay(false);
-                        for (CardView card : GameInformation.getInstance().getCardViews()) {
-                            card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus);
+
+                        for(int i = 0; i < GameInformation.getInstance().getCardViews().size(); i++) {
+                            CardView card = GameInformation.getInstance().getCardViews().get(i);
+                            if(i == 0) {
+                                card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus, new CardActionAnimationListener() {
+                                    @Override
+                                    public void allCardsHaveRotate() {
+                                        if(currentLevel instanceof AgainstTimeLevel) {
+                                            animation.resume();
+                                        }
+                                    }
+                                });
+                            } else {
+                                card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus);
+                            }
                         }
                         User.getInstance().getBonus().setAmount(value - 1);
 
@@ -200,6 +223,50 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                         /** Display value **/
                         txtBonus.setText("" + User.getInstance().getBonus().getAmount());
                     }
+                }
+            }
+        });
+
+        pauseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.btnClickedAnimation(view, getApplicationContext());
+
+                if(GameInformation.getInstance().isCanPlay()) {
+                    GameInformation.getInstance().setCanPlay(false);
+
+                    pauseView = new PauseView(getApplicationContext(), new PauseActionListener() {
+                        @Override
+                        public void clickContinue() {
+                            if(currentLevel instanceof AgainstTimeLevel) {
+                                animation.resume();
+                            }
+                            relativeContentGame.removeView(pauseView);
+                            GameInformation.getInstance().setCanPlay(true);
+                        }
+
+                        @Override
+                        public void clickAgain() {
+                            GameInformation.getInstance().setCanPlay(true);
+                            GameInformation.getInstance().setGoNextLevel(false);
+                            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        }
+
+                        @Override
+                        public void clickMenu() {
+                            GameInformation.getInstance().setGoNextLevel(false);
+                            Intent intent = new Intent(getApplicationContext(), GameModeActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        }
+                    });
+
+                    if(currentLevel instanceof AgainstTimeLevel) {
+                        animation.pause();
+                    }
+                    relativeContentGame.addView(pauseView);
                 }
             }
         });
@@ -290,48 +357,48 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     @Override
                     public void onClick(View view) {
                         //if(GameInformation.getInstance().isCanPlay()) {
-                            if (GameInformation.getInstance().getCardsFlip().size() <= 2) {
-                                if (card.getCardState().equals(CardState.VERSO)) {
-                                    if(currentLevel instanceof LifeLevel) {
-                                        card.flipCard(CardState.RECTO, gameHelper);
-                                    } else {
-                                        card.flipCard(CardState.RECTO);
-                                    }
+                        if (GameInformation.getInstance().getCardsFlip().size() <= 2) {
+                            if (card.getCardState().equals(CardState.VERSO)) {
+                                if (currentLevel instanceof LifeLevel) {
+                                    card.flipCard(CardState.RECTO, gameHelper);
                                 } else {
-                                    if(currentLevel instanceof LifeLevel) {
-                                        if(GameInformation.getInstance().isCanPlay()) {
-                                            int numberLife = gameHelper.getChildCount();
-                                            ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife - 1);
-                                            gameHelper.removeView(imgGameHelper);
+                                    card.flipCard(CardState.RECTO);
+                                }
+                            } else {
+                                if (currentLevel instanceof LifeLevel) {
+                                    if (GameInformation.getInstance().isCanPlay()) {
+                                        int numberLife = gameHelper.getChildCount();
+                                        ImageView imgGameHelper = (ImageView) gameHelper.getChildAt(numberLife - 1);
+                                        gameHelper.removeView(imgGameHelper);
 
-                                            if (gameHelper.getChildCount() == 0) {
-                                                Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
-                                                getApplicationContext().sendBroadcast(gameOver);
-                                            }
+                                        if (gameHelper.getChildCount() == 0) {
+                                            Intent gameOver = new Intent(ApplicationConstants.INTENT_GAME_OVER_LEVEL);
+                                            getApplicationContext().sendBroadcast(gameOver);
                                         }
                                     }
-                                    card.flipCard(CardState.VERSO);
-                                    GameInformation.getInstance().getCardsFlip().clear();
                                 }
+                                card.flipCard(CardState.VERSO);
+                                GameInformation.getInstance().getCardsFlip().clear();
+                            }
 
-                                if(GameInformation.getInstance().isCanPlay()) {
-                                    if (GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER) && card.getCardState().equals(CardState.VERSO)) {
-                                        if (currentLevel instanceof CareerLevel) {
-                                            int touchUsed = ((CareerLevel) currentLevel).getTouchUsed() + 1;
-                                            ((CareerLevel) currentLevel).setTouchUsed(touchUsed);
+                            if (GameInformation.getInstance().isCanPlay()) {
+                                if (GameInformation.getInstance().getCurrentMode().equals(GameMode.CAREER) && card.getCardState().equals(CardState.VERSO)) {
+                                    if (currentLevel instanceof CareerLevel) {
+                                        int touchUsed = ((CareerLevel) currentLevel).getTouchUsed() + 1;
+                                        ((CareerLevel) currentLevel).setTouchUsed(touchUsed);
 
-                                            if (gameHelper.getChildCount() > 0) {
-                                                TextView txtGameHelper = (TextView) gameHelper.getChildAt(0);
-                                                if (touchUsed > 1) {
-                                                    txtGameHelper.setText(touchUsed + " " + getResources().getString(R.string.label_game_hits));
-                                                } else {
-                                                    txtGameHelper.setText(touchUsed + " " + getResources().getString(R.string.label_game_hit));
-                                                }
+                                        if (gameHelper.getChildCount() > 0) {
+                                            TextView txtGameHelper = (TextView) gameHelper.getChildAt(0);
+                                            if (touchUsed > 1) {
+                                                txtGameHelper.setText(touchUsed + " " + getResources().getString(R.string.label_game_hits));
+                                            } else {
+                                                txtGameHelper.setText(touchUsed + " " + getResources().getString(R.string.label_game_hit));
                                             }
                                         }
                                     }
                                 }
                             }
+                        }
                         //}
                     }
                 });
@@ -497,6 +564,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     public void onAnimationRepeat(Animator animator) { }
                 });
                 animation.start();
+                animation.pause();
 
                 break;
             case SUDDEN_DEATH:

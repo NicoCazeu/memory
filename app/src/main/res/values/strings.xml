@@ -26,7 +26,7 @@
     <string name="title_credits_activity">Credits</string>
 
     <!-- Setting Activity -->
-    <string name="title_setting_activity">Parameter</string>
+    <string name="title_setting_activity">Settings</string>
     <string name="setting_son">Sound</string>
     <string name="setting_yes">Yes</string>
     <string name="setting_report_bug">Report a bug</string>
@@ -50,6 +50,9 @@
     <string name="label_btn_menu">Menu</string>
     <string name="label_btn_next">Next</string>
     <string name="label_btn_more_coin">Double your reward</string>
+
+    <!-- Pause view -->
+    <string name="label_btn_continue">Continue</string>
 
     <!-- Game over View -->
     <string name="label_game_over_title">Game Over</string>

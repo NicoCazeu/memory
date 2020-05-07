@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/game_over_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/blackColor"
@@ -67,7 +68,7 @@
         <RelativeLayout
             android:id="@+id/btn_revive"
             android:layout_width="220dp"
-            android:padding="15dp"
+            android:padding="10dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/revive_button">

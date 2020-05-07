@@ -73,6 +73,12 @@ public class CreditsActivity extends Activity {
         credits.put("Those icons", imgIds);
 
         /**
+         * DinosoftLabs icons
+         */
+        imgIds = new Integer[]{R.drawable.pause_btn, R.drawable.bell_notif};
+        credits.put("DinosoftLabs", imgIds);
+
+        /**
          * Freepik
          */
         imgIds = new Integer[]{R.drawable.coin, R.drawable.eyes_bonus, R.drawable.fruits_banana, R.drawable.fruits_cherries, R.drawable.fruits_pineapple

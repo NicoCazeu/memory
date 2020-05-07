@@ -1,19 +1,11 @@
 package com.softcaze.memory.activity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,13 +13,12 @@ import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
-import com.softcaze.memory.listener.TutorialAnimationListener;
+import com.softcaze.memory.listener.CardActionAnimationListener;
 import com.softcaze.memory.model.Bonus;
 import com.softcaze.memory.model.Card;
 import com.softcaze.memory.model.CardState;
 import com.softcaze.memory.model.CardType;
 import com.softcaze.memory.model.GameMode;
-import com.softcaze.memory.model.Position;
 import com.softcaze.memory.model.User;
 import com.softcaze.memory.singleton.GameInformation;
 import com.softcaze.memory.util.AnimationUtil;
@@ -39,7 +30,7 @@ import com.softcaze.memory.view.CardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorialActivity extends Activity implements TutorialAnimationListener {
+public class TutorialActivity extends Activity implements CardActionAnimationListener {
     public static final int STEP_1 = 1;
     public static final int STEP_2 = 2;
     public static final int STEP_3 = 3;
