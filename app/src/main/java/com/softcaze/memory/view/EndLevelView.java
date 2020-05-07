@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.softcaze.memory.R;
 import com.softcaze.memory.listener.AdVideoRewardListener;
+import com.softcaze.memory.listener.RatePopupListener;
 import com.softcaze.memory.model.ChallengeType;
 import com.softcaze.memory.activity.GameActivity;
 import com.softcaze.memory.activity.LevelListActivity;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EndLevelView extends RelativeLayout {
-    protected RelativeLayout btnMoreCoin, btnAgain, btnMenu, btnNext, relativeContent, parent;
+    protected RelativeLayout btnMoreCoin, btnAgain, btnMenu, btnNext, relativeContent, parent, rateView;
     protected LinearLayout linearEarnCoin;
     protected List<ImageView> starList;
     protected TextView txtNumLevel, txtScore, txtBestScore, txtEarnCoin, txtLabelLevel, moreCoinTxt, againTxt, nextTxt, labelBestScore, labelScore;
@@ -108,6 +110,30 @@ public class EndLevelView extends RelativeLayout {
         moreCoinImg = (ImageView) findViewById(R.id.more_coin_img);
 
         UIUtil.setTypeFaceText(this.getContext(), txtScore, txtNumLevel, txtBestScore, txtEarnCoin, moreCoinTxt, againTxt, nextTxt, labelBestScore, labelScore, txtLabelLevel);
+
+        rateView = new RateView(View.generateViewId(), getContext(), new RatePopupListener() {
+            @Override
+            public void closePopup() {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences(ApplicationConstants.MY_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(ApplicationConstants.SHOW_NEVER, true);
+                editor.apply();
+                parent.removeView(rateView);
+            }
+
+            @Override
+            public void clickLater() {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences(ApplicationConstants.MY_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(ApplicationConstants.SESSION_COUNT, 0);
+                editor.apply();
+                parent.removeView(rateView);
+            }
+        });
+
+        if(displayedRatePopup(getContext())) {
+            parent.addView(rateView);
+        }
 
         this.setAdVideoRewardListener(new AdVideoRewardListener() {
             @Override
@@ -306,6 +332,9 @@ public class EndLevelView extends RelativeLayout {
         btnMoreCoin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(rateUsPopupOpened()) {
+                    return;
+                }
                 AnimationUtil.btnClickedAnimation(view, getContext());
 
                 if (rewardedVideoAd.isLoaded()) {
@@ -317,6 +346,9 @@ public class EndLevelView extends RelativeLayout {
         btnAgain.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(rateUsPopupOpened()) {
+                    return;
+                }
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), GameActivity.class);
@@ -328,6 +360,9 @@ public class EndLevelView extends RelativeLayout {
         btnMenu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(rateUsPopupOpened()) {
+                    return;
+                }
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(false);
                 Intent intent = new Intent(getContext(), LevelListActivity.class);
@@ -339,6 +374,9 @@ public class EndLevelView extends RelativeLayout {
         btnNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(rateUsPopupOpened()) {
+                    return;
+                }
                 AnimationUtil.btnClickedAnimation(view, getContext());
                 GameInformation.getInstance().setGoNextLevel(true);
                 Intent intent = new Intent(getContext(), GameActivity.class);
@@ -387,5 +425,30 @@ public class EndLevelView extends RelativeLayout {
         timer = new Timer(runnableEarnCoin, 50, true);
 
         User.getInstance().getCoin().setAmount(User.getInstance().getCoin().getAmount() + (earnCoinFixed - earnCoinAlreadySaved));
+    }
+
+    public boolean displayedRatePopup(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ApplicationConstants.MY_PREFS, Context.MODE_PRIVATE);
+
+        if(sharedPreferences.getBoolean(ApplicationConstants.SHOW_NEVER, false)) {
+            return false;
+        }
+
+        int sessionCount = sharedPreferences.getInt(ApplicationConstants.SESSION_COUNT, 0);
+
+        if(sessionCount >= ApplicationConstants.SESSION_OPEN_APP) {
+            return true;
+        } else {
+            sessionCount++;
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(ApplicationConstants.SESSION_COUNT, sessionCount);
+            editor.apply();
+        }
+        return false;
+    }
+
+    private boolean rateUsPopupOpened() {
+        return (parent.findViewById(rateView.getId()) != null);
     }
 }

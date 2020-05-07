@@ -72,4 +72,11 @@
     <!-- Unlock challenge View -->
     <string name="unlock_new_challenge">New challanges unlocked</string>
     <string name="get_award_new_challenge">Get award</string>
+
+    <!-- Rate Popup View -->
+    <string name="rate_popup_title">Do you like ? \nPlease, rate the application:</string>
+    <string name="rate_popup_never">Never</string>
+    <string name="rate_popup_later">Later</string>
+    <string name="rate_popup_close">Close</string>
+    <string name="rate_popup_subtitle">Thank you!</string>
 </resources>

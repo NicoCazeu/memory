@@ -72,4 +72,11 @@
     <!-- Unlock challenge View -->
     <string name="unlock_new_challenge">Nouveau defis debloque</string>
     <string name="get_award_new_challenge">Recuperer</string>
+
+    <!-- Rate Popup View -->
+    <string name="rate_popup_title">Vous aimez l\'applicaiton ? \nDonnez votre avis:</string>
+    <string name="rate_popup_never">Jamais</string>
+    <string name="rate_popup_later">Plus tard</string>
+    <string name="rate_popup_close">Fermez</string>
+    <string name="rate_popup_subtitle">Merci!</string>
 </resources>

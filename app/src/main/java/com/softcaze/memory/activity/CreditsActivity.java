@@ -96,7 +96,7 @@ public class CreditsActivity extends Activity {
         /**
          * Vectors Market
          */
-        imgIds = new Integer[]{R.drawable.fruits_apple, R.drawable.medal, R.drawable.trophy};
+        imgIds = new Integer[]{R.drawable.fruits_apple, R.drawable.medal, R.drawable.trophy, R.drawable.star_rate};
         credits.put("Vectors Market", imgIds);
 
         /**

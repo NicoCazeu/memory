@@ -28,6 +28,12 @@ public class ApplicationConstants {
     public static final int FLIP_CARD_DURATION_4 = 8000; // 22 24
     public static final int COUNT_INTERSTITIAL_AD = 4;
 
+    /** Rating popup **/
+    public static final int SESSION_OPEN_APP = 5;
+    public static final String SHOW_NEVER = "show_never";
+    public static final String SESSION_COUNT = "session_count";
+    public static final String MY_PREFS = "RatingMemory";
+
     /** ADs **/
     public static final String ID_AD_MOBILE = "ca-app-pub-9468199307439621~4757497614";
     public static final String ID_AD_INTERSTITIAL = "ca-app-pub-9468199307439621/4621959766";

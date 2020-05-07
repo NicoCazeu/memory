@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blackColor"
+        android:alpha="0.8">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_white"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/star_rate"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/star_rate"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"/>
+
+        <TextView
+            android:id="@+id/title_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blackColor"
+            android:fontFamily="@font/roof_runners_active"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:textSize="16sp"
+            android:text="@string/rate_popup_title"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/star_rate"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rate_popup_close"
+            android:visibility="gone"
+            android:fontFamily="@font/roof_runners_active"
+            android:textColor="@color/redColor"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:layout_below="@id/title_rate"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"/>
+
+        <LinearLayout
+            android:id="@+id/linear_stars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_below="@id/title_rate"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/star1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/star_empty_rate"/>
+            <ImageView
+                android:id="@+id/star2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/star_empty_rate"/>
+            <ImageView
+                android:id="@+id/star3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/star_empty_rate"/>
+            <ImageView
+                android:id="@+id/star4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/star_empty_rate"/>
+            <ImageView
+                android:id="@+id/star5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/star_empty_rate"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_container"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@id/linear_stars">
+            <TextView
+                android:id="@+id/btn_never"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_popup_never"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/blackColor"
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/btn_later"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_popup_later"
+                android:fontFamily="@font/roof_runners_active"
+                android:textColor="@color/redColor"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

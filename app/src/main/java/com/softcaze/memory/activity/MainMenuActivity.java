@@ -1,11 +1,11 @@
 package com.softcaze.memory.activity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.softcaze.memory.R;
 import com.softcaze.memory.database.Dao;
+import com.softcaze.memory.listener.RatePopupListener;
 import com.softcaze.memory.model.AgainstTimeLevel;
 import com.softcaze.memory.model.AwardChallengeType;
 import com.softcaze.memory.model.Bonus;
@@ -34,18 +35,17 @@ import com.softcaze.memory.util.AnimationUtil;
 import com.softcaze.memory.util.ApplicationConstants;
 import com.softcaze.memory.util.FileUtils;
 import com.softcaze.memory.util.UIUtil;
+import com.softcaze.memory.view.RateView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainMenuActivity extends Activity {
 
     protected ImageView btnPlay, btnShop, btnChallenge, btnSetting, imgCoin, title;
-    protected RelativeLayout footer, header;
+    protected RelativeLayout footer, header, contentMainMenu;
     protected LinearLayout linearCoin, linearBonus;
-    protected Timer timerPlayBtn;
     protected TextView txtCoin, txtBonus;
     protected Dao dao;
     protected boolean playBtnAlreadyClicked = false;
@@ -63,6 +63,7 @@ public class MainMenuActivity extends Activity {
         title = (ImageView) findViewById(R.id.title);
         footer = (RelativeLayout) findViewById(R.id.footer);
         header = (RelativeLayout) findViewById(R.id.header);
+        contentMainMenu = (RelativeLayout) findViewById(R.id.content_main_menu);
         linearCoin = (LinearLayout) findViewById(R.id.linear_coin);
         linearBonus = (LinearLayout) findViewById(R.id.linear_bonus);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
