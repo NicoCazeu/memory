@@ -22,7 +22,7 @@ import com.softcaze.memory.util.UIUtil;
 
 public class UnlockChallengeView extends RelativeLayout {
     protected TextView labelTxtView, amountAwardTxtView, newUnlockChallenge, getAward;
-    protected ImageView challengeMedalImgView, imgAward;
+    protected ImageView imgAward;
     protected RelativeLayout relativeAward;
 
     public UnlockChallengeView(Context context, Challenge challenge) {
@@ -41,7 +41,6 @@ public class UnlockChallengeView extends RelativeLayout {
         newUnlockChallenge = (TextView) findViewById(R.id.new_unlock_challenge);
         labelTxtView = (TextView) findViewById(R.id.label_challenge);
         amountAwardTxtView = (TextView) findViewById(R.id.count_award);
-        challengeMedalImgView = (ImageView) findViewById(R.id.img_challenge_medal);
         imgAward = (ImageView) findViewById(R.id.img_award);
         relativeAward = (RelativeLayout) findViewById(R.id.relative_award);
 
@@ -66,6 +65,7 @@ public class UnlockChallengeView extends RelativeLayout {
                         Intent intent = new Intent(getContext(), ChallengeActivity.class);
                         getContext().startActivity(intent);
                         ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        ((Activity) getContext()).finish();
                     }
 
                     @Override

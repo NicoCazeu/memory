@@ -88,6 +88,7 @@ public class SettingActivity extends Activity {
                 Intent intent = new Intent(SettingActivity.this, CreditsActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -111,6 +112,7 @@ public class SettingActivity extends Activity {
                 Intent intent = new Intent(SettingActivity.this, ContactFormActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
     }
@@ -120,5 +122,6 @@ public class SettingActivity extends Activity {
         Intent intent = new Intent(SettingActivity.this, MainMenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 }

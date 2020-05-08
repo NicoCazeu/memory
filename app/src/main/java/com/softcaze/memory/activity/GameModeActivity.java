@@ -99,6 +99,7 @@ public class GameModeActivity extends Activity {
                 Intent intent = new Intent(GameModeActivity.this, LevelListActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -126,6 +127,7 @@ public class GameModeActivity extends Activity {
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -153,6 +155,7 @@ public class GameModeActivity extends Activity {
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -180,6 +183,7 @@ public class GameModeActivity extends Activity {
                 intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
     }
@@ -190,5 +194,6 @@ public class GameModeActivity extends Activity {
         Intent intent = new Intent(GameModeActivity.this, MainMenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 }

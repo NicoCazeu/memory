@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,10 +46,10 @@ import java.util.List;
 
 public class MainMenuActivity extends Activity {
 
-    protected ImageView btnPlay, btnShop, btnChallenge, btnSetting, imgCoin, title;
-    protected RelativeLayout footer, header, contentMainMenu;
+    protected ImageView btnPlay, btnShop, btnSetting, imgCoin, title, containerNotif;
+    protected RelativeLayout footer, header, contentMainMenu, relativeNotif, containterChallenge, containerShop, containerSetting;
     protected LinearLayout linearCoin, linearBonus;
-    protected TextView txtCoin, txtBonus;
+    protected TextView txtCoin, txtBonus, txtNotif, shopTxt, challengeTxt, settingTxt;
     protected Dao dao;
     protected boolean playBtnAlreadyClicked = false;
     protected FirebaseAnalytics firebaseAnalytics;
@@ -61,20 +62,26 @@ public class MainMenuActivity extends Activity {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         btnPlay = (ImageView) findViewById(R.id.btn_play);
-        btnShop = (ImageView) findViewById(R.id.btn_shop);
-        btnChallenge = (ImageView) findViewById(R.id.btn_challenge);
-        btnSetting = (ImageView) findViewById(R.id.btn_setting);
         imgCoin = (ImageView) findViewById(R.id.img_coin);
         title = (ImageView) findViewById(R.id.title);
+        containerNotif = (ImageView) findViewById(R.id.container_notif);
         footer = (RelativeLayout) findViewById(R.id.footer);
         header = (RelativeLayout) findViewById(R.id.header);
         contentMainMenu = (RelativeLayout) findViewById(R.id.content_main_menu);
+        relativeNotif = (RelativeLayout) findViewById(R.id.relative_notif);
+        containterChallenge = (RelativeLayout) findViewById(R.id.container_challenge);
+        containerSetting = (RelativeLayout) findViewById(R.id.container_setting);
+        containerShop = (RelativeLayout) findViewById(R.id.container_shop);
         linearCoin = (LinearLayout) findViewById(R.id.linear_coin);
         linearBonus = (LinearLayout) findViewById(R.id.linear_bonus);
         txtBonus = (TextView) findViewById(R.id.txt_bonus);
         txtCoin = (TextView) findViewById(R.id.txt_coin);
+        txtNotif = (TextView) findViewById(R.id.txt_notif);
+        shopTxt = (TextView) findViewById(R.id.shop_txt);
+        challengeTxt = (TextView) findViewById(R.id.challenge_txt);
+        settingTxt = (TextView) findViewById(R.id.setting_txt);
 
-        UIUtil.setTypeFaceText(this, txtBonus, txtCoin);
+        UIUtil.setTypeFaceText(this, txtBonus, txtCoin, txtNotif, shopTxt, challengeTxt, settingTxt);
 
         dao = new Dao(this);
 
@@ -104,6 +111,23 @@ public class MainMenuActivity extends Activity {
         }
 
 
+        try {
+            dao.open();
+            if(dao.countAwardChallenge() == 0) {
+                relativeNotif.setVisibility(View.GONE);
+            } else if(dao.countAwardChallenge() > 9){
+                relativeNotif.setVisibility(View.VISIBLE);
+                txtNotif.setText("9+");
+            } else {
+                relativeNotif.setVisibility(View.VISIBLE);
+                txtNotif.setText(dao.countAwardChallenge() + "");
+            }
+
+        } finally {
+            dao.close();
+        }
+
+
         /** Init text field **/
         if(User.getInstance().getBonus() != null) {
             txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
@@ -114,12 +138,13 @@ public class MainMenuActivity extends Activity {
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
-        AnimationUtil.breathingAnimation(btnPlay);
+        AnimationUtil.breathingAnimation(btnPlay, relativeNotif);
 
         /** Manage animations **/
         AnimationUtil.playAnimation(this, R.anim.translate_from_top, title, header, linearCoin, linearBonus);
         AnimationUtil.playAnimation(this, R.anim.translate_from_left, btnPlay);
-        AnimationUtil.playAnimation(this, R.anim.translate_from_bottom, footer, btnChallenge, btnSetting, btnShop);
+        AnimationUtil.playAnimation(this, R.anim.translate_from_bottom, footer, containterChallenge, containerSetting, containerShop, relativeNotif);
+
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,36 +158,40 @@ public class MainMenuActivity extends Activity {
                 Intent intent = new Intent(MainMenuActivity.this, GameModeActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
-        btnShop.setOnClickListener(new View.OnClickListener() {
+        containerShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 Intent intent = new Intent(MainMenuActivity.this, ShopActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
-        btnChallenge.setOnClickListener(new View.OnClickListener() {
+        containterChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 Intent intent = new Intent(MainMenuActivity.this, ChallengeActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
-        btnSetting.setOnClickListener(new View.OnClickListener(){
+        containerSetting.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
                 Intent intent = new Intent(MainMenuActivity.this, SettingActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
     }
@@ -175,6 +204,7 @@ public class MainMenuActivity extends Activity {
                 Intent intent = new Intent(MainMenuActivity.this, TutorialActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
                 return true;
             }
         } finally {

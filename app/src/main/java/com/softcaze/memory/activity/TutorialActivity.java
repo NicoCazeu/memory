@@ -142,12 +142,14 @@ public class TutorialActivity extends Activity implements CardActionAnimationLis
                         Intent intent = new Intent(TutorialActivity.this, GameModeActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
                     } else {
                         GameInformation.getInstance().setNumCurrentLevel(1);
                         Intent intent = new Intent(TutorialActivity.this, GameActivity.class);
                         intent.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
                     }
                 }
             }

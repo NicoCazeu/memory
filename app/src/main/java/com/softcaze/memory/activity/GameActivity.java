@@ -256,6 +256,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
                         }
 
                         @Override
@@ -264,6 +265,7 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                             Intent intent = new Intent(getApplicationContext(), GameModeActivity.class);
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
                         }
                     });
 
@@ -441,6 +443,12 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                             progressBarHelper.getAnimation().cancel();
                         }
                     }*/
+                    if(firebaseAnalytics != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(FirebaseAnalytics.Param.LEVEL, GameInformation.getInstance().getNumCurrentLevel());
+                        bundle.putString(ApplicationConstants.TAG_GAME_MODE, GameInformation.getInstance().getCurrentMode().name());
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_END, bundle);
+                    }
                     if(currentLevel instanceof AgainstTimeLevel) {
                         animation.removeAllListeners();
                     }
@@ -467,8 +475,15 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                     intentNextLevel.putExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL, String.valueOf(GameInformation.getInstance().getNumCurrentLevel()));
                     startActivity(intentNextLevel);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
                 }
             } else if(ApplicationConstants.INTENT_END_ALL_LEVELS.equals(intent.getAction())) {
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(FirebaseAnalytics.Param.LEVEL, GameInformation.getInstance().getNumCurrentLevel());
+                    bundle.putString(ApplicationConstants.TAG_GAME_MODE, GameInformation.getInstance().getCurrentMode().name());
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_LEVEL_END_ALL, bundle);
+                }
                 if(currentLevel instanceof AgainstTimeLevel) {
                     if(animation != null) {
                         animation.removeAllListeners();
@@ -478,6 +493,12 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                 endAllLevelsView = new EndAllLevelsView(context);
                 relativeContentGame.addView(endAllLevelsView);
             } else if(ApplicationConstants.INTENT_GAME_OVER_LEVEL.equals(intent.getAction())) {
+                if(firebaseAnalytics != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(FirebaseAnalytics.Param.LEVEL, GameInformation.getInstance().getNumCurrentLevel());
+                    bundle.putString(ApplicationConstants.TAG_GAME_MODE, GameInformation.getInstance().getCurrentMode().name());
+                    firebaseAnalytics.logEvent(ApplicationConstants.TAG_LEVEL_GAME_OVER, bundle);
+                }
                 if(currentLevel instanceof AgainstTimeLevel) {
                     if(animation != null) {
                         animation.removeAllListeners();

@@ -97,22 +97,26 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
             });
 
             if(currentItem.isUnlockChallenge()) {
-                viewHolder.imgChallengeMedal.setAlpha(1F);
                 viewHolder.relativeAward.setAlpha(1F);
                 viewHolder.relativeChallenge.setAlpha(1F);
 
                 if(currentItem.isGetAward()) {
                     viewHolder.relativeAward.setVisibility(View.INVISIBLE);
+                    viewHolder.getAward.setVisibility(View.INVISIBLE);
                 }
                 else {
-
                     viewHolder.relativeAward.setVisibility(View.VISIBLE);
+                    viewHolder.getAward.setVisibility(View.VISIBLE);
                 }
             }
             else {
-                viewHolder.imgChallengeMedal.setAlpha(TRANSPARENCY);
                 viewHolder.relativeAward.setAlpha(TRANSPARENCY);
                 viewHolder.relativeChallenge.setAlpha(TRANSPARENCY);
+
+                if(!currentItem.isGetAward()) {
+                    viewHolder.getAward.setVisibility(View.INVISIBLE);
+                    viewHolder.relativeAward.setVisibility(View.VISIBLE);
+                }
             }
 
             viewHolder.relativeChallenge.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +148,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
                                 @Override
                                 public void run() {
                                     viewHolder.relativeAward.setVisibility(View.INVISIBLE);
+                                    viewHolder.getAward.setVisibility(View.INVISIBLE);
 
                                     if(currentItem.getAwardChallengeType().equals(AwardChallengeType.EYE_BONUS)) {
                                         viewHolder.award.setAwardChallengeType(AwardChallengeType.EYE_BONUS);
@@ -191,7 +196,7 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView labelChallenge;
         TextView countAward;
-        ImageView imgChallengeMedal;
+        TextView getAward;
         ImageView imgAward;
         RelativeLayout relativeAward;
         RelativeLayout relativeChallenge;
@@ -203,14 +208,16 @@ public class ChallengeListAdapater extends RecyclerView.Adapter<RecyclerView.Vie
 
             labelChallenge = (TextView) itemView.findViewById(R.id.label_challenge);
             countAward = (TextView) itemView.findViewById(R.id.count_award);
-            imgChallengeMedal = (ImageView) itemView.findViewById(R.id.img_challenge_medal);
+            getAward = (TextView) itemView.findViewById(R.id.get_award);
             imgAward = (ImageView) itemView.findViewById(R.id.img_award);
             relativeAward = (RelativeLayout) itemView.findViewById(R.id.relative_award);
             relativeChallenge = (RelativeLayout) itemView.findViewById(R.id.relative_challenge);
             dao = new Dao(itemView.getContext());
             award = new Award();
 
-            UIUtil.setTypeFaceText(itemView.getContext(), labelChallenge, countAward);
+            UIUtil.setTypeFaceText(itemView.getContext(), labelChallenge, countAward, getAward);
+
+            AnimationUtil.breathingAnimation(getAward);
         }
     }
 }

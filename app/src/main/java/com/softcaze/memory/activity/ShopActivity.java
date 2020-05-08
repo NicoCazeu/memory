@@ -226,6 +226,7 @@ public class ShopActivity extends Activity implements RewardedVideoAdListener {
         Intent intent = new Intent(ShopActivity.this, MainMenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 
     @Override

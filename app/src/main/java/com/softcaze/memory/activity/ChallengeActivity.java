@@ -118,6 +118,7 @@ public class ChallengeActivity extends Activity implements ChallengeAnimationLis
         Intent intent = new Intent(ChallengeActivity.this, MainMenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 
     /**

@@ -53,8 +53,10 @@ public class ApplicationConstants {
 
     /** Tag Manager Google **/
     public static final String TAG_GAME_MODE = "gameMode";
+    public static final String TAG_LEVEL_END_ALL = "levelEndAll";
     public static final String TAG_LEVEL_END_BESTSCORE = "bestScoreLevelEnd";
     public static final String TAG_LEVEL_END_NUMBER_STAR = "numberStarLevelEnd";
+    public static final String TAG_LEVEL_GAME_OVER = "levelGameOver";
     public static final String TAG_CHALLENGE_EVENT = "challengeEvent";
     public static final String TAG_CHALLENGE_UNLOCK_NAME = "challengeUnlockName";
     public static final String TAG_CLICK_BUTTON = "clickButton";

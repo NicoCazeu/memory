@@ -381,6 +381,7 @@ public class EndLevelView extends RelativeLayout {
                 Intent intent = new Intent(getContext(), GameActivity.class);
                 getContext().startActivity(intent);
                 ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                ((Activity) getContext()).finish();
             }
         });
 
@@ -402,6 +403,7 @@ public class EndLevelView extends RelativeLayout {
                 Intent intent = new Intent(getContext(), LevelListActivity.class);
                 getContext().startActivity(intent);
                 ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                ((Activity) getContext()).finish();
             }
         });
 
@@ -423,6 +425,7 @@ public class EndLevelView extends RelativeLayout {
                 Intent intent = new Intent(getContext(), GameActivity.class);
                 getContext().startActivity(intent);
                 ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                ((Activity) getContext()).finish();
             }
         });
 

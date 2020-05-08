@@ -142,6 +142,7 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
                                 GameInformation.getInstance().setNumCurrentLevel((position*3) + index + 1);
                                 view.getContext().startActivity(intent);
                                 ((Activity) view.getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                ((Activity) view.getContext()).finish();
                             }
                             break;
                         case 1:
@@ -150,6 +151,7 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
                                 GameInformation.getInstance().setNumCurrentLevel((position*3) + index + 1);
                                 view.getContext().startActivity(intent);
                                 ((Activity) view.getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                ((Activity) view.getContext()).finish();
                             }
                             break;
                         case 2:
@@ -158,6 +160,7 @@ public class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.View
                                 GameInformation.getInstance().setNumCurrentLevel((position*3) + index + 1);
                                 view.getContext().startActivity(intent);
                                 ((Activity) view.getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                ((Activity) view.getContext()).finish();
                             }
                             break;
                     }

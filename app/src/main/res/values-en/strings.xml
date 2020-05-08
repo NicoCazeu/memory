@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Memory</string>
 
+    <!-- Main Menu Activity -->
+    <string name="main_menu_title_shop">Shop</string>
+    <string name="main_menu_title_challenge">Challenge</string>
+    <string name="main_menu_title_setting">Setting</string>
+
     <!-- Game mode Activity -->
     <string name="choose_game_mode">Choose your game mode</string>
     <string name="career">Career</string>

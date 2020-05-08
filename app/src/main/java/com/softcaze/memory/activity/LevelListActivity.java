@@ -98,6 +98,7 @@ public class LevelListActivity extends Activity {
         Intent intent = new Intent(LevelListActivity.this, GameModeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 
     private void loadLevelsDatabase(List<Level> listLevel) {

@@ -591,4 +591,16 @@ public class Dao {
 
         c.close();
     }
+
+    public int countAwardChallenge() {
+        int countAward = 0;
+        Cursor c = getDataByTable(TABLE_NAME_CHALLENGE, COL_GET_AWARD_CHALLENGE + " = 0 AND " + COL_IS_UNLOCK_CHALLENGE + " = 1");
+
+        if(c.getCount() != 0) {
+            countAward = c.getCount();
+        }
+
+        c.close();
+        return countAward;
+    }
 }

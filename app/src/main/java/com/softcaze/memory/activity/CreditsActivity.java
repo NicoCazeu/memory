@@ -75,14 +75,14 @@ public class CreditsActivity extends Activity {
         /**
          * DinosoftLabs icons
          */
-        imgIds = new Integer[]{R.drawable.pause_btn, R.drawable.bell_notif};
+        imgIds = new Integer[]{R.drawable.pause_btn};
         credits.put("DinosoftLabs", imgIds);
 
         /**
          * Freepik
          */
         imgIds = new Integer[]{R.drawable.coin, R.drawable.eyes_bonus, R.drawable.fruits_banana, R.drawable.fruits_cherries, R.drawable.fruits_pineapple
-                , R.drawable.heart_pink, R.drawable.skull, R.drawable.trophy_end_level, R.drawable.application_ad};
+                , R.drawable.heart_pink, R.drawable.skull, R.drawable.trophy_end_level, R.drawable.application_ad, R.drawable.shop, R.drawable.settings};
         credits.put("Freepik", imgIds);
 
         /**
@@ -127,6 +127,7 @@ public class CreditsActivity extends Activity {
         Intent intent = new Intent(CreditsActivity.this, SettingActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
     }
 
     public static String getAttribution(String creator) {
