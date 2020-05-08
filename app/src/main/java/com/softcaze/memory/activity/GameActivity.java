@@ -112,8 +112,12 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
         AnimationUtil.rotateCoin(imgCoin);
 
         /** Init text field **/
-        txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
-        txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        if(User.getInstance().getBonus() != null) {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
+        if(User.getInstance().getCoin() != null) {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
 
         //currentNumLevel = Integer.valueOf(getIntent().getStringExtra(ApplicationConstants.INTENT_GAME_NUM_LEVEL));
         if(GameInformation.getInstance().goNextLevel() && GameInformation.getInstance().hasNextLevel()) {

@@ -81,20 +81,25 @@ public class BillingManager {
         ArrayList<String> listItems = new ArrayList<>(Arrays.asList(ApplicationConstants.IN_APP_BILLING_ITEM_1, ApplicationConstants.IN_APP_BILLING_ITEM_2));
         Bundle query = new Bundle();
         query.putStringArrayList("ITEM_ID_LIST", listItems);
-        Bundle skuDetails = mService.getSkuDetails(3, activity.getPackageName(), "inapp", query);
 
-        ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
-        for(String responseItem: responseList) {
-            JSONObject jsonObject = new JSONObject(responseItem);
+        if(mService != null) {
+            Bundle skuDetails = mService.getSkuDetails(3, activity.getPackageName(), "inapp", query);
 
-            if(jsonObject.getString("productId") != null) {
-                if (jsonObject.getString("productId").equals(ApplicationConstants.IN_APP_BILLING_ITEM_1)) {
-                    if (jsonObject.getString("price") != null) {
-                        pricePack1.setText(jsonObject.getString("price"));
-                    }
-                } else if (jsonObject.get("productId").equals(ApplicationConstants.IN_APP_BILLING_ITEM_2)) {
-                    if (jsonObject.getString("price") != null) {
-                        pricePack2.setText(jsonObject.getString("price"));
+            ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
+            if(responseList != null) {
+                for (String responseItem : responseList) {
+                    JSONObject jsonObject = new JSONObject(responseItem);
+
+                    if (jsonObject.getString("productId") != null) {
+                        if (jsonObject.getString("productId").equals(ApplicationConstants.IN_APP_BILLING_ITEM_1)) {
+                            if (jsonObject.getString("price") != null) {
+                                pricePack1.setText(jsonObject.getString("price"));
+                            }
+                        } else if (jsonObject.get("productId").equals(ApplicationConstants.IN_APP_BILLING_ITEM_2)) {
+                            if (jsonObject.getString("price") != null) {
+                                pricePack2.setText(jsonObject.getString("price"));
+                            }
+                        }
                     }
                 }
             }
