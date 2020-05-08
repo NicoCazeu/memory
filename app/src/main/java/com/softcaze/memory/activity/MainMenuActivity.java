@@ -105,8 +105,12 @@ public class MainMenuActivity extends Activity {
 
 
         /** Init text field **/
-        txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
-        txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        if(User.getInstance().getBonus() != null) {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
+        if(User.getInstance().getCoin() != null) {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
 
         /** Start animation coin **/
         AnimationUtil.rotateCoin(imgCoin);
