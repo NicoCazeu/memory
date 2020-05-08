@@ -72,8 +72,12 @@ public class TutorialActivity extends Activity implements CardActionAnimationLis
         AnimationUtil.rotateCoin(imgCoin);
 
         /** Init text field **/
-        txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
-        txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        if(User.getInstance().getBonus() != null) {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
+        if(User.getInstance().getCoin() != null) {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
 
         txtGameMode.setText(GameInformation.getInstance().getCurrentMode().toString(this));
 

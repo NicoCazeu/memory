@@ -127,14 +127,16 @@ public class ShopActivity extends Activity implements RewardedVideoAdListener {
 
                 timer = new Timer(runnableCoin, 2, true);
 
-                User.getInstance().getCoin().setAmount(User.getInstance().getCoin().getAmount() + amountCoin);
+                if(User.getInstance().getCoin() != null) {
+                    User.getInstance().getCoin().setAmount(User.getInstance().getCoin().getAmount() + amountCoin);
 
-                try {
-                    dao.open();
+                    try {
+                        dao.open();
 
-                    dao.setCoinUser(User.getInstance().getCoin().getAmount());
-                } finally {
-                    dao.close();
+                        dao.setCoinUser(User.getInstance().getCoin().getAmount());
+                    } finally {
+                        dao.close();
+                    }
                 }
             }
 
@@ -148,15 +150,19 @@ public class ShopActivity extends Activity implements RewardedVideoAdListener {
         AnimationUtil.rotateCoin(imgCoin);
 
         /** Init text field **/
-        txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
-        txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        if(User.getInstance().getCoin() != null) {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
+        if(User.getInstance().getBonus() != null) {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
 
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AnimationUtil.btnClickedAnimation(view, getApplicationContext());
 
-                if(User.getInstance().getCoin().getAmount() >= 80) {
+                if(User.getInstance().getCoin() != null && User.getInstance().getCoin().getAmount() >= 80) {
                     purchaseBonus(80, User.getInstance().getCoin().getAmount(), 1, User.getInstance().getBonus().getAmount());
                 } else {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.shop_dont_have_money), Toast.LENGTH_SHORT).show();

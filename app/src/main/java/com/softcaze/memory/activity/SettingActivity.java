@@ -59,8 +59,12 @@ public class SettingActivity extends Activity {
         AnimationUtil.rotateCoin(imgCoin);
 
         /** Init text field **/
-        txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
-        txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        if(User.getInstance().getCoin() != null) {
+            txtCoin.setText(User.getInstance().getCoin().getAmount() + "");
+        }
+        if(User.getInstance().getBonus() != null ) {
+            txtBonus.setText(User.getInstance().getBonus().getAmount() + "");
+        }
 
         son.setOnClickListener(new View.OnClickListener() {
             @Override
