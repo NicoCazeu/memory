@@ -166,7 +166,9 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
                         @Override
                         public void allCardsHaveRotate() {
                             if(currentLevel instanceof AgainstTimeLevel && GameInformation.getInstance().getCurrentMode().equals(GameMode.AGAINST_TIME)) {
-                                animation.resume();
+                                if(animation.isPaused()) {
+                                    animation.resume();
+                                }
                             }
                         }
                     });
@@ -200,18 +202,16 @@ public class GameActivity extends Activity implements RewardedVideoAdListener {
 
                         for(int i = 0; i < GameInformation.getInstance().getCardViews().size(); i++) {
                             CardView card = GameInformation.getInstance().getCardViews().get(i);
-                            if(i == 0) {
-                                card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus, new CardActionAnimationListener() {
-                                    @Override
-                                    public void allCardsHaveRotate() {
-                                        if(currentLevel instanceof AgainstTimeLevel) {
+                            card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus, new CardActionAnimationListener() {
+                                @Override
+                                public void allCardsHaveRotate() {
+                                    if(currentLevel instanceof AgainstTimeLevel) {
+                                        if(animation.isPaused()) {
                                             animation.resume();
                                         }
                                     }
-                                });
-                            } else {
-                                card.eyesBonusAction(getDurationFlipCard(GameInformation.getInstance().getCurrentLevel().getCountCard()), txtBonus);
-                            }
+                                }
+                            });
                         }
                         User.getInstance().getBonus().setAmount(value - 1);
 
